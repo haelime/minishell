@@ -6,36 +6,51 @@
 /*   By: haeem <haeem@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/28 16:57:45 by haeem             #+#    #+#             */
-/*   Updated: 2023/07/28 17:56:08 by haeem            ###   ########seoul.kr  */
+/*   Updated: 2023/07/30 20:25:47 by haeem            ###   ########seoul.kr  */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/minishell.h"
 #include "../libft/include/libft.h"
 
+void	init_shell(void)
+{
+	char	*termtype;
+	int		success;
+
+	termtype = getenv("TERM");
+	if (termtype == 0)
+	{
+		ft_putstr_fd("Specify a terminal type with 'setenv TERM <yourtype>'.\n", 2);
+		exit(0);
+	}
+	success = tgetent(0, termtype);
+	if (success < 0)
+	{
+		ft_putstr_fd("Could not access the termcap data base.\n", 2);
+		exit(0);
+	}
+	if (success == 0)
+	{
+		ft_putstr_fd("Terminal type '", 2);
+		ft_putstr_fd(termtype, 2);
+		ft_putstr_fd("' is not defined.\n", 2);
+		exit(0);
+	}
+}
+
 int	main(int argc, char **argv, char **envp)
 {
-	int		i;
-	char	*line;
-	char	**cmd;
+	t_cmd	cmd;
 
-	argc = 0;
-	argv = NULL;
-	envp = NULL;
+	(void)argc;
+	(void)argv;
+	cmd.envp = envp;
+	init_shell();
 	while (1)
 	{
-		line = readline("minishell> ");
-		if (line == NULL)
-			break ;
-		if (ft_strcmp(line, "exit") == 0)
-			break ;
-		add_history(line);
-		cmd = ft_split(line, ' ');
-		i = -1;
-		while (cmd[++i])
-			printf("%s\n", cmd[i]);
-		free(line);
-		free(cmd);
+		parse(&cmd);
+		execute(&cmd);
 	}
 	return (0);
 }
