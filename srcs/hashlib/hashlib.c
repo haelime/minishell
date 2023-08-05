@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   hash.c                                             :+:      :+:    :+:   */
+/*   hashlib.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: haeem <haeem@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/05 20:05:16 by haeem             #+#    #+#             */
-/*   Updated: 2023/08/05 20:57:22 by haeem            ###   ########seoul.kr  */
+/*   Updated: 2023/08/05 22:07:31 by haeem            ###   ########seoul.kr  */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,23 +33,23 @@ unsigned int	hash_string(const char *s)
 // hash table
 t_hashmap	*hash_create(int size)
 {
-	t_hashmap	*hashmap;
+	t_hashmap	*newmap;
 	int			i;
 
-	hashmap = (t_hashmap *)malloc(sizeof(t_hashmap));
-	if (!hashmap)
+	newmap = (t_hashmap *)malloc(sizeof(t_hashmap));
+	if (!newmap)
 		return (NULL);
-	hashmap->size = size;
-	hashmap->buckets = (t_bucket **)malloc(sizeof(t_bucket *) * size);
-	if (!hashmap->buckets)
+	newmap->size = size;
+	newmap->buckets = (t_bucket **)malloc(sizeof(t_bucket *) * size);
+	if (!newmap->buckets)
 		return (NULL);
 	i = 0;
 	while (i < size)
 	{
-		hashmap->buckets[i] = NULL;
+		newmap->buckets[i] = NULL;
 		i++;
 	}
-	return (hashmap);
+	return (newmap);
 }
 
 // hash insert

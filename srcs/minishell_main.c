@@ -6,7 +6,7 @@
 /*   By: haeem <haeem@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/28 16:57:45 by haeem             #+#    #+#             */
-/*   Updated: 2023/08/05 19:42:23 by haeem            ###   ########seoul.kr  */
+/*   Updated: 2023/08/05 22:07:32 by haeem            ###   ########seoul.kr  */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,10 @@ void	init_shell(void)
 int	main(int argc, char **argv, char **envp)
 {
 	t_cmd	cmd;
-	t_env	env;
+	char	*input;
+	t_lst	*chunks;
+	t_ast	*syntax;
+	t_hashmap	*envmap;
 
 	(void)argc;
 	(void)argv;
