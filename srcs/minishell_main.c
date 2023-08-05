@@ -6,7 +6,7 @@
 /*   By: haeem <haeem@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/28 16:57:45 by haeem             #+#    #+#             */
-/*   Updated: 2023/07/30 20:25:47 by haeem            ###   ########seoul.kr  */
+/*   Updated: 2023/08/05 19:42:23 by haeem            ###   ########seoul.kr  */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,38 +15,19 @@
 
 void	init_shell(void)
 {
-	char	*termtype;
-	int		success;
 
-	termtype = getenv("TERM");
-	if (termtype == 0)
-	{
-		ft_putstr_fd("Specify a terminal type with 'setenv TERM <yourtype>'.\n", 2);
-		exit(0);
-	}
-	success = tgetent(0, termtype);
-	if (success < 0)
-	{
-		ft_putstr_fd("Could not access the termcap data base.\n", 2);
-		exit(0);
-	}
-	if (success == 0)
-	{
-		ft_putstr_fd("Terminal type '", 2);
-		ft_putstr_fd(termtype, 2);
-		ft_putstr_fd("' is not defined.\n", 2);
-		exit(0);
-	}
 }
 
 int	main(int argc, char **argv, char **envp)
 {
 	t_cmd	cmd;
+	t_env	env;
 
 	(void)argc;
 	(void)argv;
 	cmd.envp = envp;
-	init_shell();
+	hash_envp(&cmd);
+	// init_shell();
 	while (1)
 	{
 		parse(&cmd);

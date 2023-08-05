@@ -6,67 +6,95 @@
 /*   By: haeem <haeem@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/28 16:58:38 by haeem             #+#    #+#             */
-/*   Updated: 2023/07/30 20:36:33 by haeem            ###   ########seoul.kr  */
+/*   Updated: 2023/08/05 20:58:44 by haeem            ###   ########seoul.kr  */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef MINISHELL_H
 # define MINISHELL_H
 
+// printf on <stdio.h>
 # include <stdio.h>
+// close on <unistd.h>
+// read on <unistd.h>
+// write on <unistd.h>
+// unlink on <unistd.h>
+// fork on <unistd.h>
+// dup on <unistd.h>
+// dup2 on <unistd.h>
+// pipe on <unistd.h>
+// execve on <unistd.h>
+// getcwd on <unistd.h>
+// chdir on <unistd.h>
+// isatty on <unistd.h>
+// ttyname on <unistd.h>
+// ttyslot on <unistd.h>
 # include <unistd.h>
+// open on <fcntl.h>
+# include <fcntl.h>
+// malloc on <stdlib.h>
+// free on <stdlib.h>
+// getenv on <stdlib.h>
+// exit on <stdlib.h>
 # include <stdlib.h>
 # include <stdbool.h>
+// strerror on <string.h>
+# include <string.h>
 
-// readline, rl_clear_history, rl_on_new_line, rl_replace_line, rl_redisplay,
+// opendir on <dirent.h>
+// closedir on <dirent.h>
+// readdir on <dirent.h>
+# include <dirent.h>
+
+// readline on <readline/readline.h>
+// rl_on_new_line on <readline/readline.h>
+// rl_replace_line on <readline/readline.h>
+// rl_redisplay on <readline/readline.h>
 # include <readline/readline.h>
+// add_history on <readlien/history.h>
 # include <readline/history.h>
 
-// termcap, termios
+// tcgetattr on <term.h>
+// tcsetattr on <term.h>
+// tgetent on <term.h>
+// tgetflag on <term.h>
+// tgetnum on <term.h>
+// tgetstr on <term.h>
+// tgoto on <term.h>
+// tputs on <term.h>
+# include <term.h>
 # include <termcap.h>
 # include <termios.h>
 
-// stat, lstat, fstat
 # include <sys/types.h>
+// stat on <sys/stat.h>
+// lstat on <sys/stat.h>
+// fstat on <sys/stat.h>
 # include <sys/stat.h>
-// open, close, read, write, unlink, execve, dup, dup2, pipe
-# include <fcntl.h>
 
+// kill on <signal.h>
+// signal on <signal.h>
 # include <signal.h>
+// wait3 on <sys/wait.h>
+// wait4 on <sys/wait.h>
+// wait on <sys/wait.h>
+// waitpid on <sys/wait.h>
 # include <sys/wait.h>
-# include <sys/ioctl.h>
-# include <termcap.h>
 
+// ioctl on <sys/ioctl.h>
+# include <sys/ioctl.h>
+
+// errno on <errno.h>
 # include <errno.h>
 
 # define PROMPT "minishell> "
 
-typedef enum e_token
-{
-	WORD,
-	PIPE,
-	SEMICOLON,
-	REDIRECT_IN,
-	REDIRECT_OUT,
-	REDIRECT_APPEND,
-	REDIRECT_HERE_DOC,
-	REDIRECT_HERE_STRING,
-	REDIRECT_ERROR,
-	END_OF_FILE,
-}t_token;
-
-typedef struct s_ast
-{
-	char			*cmd;
-	char			**envp;
-	struct s_ast	*left;
-	struct s_ast	*right;
-}t_ast;
 typedef struct s_cmd
 {
 	char	*cmd;
 	char	**envp;
-
+	char	**argv;
+	char	**path;
 }t_cmd;
 
 #endif
