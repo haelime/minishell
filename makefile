@@ -6,13 +6,13 @@
 #    By: haeem <haeem@student.42seoul.kr>           +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/04/11 14:22:09 by haeem             #+#    #+#              #
-#    Updated: 2023/08/11 20:49:20 by haeem            ###   ########seoul.kr   #
+#    Updated: 2023/08/11 21:24:03 by haeem            ###   ########seoul.kr   #
 #                                                                              #
 # **************************************************************************** #
 
 
 CC = cc
-CFLAGS = -Wall -Wextra -Werror\
+CFLAGS = -Wall -Wextra -Werror -g3\
 # -g -fsanitize=address
 SRCDIR = $(CURDIR)
 

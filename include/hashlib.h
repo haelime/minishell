@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   hashlib.h                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: haeem <haeem@student.42seoul.kr>           +#+  +:+       +#+        */
+/*   By: hyunjunk <hyunjunk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/05 19:33:58 by haeem             #+#    #+#             */
-/*   Updated: 2023/08/09 18:32:18 by haeem            ###   ########seoul.kr  */
+/*   Updated: 2023/08/11 21:17:26 by hyunjunk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ typedef struct s_bucket
 {
 	struct s_bucket	*next;
 	char			*key;
-	void			*value;
+	char			*value;
 
 }				t_bucket;
 
