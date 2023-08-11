@@ -9,12 +9,14 @@ on:
 jobs:
   build:
 
-    runs-on: windows-latest
+    runs-on: macos-latest
 
     steps:
     - uses: actions/checkout@v3
     # - name: configure
     #   run: ./configure
+    - name: install readline
+      run: brew install readline
     - name: make
       run: make
     - name: run minishell
