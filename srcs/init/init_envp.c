@@ -6,7 +6,7 @@
 /*   By: haeem <haeem@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/09 19:26:03 by haeem             #+#    #+#             */
-/*   Updated: 2023/08/09 20:08:20 by haeem            ###   ########seoul.kr  */
+/*   Updated: 2023/08/11 20:59:14 by haeem            ###   ########seoul.kr  */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,9 +43,10 @@ void	init_envp(int argc, char **argv, char **envp, t_hashmap *envmap)
 	(void)argc;
 	(void)argv;
 	(void)envp;
-	printf ("SHLVL: %s\n", hashmap_search(envmap, "SHLVL"));
-	lv = ft_atoi(hashmap_search(envmap, "SHLVL")) + 1;
-	printf ("SHLVL: %s\n", hashmap_search(envmap, "SHLVL"));
-	hashmap_insert(envmap, "SHLVL", ft_itoa(lv));
-	printf ("SHLVL: %s\n", hashmap_search(envmap, "SHLVL"));
+	(void)envmap;
+	// printf ("SHLVL: %s\n", hashmap_search(envmap, "SHLVL"));
+	// lv = ft_atoi(hashmap_search(envmap, "SHLVL")) + 1;
+	// printf ("SHLVL: %s\n", hashmap_search(envmap, "SHLVL"));
+	// hashmap_insert(envmap, "SHLVL", ft_itoa(lv));
+	// printf ("SHLVL: %s\n", hashmap_search(envmap, "SHLVL"));
 }
