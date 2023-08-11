@@ -17,8 +17,6 @@ jobs:
     #   run: ./configure
     - name: make
       run: make
-    - name: run minishell
-      run: ./minishell
-     
     - name: test minishell
-      run: hello world
+      run: echo "hello world" | ./minishell
+     
