@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: haeem <haeem@student.42seoul.kr>           +#+  +:+       +#+         #
+#    By: hyunjunk <hyunjunk@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/04/11 14:22:09 by haeem             #+#    #+#              #
-#    Updated: 2023/08/09 19:34:49 by haeem            ###   ########seoul.kr   #
+#    Updated: 2023/08/11 20:18:05 by hyunjunk         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -29,6 +29,7 @@ SOURCES = $(addprefix $(CURDIR)/srcs/,\
 	./init/init_envp.c\
 	./parse/minishell_parse.c\
 	./terminal/terminal.c\
+	./signal/signal.c\
 )
 
 # BONUSES = $(addprefix $(CURDIR)/srcs_bonus/,\

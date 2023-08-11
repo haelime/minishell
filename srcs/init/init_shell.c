@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   init_shell.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: haeem <haeem@student.42seoul.kr>           +#+  +:+       +#+        */
+/*   By: hyunjunk <hyunjunk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/09 16:10:02 by haeem             #+#    #+#             */
-/*   Updated: 2023/08/09 19:54:12 by haeem            ###   ########seoul.kr  */
+/*   Updated: 2023/08/11 20:21:30 by hyunjunk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,11 +14,11 @@
 #include "../../libft/include/libft.h"
 #include "../../include/hashlib.h"
 
-// ignore signal temporarily 
 void	init_signal(void)
 {
-	signal(SIGINT, SIG_IGN);
-	signal(SIGQUIT, SIG_IGN);
+	signal(SIGINT, sigint_handler);
+	signal(SIGQUIT, sigquit_handler);
+	signal(SIGTERM, sigterm_handler);
 }
 
 // initialize readline for first prompt

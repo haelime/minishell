@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: haeem <haeem@student.42seoul.kr>           +#+  +:+       +#+        */
+/*   By: hyunjunk <hyunjunk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/28 16:58:38 by haeem             #+#    #+#             */
-/*   Updated: 2023/08/09 19:34:34 by haeem            ###   ########seoul.kr  */
+/*   Updated: 2023/08/11 19:58:29 by hyunjunk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -112,4 +112,13 @@ void	init_envp(int argc, char **argv, char **envp, t_hashmap *envmap);
 
 void	echoctl_off(void);
 void	echoctl_on(void);
+
+
+/* Signal Handler <signal.c> */
+void sigint_handler(int signo);
+
+void sigquit_handler(int signo);
+
+void sigterm_handler(int signo);
+
 #endif
