@@ -15,8 +15,10 @@ jobs:
     - uses: actions/checkout@v3
     # - name: configure
     #   run: ./configure
-    - name: install readline
-      run: brew install readline
+    - name: find readline
+      run: find /usr/local/Cellar/readline -name "libreadline.a"
+    - name: find readline in opt
+      run: find /usr/local/opt/readline -name "libreadline.a"
     - name: make
       run: make
     - name: run minishell
