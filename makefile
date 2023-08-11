@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: hyunjunk <hyunjunk@student.42.fr>          +#+  +:+       +#+         #
+#    By: haeem <haeem@student.42seoul.kr>           +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/04/11 14:22:09 by haeem             #+#    #+#              #
-#    Updated: 2023/08/11 20:18:05 by hyunjunk         ###   ########.fr        #
+#    Updated: 2023/08/11 20:49:20 by haeem            ###   ########seoul.kr   #
 #                                                                              #
 # **************************************************************************** #
 
@@ -43,6 +43,9 @@ ALLOBJECTS = $(SOURCES:.c=.o) $(BONUSES:.c=.o)
 COMFILE_FLAGS = -lreadline -L${HOME}/.brew/opt/readline/lib
 OBJ_FLAGS = -I${HOME}/.brew/opt/readline/include
 
+ACTION_FLAGS = -lreadline -L/usr/local/Cellar/readline/8.2.1/lib
+ACTION_OBJ_FLAGS = -I/usr/local/Cellar/readline/8.2.1/include
+
 HEADER = $(CURDIR)/include
 BONUSHEADER = $(CURDIR)/include_bonus
 
@@ -60,11 +63,11 @@ bonus:
 	@make WITH_BONUS=1 all
 
 %.o: %.c
-	@$(CC) $(CFLAGS) $(OBJ_FLAGS) -c $< -o $@ -I $(HDR) -I $(LIBFTDIR)
+	@$(CC) $(CFLAGS) $(OBJ_FLAGS) $(ACTION_OBJ_FLAGS) -c $< -o $@ -I $(HDR) -I $(LIBFTDIR)
 
 $(NAME): $(OBJ)
 	@$(MAKE) -C $(LIBFTDIR) all
-	@$(CC) $(CFLAGS) $(COMFILE_FLAGS) -L$(LIBFTDIR) $(LIBFT) $^ -o $@
+	@$(CC) $(CFLAGS) $(COMFILE_FLAGS) $(ACTION_FLAGS) -L$(LIBFTDIR) $(LIBFT) $^ -o $@
 
 clean:
 	@rm -f $(ALLOBJECTS)
