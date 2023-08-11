@@ -6,13 +6,13 @@
 #    By: hyunjunk <hyunjunk@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/04/11 14:22:09 by haeem             #+#    #+#              #
-#    Updated: 2023/08/11 20:18:05 by hyunjunk         ###   ########.fr        #
+#    Updated: 2023/08/11 20:45:19 by hyunjunk         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 
 CC = cc
-CFLAGS = -Wall -Wextra -Werror\
+CFLAGS = -Wall -Wextra -Werror -g3\
 # -g -fsanitize=address
 SRCDIR = $(CURDIR)
 

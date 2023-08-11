@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   hashmap.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: haeem <haeem@student.42seoul.kr>           +#+  +:+       +#+        */
+/*   By: hyunjunk <hyunjunk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/05 20:05:16 by haeem             #+#    #+#             */
-/*   Updated: 2023/08/11 18:06:53 by haeem            ###   ########seoul.kr  */
+/*   Updated: 2023/08/11 21:17:46 by hyunjunk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,8 +58,8 @@ void	hashmap_insert(t_hashmap *hashmap, char *key, char *value)
 
 	newbucket = (t_bucket *)malloc(sizeof(t_bucket));
 	hash = hash_string(key);
-	newbucket->key = key;
-	newbucket->value = value;
+	newbucket->key = ft_strdup(key);
+	newbucket->value = ft_strdup(value);
 	newbucket->next = NULL;
 	if (hashmap->buckets[hash % hashmap->size] == NULL)
 		hashmap->buckets[hash % hashmap->size] = newbucket;
