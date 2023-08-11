@@ -6,7 +6,7 @@
 /*   By: haeem <haeem@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/09 19:09:44 by haeem             #+#    #+#             */
-/*   Updated: 2023/07/28 17:14:05 by haeem            ###   ########seoul.kr  */
+/*   Updated: 2023/08/09 19:14:42 by haeem            ###   ########seoul.kr  */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,7 +52,7 @@ void		*ft_memset(void *b, int c, size_t len);
 char		*ft_strcat(char *dest, const char *src);
 char		**ft_split(const char *s, char c);
 char		*ft_strchr(const char *str, int ch);
-int			ft_strcmp(char *s1, char *s2);
+int			ft_strcmp(char *s1, const char *s2);
 char		*ft_strcpy(char *dest, const char *src);
 char		*ft_strdup(const char *src);
 size_t		ft_strlcat(char *dest, const char *src, size_t size);
@@ -90,6 +90,8 @@ double		fmax(double a, double b);
 void		ft_swap(int *a, int *b);
 void		ft_selection_sort(int arr[], int n);
 int			ft_binary_search(int array[], int x, int low, int high);
+bool		ft_isspace(char c);
+bool		ft_isempty(char *str);
 
 // bonus
 t_list		*ft_lstnew(void *content);

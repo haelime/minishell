@@ -3,3 +3,4 @@
 *.out
 minishell
 libft.a
+.DS_Store

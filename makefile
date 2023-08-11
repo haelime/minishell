@@ -6,13 +6,14 @@
 #    By: haeem <haeem@student.42seoul.kr>           +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/04/11 14:22:09 by haeem             #+#    #+#              #
-#    Updated: 2023/07/28 18:08:24 by haeem            ###   ########seoul.kr   #
+#    Updated: 2023/08/09 19:34:49 by haeem            ###   ########seoul.kr   #
 #                                                                              #
 # **************************************************************************** #
 
 
 CC = cc
-CFLAGS = -Wall -Wextra -Werror
+CFLAGS = -Wall -Wextra -Werror\
+# -g -fsanitize=address
 SRCDIR = $(CURDIR)
 
 NAME = minishell
@@ -23,6 +24,11 @@ LIBFTHEADER = ./libft/include/libft.h
 
 SOURCES = $(addprefix $(CURDIR)/srcs/,\
 	minishell_main.c\
+	./hashlib/hashmap.c\
+	./init/init_shell.c\
+	./init/init_envp.c\
+	./parse/minishell_parse.c\
+	./terminal/terminal.c\
 )
 
 # BONUSES = $(addprefix $(CURDIR)/srcs_bonus/,\
@@ -66,6 +72,9 @@ clean:
 fclean: clean
 	@rm -f $(NAME)
 	@make -C $(LIBFTDIR) fclean
+
+libft:
+	@make -C $(LIBFTDIR) all
 
 re: fclean all
 

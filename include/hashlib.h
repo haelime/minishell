@@ -6,7 +6,7 @@
 /*   By: haeem <haeem@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/05 19:33:58 by haeem             #+#    #+#             */
-/*   Updated: 2023/08/05 20:28:37 by haeem            ###   ########seoul.kr  */
+/*   Updated: 2023/08/09 18:32:18 by haeem            ###   ########seoul.kr  */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,6 +32,12 @@ typedef struct s_hashmap
 }				t_hashmap;
 
 // Hash function for string
+t_hashmap		*hash_envp(char **envp);
+
+t_hashmap		*hashmap_create(int size);
+void			hashmap_insert(t_hashmap *hashmap, char *key, char *value);
+char			*hashmap_search(t_hashmap *hashmap, const char *key);
+
 unsigned int	hash_string(const char *s);
 
 #endif

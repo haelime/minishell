@@ -6,7 +6,7 @@
 /*   By: haeem <haeem@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/28 16:58:38 by haeem             #+#    #+#             */
-/*   Updated: 2023/08/05 20:58:44 by haeem            ###   ########seoul.kr  */
+/*   Updated: 2023/08/09 19:34:34 by haeem            ###   ########seoul.kr  */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,21 @@
 
 // printf on <stdio.h>
 # include <stdio.h>
+// malloc on <stdlib.h>
+// free on <stdlib.h>
+// getenv on <stdlib.h>
+// exit on <stdlib.h>
+# include <stdlib.h>
+
+// void* __debug_tmp;
+// #define malloc(x) \
+// (__debug_tmp = malloc(x));\
+// printf("malloc(%lu) = %p, [%s:%d]\n", x, __debug_tmp, __FILE__, __LINE__)
+// #define free(x) \
+// if (x == NULL) \
+//     printf("free(NULL), [%s:%d]\n", __FILE__, __LINE__); \
+// free(x)
+
 // close on <unistd.h>
 // read on <unistd.h>
 // write on <unistd.h>
@@ -32,11 +47,6 @@
 # include <unistd.h>
 // open on <fcntl.h>
 # include <fcntl.h>
-// malloc on <stdlib.h>
-// free on <stdlib.h>
-// getenv on <stdlib.h>
-// exit on <stdlib.h>
-# include <stdlib.h>
 # include <stdbool.h>
 // strerror on <string.h>
 # include <string.h>
@@ -87,14 +97,19 @@
 // errno on <errno.h>
 # include <errno.h>
 
+# include "hashlib.h"
+
 # define PROMPT "minishell> "
 
-typedef struct s_cmd
+typedef struct s_lst
 {
-	char	*cmd;
-	char	**envp;
-	char	**argv;
-	char	**path;
-}t_cmd;
+	void			*content;
+	struct s_lst	*next;
+}	t_lst;
 
+void	init_shell(int argc, char **argv, char **envp, t_hashmap *envmap);
+void	init_envp(int argc, char **argv, char **envp, t_hashmap *envmap);
+
+void	echoctl_off(void);
+void	echoctl_on(void);
 #endif
