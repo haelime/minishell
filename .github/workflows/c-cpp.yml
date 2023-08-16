@@ -39,9 +39,8 @@ jobs:
       run: norminette -R CheckForbiddenSourceHeader
 
   check-errors:
-      
       runs-on: macos-latest
-  
+
       steps:
       - uses: actions/checkout@v3
 
