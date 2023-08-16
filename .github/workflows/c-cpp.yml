@@ -32,3 +32,6 @@ jobs:
       run: make action
     - name: run minishell
       run: ./minishell
+    - name: make with -Wall -Wextra -Werror
+      run: make
+    
