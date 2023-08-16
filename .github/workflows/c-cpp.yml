@@ -21,7 +21,10 @@ jobs:
       run: set
 
     - name: install dependencies to check norminette
-      run: brew install norminette
+      run: python3 -m pip install --upgrade pip setuptools
+
+    - name: install norminette
+      run: pip3 install norminette
     
     - name: check norminette
       run: norminette -R CheckForbiddenSourceHeader
