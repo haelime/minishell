@@ -20,6 +20,12 @@ jobs:
     - name: set
       run: set
 
+    - name: install dependencies to check norminette
+      run: brew install norminette
+    
+    - name: check norminette
+      run: norminette -R CheckForbiddenSourceHeader
+
     - name: make action (without error check)
       run: make action
 
