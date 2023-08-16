@@ -6,7 +6,7 @@
 #    By: haeem <haeem@student.42seoul.kr>           +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/04/11 14:22:09 by haeem             #+#    #+#              #
-#    Updated: 2023/08/16 15:13:42 by haeem            ###   ########seoul.kr   #
+#    Updated: 2023/08/16 15:32:26 by haeem            ###   ########seoul.kr   #
 #                                                                              #
 # **************************************************************************** #
 
@@ -41,12 +41,12 @@ OBJECTS = $(SOURCES:.c=.o)
 BONUSOBJECTS = $(BONUSES:.c=.o)
 ALLOBJECTS = $(SOURCES:.c=.o) $(BONUSES:.c=.o)
 
-COMFILE_FLAGS = -lreadline -L${HOME}/.brew/opt/readline/lib
-OBJ_FLAGS = -I${HOME}/.brew/opt/readline/include
+READLINE_FLAGS = -lreadline -L${HOME}/.brew/opt/readline/lib
+READLINE_INC = -I${HOME}/.brew/opt/readline/include
 
 # flags for github action
-ACTION_FLAGS = -lreadline -L/usr/local/Cellar/readline/8.2.1/lib
-ACTION_OBJ_FLAGS = -I/usr/local/Cellar/readline/8.2.1/include
+ACTION_READLINE = -lreadline -L/usr/local/Cellar/readline/8.2.1/lib
+ACTION_READLINE_INC = -I/usr/local/Cellar/readline/8.2.1/include
 
 HEADER = $(CURDIR)/include
 BONUSHEADER = $(CURDIR)/include_bonus
@@ -59,21 +59,24 @@ else
 	HDR = $(HEADER)
 endif
 
+ifdef ACTION
+	CFLAGS = ""
+endif
+
 all: $(NAME)
 
 bonus:
 	@make WITH_BONUS=1 all
 
-action: $(OBJ)
-	@$(MAKE) -C $(LIBFTDIR) all
-	@$(CC) $(ACTION_FLAGS) -L$(LIBFTDIR) $(LIBFT) $^ -o $@
+action:
+	@make ACTION=1 all
 
 %.o: %.c
-	@$(CC) $(CFLAGS) $(OBJ_FLAGS) $(ACTION_OBJ_FLAGS) -c $< -o $@ -I $(HDR) -I $(LIBFTDIR)
+	@$(CC) $(CFLAGS) $(READLINE_INC) $(ACTION_READLINE_INC) -c $< -o $@ -I $(HDR) -I $(LIBFTDIR)
 
 $(NAME): $(OBJ)
 	@$(MAKE) -C $(LIBFTDIR) all
-	@$(CC) $(CFLAGS) $(COMFILE_FLAGS) $(ACTION_FLAGS) -L$(LIBFTDIR) $(LIBFT) $^ -o $@
+	@$(CC) $(CFLAGS) $(READLINE_FLAGS) $(ACTION_READLINE) -L$(LIBFTDIR) $(LIBFT) $^ -o $@
 
 clean:
 	@rm -f $(ALLOBJECTS)
