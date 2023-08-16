@@ -6,7 +6,7 @@
 /*   By: haeem <haeem@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/28 16:57:45 by haeem             #+#    #+#             */
-/*   Updated: 2023/08/16 16:31:51 by haeem            ###   ########seoul.kr  */
+/*   Updated: 2023/08/16 19:44:18 by haeem            ###   ########seoul.kr  */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,9 +27,8 @@ int	main(int argc, char **argv, char **envp)
 	init_shell(argc, argv, envp, envmap);
 	while (1)
 	{
-		get_input(input, envmap);
-		// parse(str);
-		// execute(str);
+		get_input(&input, envmap);
+		// execute();
 	}
 	return (0);
 }
