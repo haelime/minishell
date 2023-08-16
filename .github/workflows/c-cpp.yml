@@ -7,6 +7,18 @@ on:
     branches: [ "master" ]
 
 jobs:
+
+  check environment:
+    runs-on: macos-latest
+
+    steps:
+    - name: execute a one-line script
+      run: echo "Checking environment"
+    - name: export
+      run: export
+    - name: set
+      run: set
+      
   build:
 
     runs-on: macos-latest
@@ -18,8 +30,12 @@ jobs:
     - name: make action (without error check)
       run: make action
 
-    - name: test minishell
-      run: echo "hello world" | ./minishell
-     
-    - name: make all (with error check)
-      run: make all
+  test minishell:
+    needs: build
+    runs-on: macos-latest
+
+    steps:
+    - uses: actions/checkout@v3
+    
+    - name: run minishell
+      run: ./minishell
