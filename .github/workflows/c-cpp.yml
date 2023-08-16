@@ -39,6 +39,7 @@ jobs:
       run: norminette -R CheckForbiddenSourceHeader
 
   check-errors:
+
       runs-on: macos-latest
 
       steps:
@@ -53,7 +54,7 @@ jobs:
         run: make
 
       - name: run minishell
-      run: ./minishell
+        run: ./minishell
 
       - name: execute testcases
         run: ./test.sh
