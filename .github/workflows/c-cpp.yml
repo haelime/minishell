@@ -34,4 +34,9 @@ jobs:
       run: ./minishell
     - name: make with -Wall -Wextra -Werror
       run: make
+    - name: run minishell
+      run: ./minishell
+    
+    - name: execute testcases
+      run: echo "hello world" | ./minishell
     
