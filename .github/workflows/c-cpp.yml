@@ -8,26 +8,10 @@ on:
 
 jobs:
   build-n-test:
-
     runs-on: macos-latest
 
     steps:
     - uses: actions/checkout@v3
-    # - name: configure
-    #   run: ./configure
-    - name: export
-      run: export
-    - name: set
-      run: set
-
-    - name: install dependencies to check norminette
-      run: python3 -m pip install --upgrade pip setuptools
-
-    - name: install norminette
-      run: pip3 install norminette
-    
-    - name: check norminette
-      run: norminette -R CheckForbiddenSourceHeader
 
     - name: make action (without error check)
       run: make action
@@ -38,5 +22,39 @@ jobs:
     - name: execute testcases
       run: ./test.sh
 
-    - name: make with -Wall -Wextra -Werror
-      run: make
+
+  check-norminette:
+    runs-on: macos-latest
+
+    steps:
+    - uses: actions/checkout@v3
+
+    - name: install dependencies to check norminette
+      run: python3 -m pip install --upgrade pip setuptools
+
+    - name: install norminette
+      run: pip3 install norminette
+
+    - name: check norminette
+      run: norminette -R CheckForbiddenSourceHeader
+
+  check-errors:
+      
+      runs-on: macos-latest
+  
+      steps:
+      - uses: actions/checkout@v3
+
+      - name: export
+        run: export
+      - name: set
+        run: set
+  
+      - name: make with -Wall -Wextra -Werror
+        run: make
+
+      - name: run minishell
+      run: ./minishell
+
+      - name: execute testcases
+        run: ./test.sh
