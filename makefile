@@ -6,7 +6,7 @@
 #    By: haeem <haeem@student.42seoul.kr>           +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/04/11 14:22:09 by haeem             #+#    #+#              #
-#    Updated: 2023/08/16 16:23:05 by haeem            ###   ########seoul.kr   #
+#    Updated: 2023/08/16 16:37:16 by haeem            ###   ########seoul.kr   #
 #                                                                              #
 # **************************************************************************** #
 
@@ -32,6 +32,7 @@ SOURCES = $(addprefix $(CURDIR)/srcs/,\
 	./init/init_envp.c\
 	./init/set_env.c\
 \
+	./parse/get_input.c\
 	./parse/minishell_parse.c\
 \
 	./terminal/terminal.c\
