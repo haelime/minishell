@@ -6,7 +6,7 @@
 /*   By: haeem <haeem@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/05 19:33:58 by haeem             #+#    #+#             */
-/*   Updated: 2023/08/15 18:25:58 by haeem            ###   ########seoul.kr  */
+/*   Updated: 2023/08/16 15:46:30 by haeem            ###   ########seoul.kr  */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,6 +37,7 @@ t_hashmap		*hash_envp(char **envp);
 t_hashmap		*hashmap_create(int size);
 void			hashmap_insert(t_hashmap *hashmap, char *key, char *value);
 char			*hashmap_search(t_hashmap *hashmap, const char *key);
+bool			hashmap_remove(t_hashmap *hashmap, const char *key);
 
 unsigned int	hash_string(const char *s);
 void			free_bucket(t_bucket *bucket);

@@ -6,7 +6,7 @@
 #    By: haeem <haeem@student.42seoul.kr>           +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/04/11 14:22:09 by haeem             #+#    #+#              #
-#    Updated: 2023/08/16 15:32:26 by haeem            ###   ########seoul.kr   #
+#    Updated: 2023/08/16 16:23:05 by haeem            ###   ########seoul.kr   #
 #                                                                              #
 # **************************************************************************** #
 
@@ -24,12 +24,18 @@ LIBFTHEADER = ./libft/include/libft.h
 
 SOURCES = $(addprefix $(CURDIR)/srcs/,\
 	minishell_main.c\
+\
 	./hashlib/hashmap.c\
 	./hashlib/hashmap_utils.c\
+\
 	./init/init_shell.c\
 	./init/init_envp.c\
+	./init/set_env.c\
+\
 	./parse/minishell_parse.c\
+\
 	./terminal/terminal.c\
+\
 	./signal/signal.c\
 )
 

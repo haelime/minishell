@@ -6,7 +6,7 @@
 /*   By: haeem <haeem@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/05 20:05:16 by haeem             #+#    #+#             */
-/*   Updated: 2023/08/15 18:17:29 by haeem            ###   ########seoul.kr  */
+/*   Updated: 2023/08/16 15:47:00 by haeem            ###   ########seoul.kr  */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,7 +61,7 @@ void	hashmap_insert(t_hashmap *hashmap, char *key, char *value)
 	}
 }
 
-// simple hash search
+// returns hash value of string, if string is NULL, returns 0
 char	*hashmap_search(t_hashmap *hashmap, const char *key)
 {
 	unsigned int	hash;
@@ -80,8 +80,9 @@ char	*hashmap_search(t_hashmap *hashmap, const char *key)
 	return (NULL);
 }
 
-// simple hash remove
-int	hashmap_remove(t_hashmap *hashmap, const char *key)
+// find exact string, remove it from hashmap, and free it
+// if success, returns 0, else 1
+bool	hashmap_remove(t_hashmap *hashmap, const char *key)
 {
 	unsigned int	hash;
 	t_bucket		*bucket;
@@ -101,10 +102,10 @@ int	hashmap_remove(t_hashmap *hashmap, const char *key)
 			else
 				prev->next = bucket->next;
 			free_bucket(bucket);
-			return (1);
+			return (0);
 		}
 		prev = bucket;
 		bucket = bucket->next;
 	}
-	return (0);
+	return (1);
 }

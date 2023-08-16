@@ -6,7 +6,7 @@
 /*   By: haeem <haeem@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/28 16:57:45 by haeem             #+#    #+#             */
-/*   Updated: 2023/08/15 19:24:42 by haeem            ###   ########seoul.kr  */
+/*   Updated: 2023/08/16 16:31:51 by haeem            ###   ########seoul.kr  */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,22 +14,6 @@
 #include "../include/hashlib.h"
 #include "../include/astreelib.h"
 #include "../libft/include/libft.h"
-
-void	get_input(char *input, t_hashmap *envmap)
-{
-	input = readline(hashmap_search(envmap, "PS1"));
-	if (input == NULL)
-	{
-		printf ("exiting minishell\n");
-		exit(0);
-	}
-	if (ft_strlen(input) == 0 || ft_isempty(input))
-	{
-		free(input);
-		return ;
-	}
-	add_history(input);
-}
 
 int	main(int argc, char **argv, char **envp)
 {
@@ -50,11 +34,13 @@ int	main(int argc, char **argv, char **envp)
 	return (0);
 }
 
-// readline, rl_clear_history, rl_on_new_line, rl_replace_line, rl_redisplay,
-// add_history, printf, malloc, free, write, access, open, read, close,
-// fork, wait, waitpid, wait3, wait4,
-// signal, sigaction, sigemptyset, sigaddset, kill, exit,
-// gextcwd, chdir, stat, lstat, fstat, unlink, execve, dup, dup2, pipe,
-// opendir, readdir, closedir, strerror, perror, isatty, ttyname, ttyslot,
-// ioctl, getenv,
-// tcsetattr, tcgetattr, tgetent, tgetflag, tgetnum, tgetstr, tgoto, tputs
+// readline, rl_clear_history, rl_on_new_line,
+// rl_replace_line, rl_redisplay, add_history,
+// printf, malloc, free, write, access, open, read,
+// close, fork, wait, waitpid, wait3, wait4, signal,
+// sigaction, sigemptyset, sigaddset, kill, exit,
+// getcwd, chdir, stat, lstat, fstat, unlink, execve,
+// dup, dup2, pipe, opendir, readdir, closedir,
+// strerror, perror, isatty, ttyname, ttyslot, ioctl,
+// getenv, tcsetattr, tcgetattr, tgetent, tgetflag,
+// tgetnum, tgetstr, tgoto, tputs
