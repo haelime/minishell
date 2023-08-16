@@ -20,7 +20,7 @@ jobs:
 
 # --------------------------------------------------------------
 
-  build:
+  build-n-test:
 
     runs-on: macos-latest
 
@@ -30,15 +30,5 @@ jobs:
     #   run: ./configure
     - name: make action (without error check)
       run: make action
-
-# --------------------------------------------------------------
-
-  test-minishell:
-    needs: build
-    runs-on: macos-latest
-
-    steps:
-    - uses: actions/checkout@v3
-    
     - name: run minishell
       run: ./minishell
