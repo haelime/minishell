@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   hashlib.h                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hyunjunk <hyunjunk@student.42.fr>          +#+  +:+       +#+        */
+/*   By: haeem <haeem@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/05 19:33:58 by haeem             #+#    #+#             */
-/*   Updated: 2023/08/11 21:17:26 by hyunjunk         ###   ########.fr       */
+/*   Updated: 2023/08/15 18:25:58 by haeem            ###   ########seoul.kr  */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,5 +39,8 @@ void			hashmap_insert(t_hashmap *hashmap, char *key, char *value);
 char			*hashmap_search(t_hashmap *hashmap, const char *key);
 
 unsigned int	hash_string(const char *s);
+void			free_bucket(t_bucket *bucket);
+void			free_hashmap(t_hashmap *hashmap);
+void			print_hashmap(t_hashmap *hashmap);
 
 #endif

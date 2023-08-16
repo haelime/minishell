@@ -3,33 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   hashmap.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hyunjunk <hyunjunk@student.42.fr>          +#+  +:+       +#+        */
+/*   By: haeem <haeem@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/05 20:05:16 by haeem             #+#    #+#             */
-/*   Updated: 2023/08/11 21:17:46 by hyunjunk         ###   ########.fr       */
+/*   Updated: 2023/08/15 18:17:29 by haeem            ###   ########seoul.kr  */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/minishell.h"
 #include "../../include/hashlib.h"
 #include "../../libft/include/libft.h"
-
-// FNV hash algorithm
-unsigned int	hash_string(const char *s)
-{
-	unsigned int	i;
-	char			*ptr;
-
-	i = FNV_OFFSET;
-	ptr = (char *)s;
-	while (*ptr != '\0')
-	{
-		i += (i << 1) + (i << 4) + (i << 7) + (i << 8) + (i << 24);
-		i ^= *ptr;
-		ptr++;
-	}
-	return (i);
-}
 
 // create hash table with size SHOULD BE 2^n
 t_hashmap	*hashmap_create(int size)
@@ -85,6 +68,8 @@ char	*hashmap_search(t_hashmap *hashmap, const char *key)
 	t_bucket		*bucket;
 
 	hash = hash_string(key);
+	if (hashmap->buckets[hash % hashmap->size] == NULL)
+		return (NULL);
 	bucket = hashmap->buckets[hash % hashmap->size];
 	while (bucket)
 	{
@@ -93,4 +78,33 @@ char	*hashmap_search(t_hashmap *hashmap, const char *key)
 		bucket = bucket->next;
 	}
 	return (NULL);
+}
+
+// simple hash remove
+int	hashmap_remove(t_hashmap *hashmap, const char *key)
+{
+	unsigned int	hash;
+	t_bucket		*bucket;
+	t_bucket		*prev;
+
+	hash = hash_string(key);
+	if (hashmap->buckets[hash % hashmap->size] == NULL)
+		return (0);
+	bucket = hashmap->buckets[hash % hashmap->size];
+	prev = NULL;
+	while (bucket)
+	{
+		if (ft_strcmp(bucket->key, key) == 0)
+		{
+			if (prev == NULL)
+				hashmap->buckets[hash % hashmap->size] = bucket->next;
+			else
+				prev->next = bucket->next;
+			free_bucket(bucket);
+			return (1);
+		}
+		prev = bucket;
+		bucket = bucket->next;
+	}
+	return (0);
 }

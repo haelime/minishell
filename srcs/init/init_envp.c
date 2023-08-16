@@ -6,7 +6,7 @@
 /*   By: haeem <haeem@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/09 19:26:03 by haeem             #+#    #+#             */
-/*   Updated: 2023/08/11 21:24:27 by haeem            ###   ########seoul.kr  */
+/*   Updated: 2023/08/16 15:07:55 by haeem            ###   ########seoul.kr  */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,10 +43,6 @@ void	init_envp(int argc, char **argv, char **envp, t_hashmap *envmap)
 	(void)argc;
 	(void)argv;
 	(void)envp;
-	(void)envmap;
-	// printf ("SHLVL: %s\n", hashmap_search(envmap, "SHLVL"));
-	// lv = ft_atoi(hashmap_search(envmap, "SHLVL")) + 1;
-	// printf ("SHLVL: %s\n", hashmap_search(envmap, "SHLVL"));
-	// hashmap_insert(envmap, "SHLVL", ft_itoa(lv));
-	// printf ("SHLVL: %s\n", hashmap_search(envmap, "SHLVL"));
+	// (void)envmap;
+	// should add PS1 and 
 }
