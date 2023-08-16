@@ -7,8 +7,7 @@ on:
     branches: [ "master" ]
 
 jobs:
-
-  check environment:
+  check-environment:
     runs-on: macos-latest
 
     steps:
@@ -18,7 +17,9 @@ jobs:
       run: export
     - name: set
       run: set
-      
+
+# --------------------------------------------------------------
+
   build:
 
     runs-on: macos-latest
@@ -30,7 +31,9 @@ jobs:
     - name: make action (without error check)
       run: make action
 
-  test minishell:
+# --------------------------------------------------------------
+
+  test-minishell:
     needs: build
     runs-on: macos-latest
 
