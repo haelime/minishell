@@ -6,7 +6,7 @@
 #    By: haeem <haeem@student.42seoul.kr>           +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/04/11 14:22:09 by haeem             #+#    #+#              #
-#    Updated: 2023/08/15 18:24:36 by haeem            ###   ########seoul.kr   #
+#    Updated: 2023/08/16 15:13:42 by haeem            ###   ########seoul.kr   #
 #                                                                              #
 # **************************************************************************** #
 
@@ -63,6 +63,10 @@ all: $(NAME)
 
 bonus:
 	@make WITH_BONUS=1 all
+
+action: $(OBJ)
+	@$(MAKE) -C $(LIBFTDIR) all
+	@$(CC) $(ACTION_FLAGS) -L$(LIBFTDIR) $(LIBFT) $^ -o $@
 
 %.o: %.c
 	@$(CC) $(CFLAGS) $(OBJ_FLAGS) $(ACTION_OBJ_FLAGS) -c $< -o $@ -I $(HDR) -I $(LIBFTDIR)
