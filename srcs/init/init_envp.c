@@ -6,7 +6,7 @@
 /*   By: haeem <haeem@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/09 19:26:03 by haeem             #+#    #+#             */
-/*   Updated: 2023/08/16 18:17:51 by haeem            ###   ########seoul.kr  */
+/*   Updated: 2023/08/16 18:31:02 by haeem            ###   ########seoul.kr  */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,5 +49,4 @@ void	init_envp(int argc, char **argv, char **envp, t_hashmap *envmap)
 	set_ps1(envmap);
 	set_cwd(envmap);
 	set_special_var(envmap);
-	print_hashmap(envmap);
 }

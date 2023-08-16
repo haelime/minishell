@@ -7,19 +7,6 @@ on:
     branches: [ "master" ]
 
 jobs:
-  check-environment:
-    runs-on: macos-latest
-
-    steps:
-    - name: execute a one-line script
-      run: echo "Checking environment"
-    - name: export
-      run: export
-    - name: set
-      run: set
-
-# --------------------------------------------------------------
-
   build-n-test:
 
     runs-on: macos-latest
@@ -28,15 +15,19 @@ jobs:
     - uses: actions/checkout@v3
     # - name: configure
     #   run: ./configure
+    - name: export
+      run: export
+    - name: set
+      run: set
+
     - name: make action (without error check)
       run: make action
+
     - name: run minishell
       run: ./minishell
+
+    - name: execute testcases
+      run: ./test.sh
+
     - name: make with -Wall -Wextra -Werror
       run: make
-    - name: run minishell
-      run: ./minishell
-    
-    - name: execute testcases
-      run: echo "hello world" | ./minishell
-    
