@@ -6,7 +6,7 @@
 /*   By: haeem <haeem@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/09 19:26:03 by haeem             #+#    #+#             */
-/*   Updated: 2023/08/16 16:22:26 by haeem            ###   ########seoul.kr  */
+/*   Updated: 2023/08/16 18:17:51 by haeem            ###   ########seoul.kr  */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,10 @@ t_hashmap	*hash_envp(char **envp)
 	while (envp[i])
 	{
 		tmp = ft_split(envp[i], '=');
-		hashmap_insert(newmap, tmp[0], tmp[1]);
+		if (tmp[1] == NULL)
+			hashmap_insert(newmap, tmp[0], "");
+		else
+			hashmap_insert(newmap, tmp[0], tmp[1]);
 		free(tmp[0]);
 		free(tmp[1]);
 		free(tmp);
