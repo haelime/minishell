@@ -1,22 +1,27 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   astreelib.h                                        :+:      :+:    :+:   */
+/*   history.h                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: haeem <haeem@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/08/05 19:33:57 by haeem             #+#    #+#             */
-/*   Updated: 2023/08/05 20:42:00 by haeem            ###   ########seoul.kr  */
+/*   Created: 2023/08/24 20:37:23 by haeem             #+#    #+#             */
+/*   Updated: 2023/08/24 20:52:47 by haeem            ###   ########seoul.kr  */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef ASTREELIB_H
-# define ASTREELIB_H
+#ifndef HISTORY_H
+# define HISTORY_H
 
-typedef struct s_ast
+# include "../libft/include/libft.h"
+
+typedef struct s_history
 {
-	char			*data;
-	struct s_ast	*left;
-	struct s_ast	*right;
-}					t_ast;
+	char	*history;
+	int		idx;
+}					t_history;
+
+void	init_history(t_history *history);
+void	make_history(char *input, t_history *history);
+
 #endif

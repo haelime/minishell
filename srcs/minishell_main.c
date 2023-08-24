@@ -6,21 +6,20 @@
 /*   By: haeem <haeem@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/28 16:57:45 by haeem             #+#    #+#             */
-/*   Updated: 2023/08/16 19:44:18 by haeem            ###   ########seoul.kr  */
+/*   Updated: 2023/08/24 22:48:20 by haeem            ###   ########seoul.kr  */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/minishell.h"
 #include "../include/hashlib.h"
-#include "../include/astreelib.h"
+#include "../include/parsetree.h"
 #include "../libft/include/libft.h"
 
 int	main(int argc, char **argv, char **envp)
 {
 	char		*input;
 	t_hashmap	*envmap;
-	// t_lst		*chunks;
-	// t_ast		*syntax;
+	t_pstree	*pstree;
 
 	input = NULL;
 	envmap = hash_envp(envp);
@@ -28,7 +27,8 @@ int	main(int argc, char **argv, char **envp)
 	while (1)
 	{
 		get_input(&input, envmap);
-		// execute();
+		pstree = parse(input, envmap);
+		// execute(pstree, envmap);
 	}
 	return (0);
 }

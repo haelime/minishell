@@ -6,7 +6,7 @@
 /*   By: haeem <haeem@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/20 01:59:27 by haeem             #+#    #+#             */
-/*   Updated: 2023/04/23 19:39:39 by haeem            ###   ########seoul.kr  */
+/*   Updated: 2023/08/24 23:00:32 by haeem            ###   ########seoul.kr  */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,6 +34,8 @@ int	*ft_set_char_table(const char *charset)
 	return (set);
 }
 
+// Allocates (with malloc(3)) and returns a copy of ’s1’ with the characters 
+// specified in ’set’ removed from the beginning and the end of the string.
 char	*ft_strtrim(char const *s1, char const *set)
 {
 	int				i;
@@ -56,5 +58,3 @@ char	*ft_strtrim(char const *s1, char const *set)
 	ft_strlcpy(trimedstr, s1 + i, j - i + 1);
 	return (trimedstr);
 }
-// Allocates (with malloc(3)) and returns a copy of ’s1’ with the characters 
-// specified in ’set’ removed from the beginning and the end of the string.

@@ -3,33 +3,31 @@
 /*                                                        :::      ::::::::   */
 /*   signal.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hyunjunk <hyunjunk@student.42.fr>          +#+  +:+       +#+        */
+/*   By: haeem <haeem@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/09 18:09:33 by haeem             #+#    #+#             */
-/*   Updated: 2023/08/11 20:19:19 by hyunjunk         ###   ########.fr       */
+/*   Updated: 2023/08/24 19:55:46 by haeem            ###   ########seoul.kr  */
 /*                                                                            */
 /* ************************************************************************** */
 
-// Ctrl+C Interrupt
-void	sigint_handler(int signo);
+#include "../../include/minishell.h"
 
-// Ctrl+\ Interrupt
-void	sigquit_handler(int signo);
-
-// Ctrl+D Interrupt
-void	sigterm_handler(int signo);
-
-void	sigint_handler(int signo)
+// make ignore signal
+void	signal_ignore(void)
 {
-	(void)signo;
+	signal(SIGINT, SIG_IGN);
+	signal(SIGQUIT, SIG_IGN);
+	signal(SIGTERM, SIG_IGN);
 }
 
-void	sigquit_handler(int signo)
+// interactive mode (prompt)
+void signal_interactive(void)
 {
-	(void)signo;
+	
 }
 
-void	sigterm_handler(int signo)
+// non-interactive mode (when shell is working)
+void signal_default(void)
 {
-	(void)signo;
+
 }

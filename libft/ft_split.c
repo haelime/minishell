@@ -6,7 +6,7 @@
 /*   By: haeem <haeem@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/20 01:15:28 by haeem             #+#    #+#             */
-/*   Updated: 2023/05/24 21:05:14 by haeem            ###   ########seoul.kr  */
+/*   Updated: 2023/08/24 20:48:38 by haeem            ###   ########seoul.kr  */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,17 +50,17 @@ static size_t	wordcount(const char *s, char c)
 	return (wc);
 }
 
-char	**ft_free_strings(char **list)
+void	ft_free_strings(char **strings)
 {
 	size_t	j;
 
 	j = 0;
-	while (list[j])
+	while (strings[j])
 	{
-		free(list[j]);
+		free(strings[j]);
 		j++;
 	}
-	free(list);
+	free(strings);
 	return (NULL);
 }
 

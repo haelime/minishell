@@ -1,31 +1,25 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   get_input.c                                        :+:      :+:    :+:   */
+/*   parsetree.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: haeem <haeem@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/08/16 16:32:12 by haeem             #+#    #+#             */
-/*   Updated: 2023/08/24 21:21:32 by haeem            ###   ########seoul.kr  */
+/*   Created: 2023/08/05 19:33:57 by haeem             #+#    #+#             */
+/*   Updated: 2023/08/24 22:56:11 by haeem            ###   ########seoul.kr  */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../include/minishell.h"
-#include "../../include/hashlib.h"
-#include "../../libft/include/libft.h"
+#ifndef PARSETREE_H
+# define PARSETREE_H
 
-void	get_input(char **p_input, t_hashmap *envmap)
+# include "minishell.h"
+
+typedef struct s_pstree
 {
-	*p_input = readline(hashmap_search(envmap, "PS1"));
-	if (*p_input == NULL)
-	{
-		printf ("exiting minishell\n");
-		exit(0);
-	}
-	if (ft_strlen(*p_input) == 0 || ft_isempty(*p_input))
-	{
-		free(*p_input);
-		return ;
-	}
-	add_history(*p_input);
-}
+	t_token			token;
+	struct s_ast	*left;
+	struct s_ast	*right;
+}					t_pstree;
+
+#endif

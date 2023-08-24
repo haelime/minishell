@@ -3,23 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   init_shell.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hyunjunk <hyunjunk@student.42.fr>          +#+  +:+       +#+        */
+/*   By: haeem <haeem@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/09 16:10:02 by haeem             #+#    #+#             */
-/*   Updated: 2023/08/11 20:21:30 by hyunjunk         ###   ########.fr       */
+/*   Updated: 2023/08/24 21:05:44 by haeem            ###   ########seoul.kr  */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/minishell.h"
 #include "../../libft/include/libft.h"
 #include "../../include/hashlib.h"
-
-void	init_signal(void)
-{
-	signal(SIGINT, sigint_handler);
-	signal(SIGQUIT, sigquit_handler);
-	signal(SIGTERM, sigterm_handler);
-}
 
 // initialize readline for first prompt
 void	init_readline(void)
@@ -37,7 +30,7 @@ void	init_shell(int argc, char **argv, char **envp, t_hashmap *envmap)
 	// (void)envp;
 	// (void)envmap;
 	printf("hello minishell\n");
-	init_signal();
+	signal_ignore();
 	echoctl_off();
 	init_envp(argc, argv, envp, envmap);
 	init_readline();

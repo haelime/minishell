@@ -6,7 +6,7 @@
 #    By: haeem <haeem@student.42seoul.kr>           +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/04/11 14:22:09 by haeem             #+#    #+#              #
-#    Updated: 2023/08/16 16:37:16 by haeem            ###   ########seoul.kr   #
+#    Updated: 2023/08/24 21:04:04 by haeem            ###   ########seoul.kr   #
 #                                                                              #
 # **************************************************************************** #
 
@@ -38,6 +38,10 @@ SOURCES = $(addprefix $(CURDIR)/srcs/,\
 	./terminal/terminal.c\
 \
 	./signal/signal.c\
+\
+	./builtins/history.c\
+\
+	./utils/minishell_utils.c\
 )
 
 # BONUSES = $(addprefix $(CURDIR)/srcs_bonus/,\

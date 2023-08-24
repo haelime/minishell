@@ -6,7 +6,7 @@
 /*   By: haeem <haeem@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/28 16:58:38 by haeem             #+#    #+#             */
-/*   Updated: 2023/08/16 19:22:35 by haeem            ###   ########seoul.kr  */
+/*   Updated: 2023/08/24 22:55:31 by haeem            ###   ########seoul.kr  */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -98,8 +98,8 @@
 # include <errno.h>
 
 # include "hashlib.h"
+# include "parsetree.h"
 
-# define PROMPT "minishell> "
 
 typedef struct s_lst
 {
@@ -107,32 +107,65 @@ typedef struct s_lst
 	struct s_lst	*next;
 }	t_lst;
 
+
+typedef enum e_token
+{
+	WORD,
+	WHITESPACE,
+	SEMICOLON,
+	PIPE,
+	REDIRECT,
+	REDIRECT_IN,
+	REDIRECT_OUT,
+	REDIRECT_APPEND,
+	REDIRECT_HEREDOC,
+	REDIRECT_HEREDOC_DELIMITER,
+	WILDCARD,
+	DOUBLE_PIPE,
+	DOUBLE_AND,
+	BRAKET
+} t_token;
+
+#ifndef PARSETREE_H
+typedef struct s_pstree
+{
+	t_token	token;
+	struct s_ast	*left;
+	struct s_ast	*right;
+}					t_pstree;
+#endif
+
 // initiate shell
 /* -------------------------------------------------------------------------- */
-void	init_shell(int argc, char **argv, char **envp, t_hashmap *envmap);
-void	init_envp(int argc, char **argv, char **envp, t_hashmap *envmap);
-void	set_shlvl(t_hashmap *envmap);
-void	set_ps1(t_hashmap *envmap);
-void	set_cwd(t_hashmap *envmap);
-void	set_special_var(t_hashmap *envmap);
+void		init_shell(int argc, char **argv, char **envp, t_hashmap *envmap);
+void		init_envp(int argc, char **argv, char **envp, t_hashmap *envmap);
+void		set_shlvl(t_hashmap *envmap);
+void		set_ps1(t_hashmap *envmap);
+void		set_cwd(t_hashmap *envmap);
+void		set_special_var(t_hashmap *envmap);
 /* -------------------------------------------------------------------------- */
 
 // get input & parse
 /* -------------------------------------------------------------------------- */
-void	get_input(char **input, t_hashmap *envmap);
+void		get_input(char **input, t_hashmap *envmap);
 /* -------------------------------------------------------------------------- */
 
 // utils
 /* -------------------------------------------------------------------------- */
-void	echoctl_off(void);
-void	echoctl_on(void);
+void		echoctl_off(void);
+void		echoctl_on(void);
 /* -------------------------------------------------------------------------- */
 
 /* Signal Handler <signal.c> */
 /* -------------------------------------------------------------------------- */
-void	sigint_handler(int signo);
-void	sigquit_handler(int signo);
-void	sigterm_handler(int signo);
+void		signal_ignore(void);
+void		signal_interactive(void);
+void		signal_default(void);
+/* -------------------------------------------------------------------------- */
+
+/* parse */
+/* -------------------------------------------------------------------------- */
+t_pstree	*parse(char *input, t_hashmap *envmap);
 /* -------------------------------------------------------------------------- */
 
 #endif

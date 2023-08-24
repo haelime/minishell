@@ -6,7 +6,7 @@
 /*   By: haeem <haeem@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/09 19:09:44 by haeem             #+#    #+#             */
-/*   Updated: 2023/08/09 19:14:42 by haeem            ###   ########seoul.kr  */
+/*   Updated: 2023/08/24 20:48:00 by haeem            ###   ########seoul.kr  */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,7 +74,7 @@ void		ft_putendl_fd(char *s, int fd);
 void		ft_putnbr_fd(int n, int fd);
 char		*ft_strjoin(char const *s1, char const *s2);
 char		**ft_split(const char *s, char c);
-char		**ft_free_strings(char **list);
+void		ft_free_strings(char **strings);
 int			ft_atoi(const char *str);
 long		ft_atol(const char *str);
 long long	ft_atoll(const char *str);
