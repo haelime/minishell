@@ -6,7 +6,7 @@
 /*   By: haeem <haeem@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/20 01:15:28 by haeem             #+#    #+#             */
-/*   Updated: 2023/08/24 20:48:38 by haeem            ###   ########seoul.kr  */
+/*   Updated: 2023/08/26 22:32:25 by haeem            ###   ########seoul.kr  */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,7 +61,6 @@ void	ft_free_strings(char **strings)
 		j++;
 	}
 	free(strings);
-	return (NULL);
 }
 
 static char	**spliter(char **words, int wc, const char *s, char c)

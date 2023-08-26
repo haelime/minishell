@@ -6,7 +6,7 @@
 /*   By: haeem <haeem@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/28 16:58:38 by haeem             #+#    #+#             */
-/*   Updated: 2023/08/24 22:55:31 by haeem            ###   ########seoul.kr  */
+/*   Updated: 2023/08/26 23:06:37 by haeem            ###   ########seoul.kr  */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,43 +97,60 @@
 // errno on <errno.h>
 # include <errno.h>
 
+#ifndef HASHLIB_H
 # include "hashlib.h"
+#endif
+
+#ifndef PARSETREE_H
 # include "parsetree.h"
+#endif
 
+#ifndef LIBFT_H
+# include "../libft/include/libft.h"
+#endif
 
-typedef struct s_lst
-{
-	void			*content;
-	struct s_lst	*next;
-}	t_lst;
+#define QUOTE 1
+#define FAIL 2
 
+#define STDIN 0
+#define STDOUT 1
+#define STDERR 2
 
-typedef enum e_token
+typedef enum e_type
 {
 	WORD,
 	WHITESPACE,
 	SEMICOLON,
 	PIPE,
-	REDIRECT,
 	REDIRECT_IN,
 	REDIRECT_OUT,
 	REDIRECT_APPEND,
 	REDIRECT_HEREDOC,
 	REDIRECT_HEREDOC_DELIMITER,
-	WILDCARD,
 	DOUBLE_PIPE,
 	DOUBLE_AND,
-	BRAKET
-} t_token;
+	LEFT_PARENTHESIS,
+	RIGHT_PARENTHESIS,
+	SUBSHELL,
+	END
+} t_type;
 
-#ifndef PARSETREE_H
+typedef struct s_token
+{
+	t_type		type;
+	int			flag;
+	char 		*str;
+	char		*path;
+}	t_token;
+
 typedef struct s_pstree
 {
-	t_token	token;
-	struct s_ast	*left;
-	struct s_ast	*right;
-}					t_pstree;
-#endif
+	bool			isroot;
+	t_token			*token;
+
+	struct s_pstree	*left;
+	struct s_pstree	*right;
+}	t_pstree;
 
 // initiate shell
 /* -------------------------------------------------------------------------- */
@@ -166,6 +183,7 @@ void		signal_default(void);
 /* parse */
 /* -------------------------------------------------------------------------- */
 t_pstree	*parse(char *input, t_hashmap *envmap);
+t_list		*tokenize(char *input, t_list *chunks);
 /* -------------------------------------------------------------------------- */
 
 #endif

@@ -6,7 +6,7 @@
 /*   By: haeem <haeem@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/28 16:57:45 by haeem             #+#    #+#             */
-/*   Updated: 2023/08/24 22:48:20 by haeem            ###   ########seoul.kr  */
+/*   Updated: 2023/08/26 19:49:44 by haeem            ###   ########seoul.kr  */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,3 +43,30 @@ int	main(int argc, char **argv, char **envp)
 // strerror, perror, isatty, ttyname, ttyslot, ioctl,
 // getenv, tcsetattr, tcgetattr, tgetent, tgetflag,
 // tgetnum, tgetstr, tgoto, tputs
+
+// 수정해야함
+// <pipeline>     ::= <cmd>
+//                |   <pipeline> '|' <cmd>
+
+// <cmd>          ::= <simple_cmd> 
+//                |   <simple_cmd> <redirects>
+
+// <simple_cmd>   ::= <file_path>
+//                |   <argv>
+
+// <argv>         ::= <file_path> <args>
+
+// <redirects>    ::= <io_redirect>
+//                 |  <redirects> <io_redirect>
+
+// <io_redirect>  ::= '<'   <filename>
+//                 |  '<<'  <filename>
+//                 |  '>'   <filename>
+//                 |  '>>'  <filename>
+
+// <args>        ::= WORD 
+//                 | <args> WORD
+
+// <filename>    ::= WORD
+
+// <file_path>   ::= WORD

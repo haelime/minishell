@@ -1,15 +1,18 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   minishell_utils.c                                  :+:      :+:    :+:   */
+/*   ft_isquote.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: haeem <haeem@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/08/15 19:24:09 by haeem             #+#    #+#             */
-/*   Updated: 2023/08/26 21:24:37 by haeem            ###   ########seoul.kr  */
+/*   Created: 2023/08/26 22:57:27 by haeem             #+#    #+#             */
+/*   Updated: 2023/08/26 23:00:38 by haeem            ###   ########seoul.kr  */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../include/minishell.h"
-#include "../../libft/include/libft.h"
+#include <stdbool.h>
 
+bool	ft_isquote(char c)
+{
+	return (c == '\'' || c == '\"');
+}

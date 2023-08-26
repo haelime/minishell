@@ -6,7 +6,7 @@
 #    By: haeem <haeem@student.42seoul.kr>           +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/04/11 14:22:09 by haeem             #+#    #+#              #
-#    Updated: 2023/08/24 21:04:04 by haeem            ###   ########seoul.kr   #
+#    Updated: 2023/08/26 22:34:32 by haeem            ###   ########seoul.kr   #
 #                                                                              #
 # **************************************************************************** #
 
@@ -34,6 +34,7 @@ SOURCES = $(addprefix $(CURDIR)/srcs/,\
 \
 	./parse/get_input.c\
 	./parse/minishell_parse.c\
+	./parse/tokenize.c\
 \
 	./terminal/terminal.c\
 \
@@ -52,8 +53,8 @@ OBJECTS = $(SOURCES:.c=.o)
 BONUSOBJECTS = $(BONUSES:.c=.o)
 ALLOBJECTS = $(SOURCES:.c=.o) $(BONUSES:.c=.o)
 
-READLINE_FLAGS = -lreadline -L${HOME}/.brew/opt/readline/lib
-READLINE_INC = -I${HOME}/.brew/opt/readline/include
+READLINE_FLAGS = -lreadline -L/usr/local/lib
+READLINE_INC = -I/usr/local/include/readline
 
 # flags for github action
 ACTION_READLINE = -lreadline -L/usr/local/Cellar/readline/8.2.1/lib

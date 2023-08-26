@@ -6,7 +6,7 @@
 /*   By: haeem <haeem@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/09 19:09:44 by haeem             #+#    #+#             */
-/*   Updated: 2023/08/24 20:48:00 by haeem            ###   ########seoul.kr  */
+/*   Updated: 2023/08/26 23:00:33 by haeem            ###   ########seoul.kr  */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,6 +44,7 @@ int			ft_isalnum(int ch);
 int			ft_isascii(int ch);
 int			ft_isdigit(int ch);
 int			ft_isprint(int ch);
+bool		ft_isquote(char c);
 void		*ft_memchr(const void *p, int value, size_t num);
 int			ft_memcmp(const void *p1, const void *p2, size_t num);
 void		*ft_memcpy(void *dest, const void *src, size_t cnt);
