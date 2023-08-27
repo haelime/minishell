@@ -6,7 +6,7 @@
 /*   By: haeem <haeem@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/28 16:58:38 by haeem             #+#    #+#             */
-/*   Updated: 2023/08/27 20:30:18 by haeem            ###   ########seoul.kr  */
+/*   Updated: 2023/08/27 22:27:42 by haeem            ###   ########seoul.kr  */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -141,6 +141,15 @@ typedef struct s_token
 	char 		*str;
 	char		*path;
 }	t_token;
+
+typedef struct s_pstree
+{
+	bool			isroot;
+	t_token			*token;
+
+	struct s_pstree	*left;
+	struct s_pstree	*right;
+}	t_pstree;
 
 // initiate shell
 /* -------------------------------------------------------------------------- */
