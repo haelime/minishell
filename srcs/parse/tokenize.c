@@ -6,7 +6,7 @@
 /*   By: haeem <haeem@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/26 21:07:07 by haeem             #+#    #+#             */
-/*   Updated: 2023/08/27 22:20:27 by haeem            ###   ########seoul.kr  */
+/*   Updated: 2023/08/27 23:08:46 by haeem            ###   ########seoul.kr  */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,7 +60,7 @@ t_list	*tokenize(char *input, t_list **chunks)
 		end = begin;
 		while (*end != '\0' && !ft_strchr(" ><|&", *begin))
 		{
-			if (ft_strchr("\'\"", *end))
+			if (ft_strchr("\'\"", *end) && *(end + 1) != '\0')
 				end = ft_strchr(end + 1, *end);
 			if (istoken(*(end + 1)) || *(end + 1) == ' '
 				|| (*(end + 1) == '&' && *(end + 2) == '&'))
