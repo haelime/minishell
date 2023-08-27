@@ -6,7 +6,7 @@
 /*   By: haeem <haeem@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/28 16:57:45 by haeem             #+#    #+#             */
-/*   Updated: 2023/08/26 19:49:44 by haeem            ###   ########seoul.kr  */
+/*   Updated: 2023/08/27 18:45:57 by haeem            ###   ########seoul.kr  */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,7 @@ int	main(int argc, char **argv, char **envp)
 	input = NULL;
 	envmap = hash_envp(envp);
 	init_shell(argc, argv, envp, envmap);
+	signal_default();
 	while (1)
 	{
 		get_input(&input, envmap);

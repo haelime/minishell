@@ -6,7 +6,7 @@
 /*   By: haeem <haeem@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/28 16:58:38 by haeem             #+#    #+#             */
-/*   Updated: 2023/08/26 23:06:37 by haeem            ###   ########seoul.kr  */
+/*   Updated: 2023/08/27 20:30:18 by haeem            ###   ########seoul.kr  */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -109,18 +109,19 @@
 # include "../libft/include/libft.h"
 #endif
 
-#define QUOTE 1
-#define FAIL 2
+#define DOUBLEQUOTE (1)
+#define QUOTE (2)
+#define SUBSHELL (4)
+#define FAILED (8)
 
-#define STDIN 0
-#define STDOUT 1
-#define STDERR 2
+#define STDIN (0)
+#define STDOUT (1)
+#define STDERR (2)
 
 typedef enum e_type
 {
 	WORD,
 	WHITESPACE,
-	SEMICOLON,
 	PIPE,
 	REDIRECT_IN,
 	REDIRECT_OUT,
@@ -129,9 +130,7 @@ typedef enum e_type
 	REDIRECT_HEREDOC_DELIMITER,
 	DOUBLE_PIPE,
 	DOUBLE_AND,
-	LEFT_PARENTHESIS,
-	RIGHT_PARENTHESIS,
-	SUBSHELL,
+	SUBSH,
 	END
 } t_type;
 
@@ -142,15 +141,6 @@ typedef struct s_token
 	char 		*str;
 	char		*path;
 }	t_token;
-
-typedef struct s_pstree
-{
-	bool			isroot;
-	t_token			*token;
-
-	struct s_pstree	*left;
-	struct s_pstree	*right;
-}	t_pstree;
 
 // initiate shell
 /* -------------------------------------------------------------------------- */
@@ -183,7 +173,7 @@ void		signal_default(void);
 /* parse */
 /* -------------------------------------------------------------------------- */
 t_pstree	*parse(char *input, t_hashmap *envmap);
-t_list		*tokenize(char *input, t_list *chunks);
+t_list		*tokenize(char *input, t_list **chunks);
 /* -------------------------------------------------------------------------- */
 
 #endif
