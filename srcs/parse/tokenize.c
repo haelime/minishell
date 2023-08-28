@@ -6,7 +6,7 @@
 /*   By: haeem <haeem@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/26 21:07:07 by haeem             #+#    #+#             */
-/*   Updated: 2023/08/28 18:57:27 by haeem            ###   ########seoul.kr  */
+/*   Updated: 2023/08/28 19:17:41 by haeem            ###   ########seoul.kr  */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,20 @@ bool	isanotherquote(char *begin)
 	return (false);
 }
 
+bool	isparenclosed(char *begin)
+{
+	const char	paren = ')';
+
+	begin++;
+	while (*begin)
+	{
+		if (*begin == paren)
+			return (true);
+		begin++;
+	}
+	return (false);
+}
+
 // 	print_chunks(chunks);
 char	*make_token(char *input, char *begin, char *end, t_list **chunks)
 {
@@ -36,6 +50,8 @@ char	*make_token(char *input, char *begin, char *end, t_list **chunks)
 
 	if (*end == '\0')
 		end--;
+	if (*begin == '(' && isparenclosed(begin))
+		end = ft_strchr(begin + 1, ')');
 	if ((*begin == '\'' || *begin == '\"') && isanotherquote(begin))
 		end = ft_strchr(begin + 1, *begin);
 	token = ft_substr(input, begin - input, end - begin + 1);
@@ -64,6 +80,8 @@ t_list	*tokenize(char *input, t_list **chunks)
 		end = begin;
 		while (*end != '\0' && !ft_strchr(" ><|&", *begin))
 		{
+			if ((*(end + 1) == '(') && isparenclosed(end + 1))
+				break ;
 			if ((ft_strchr("\'\"", *(end + 1)) && isanotherquote(end + 1)))
 				break ;
 			if (istoken(*(end + 1)) || (*(end + 1) == '&' && *(end + 2) == '&'))
