@@ -1,27 +1,28 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   history.h                                          :+:      :+:    :+:   */
+/*   parsetree.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: haeem <haeem@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/08/24 20:37:23 by haeem             #+#    #+#             */
-/*   Updated: 2023/08/24 20:52:47 by haeem            ###   ########seoul.kr  */
+/*   Created: 2023/08/23 15:42:34 by haeem             #+#    #+#             */
+/*   Updated: 2023/08/28 19:49:21 by haeem            ###   ########seoul.kr  */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef HISTORY_H
-# define HISTORY_H
+#include "../../include/minishell.h"
+#include "../../include/parsetree.h"
 
-# include "../libft/include/libft.h"
-
-typedef struct s_history
+// syntax = make_pstree(chunks);
+t_pstree	*make_pstree(t_list *chunks)
 {
-	char	*history;
-	int		idx;
-}					t_history;
+	t_pstree	*syntax;
 
-void	init_history(t_history *history);
-void	make_history(char *input, t_history *history);
-
-#endif
+	syntax = (t_pstree *)malloc(sizeof(t_pstree));
+	syntax->isroot = true;
+	syntax->token = NULL;
+	syntax->left = NULL;
+	syntax->right = NULL;
+	(void)chunks;
+	return (syntax);
+}

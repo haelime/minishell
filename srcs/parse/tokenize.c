@@ -6,7 +6,7 @@
 /*   By: haeem <haeem@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/26 21:07:07 by haeem             #+#    #+#             */
-/*   Updated: 2023/08/28 19:17:41 by haeem            ###   ########seoul.kr  */
+/*   Updated: 2023/08/28 20:31:57 by haeem            ###   ########seoul.kr  */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,6 +42,20 @@ bool	isparenclosed(char *begin)
 	return (false);
 }
 
+char	*tryfutherparen(char *begin)
+{
+	char	*ret;
+
+	ret = begin;
+	while (*begin)
+	{
+		if (*begin == ')')
+			ret = begin;
+		begin++;
+	}
+	return (ret);
+}
+
 // 	print_chunks(chunks);
 char	*make_token(char *input, char *begin, char *end, t_list **chunks)
 {
@@ -51,19 +65,11 @@ char	*make_token(char *input, char *begin, char *end, t_list **chunks)
 	if (*end == '\0')
 		end--;
 	if (*begin == '(' && isparenclosed(begin))
-		end = ft_strchr(begin + 1, ')');
-	if ((*begin == '\'' || *begin == '\"') && isanotherquote(begin))
-		end = ft_strchr(begin + 1, *begin);
+		end = tryfutherparen(begin + 1);
 	token = ft_substr(input, begin - input, end - begin + 1);
 	temp = ft_lstnew(token);
 	ft_lstadd_back(chunks, temp);
 	return (end + 1);
-}
-
-bool	istoken(char ch)
-{
-	return (ch == '<' || ch == '>' || ch == '|'
-		|| ch == ' ');
 }
 
 // two pointer tokenizer, find | || && () "" ''
@@ -80,9 +86,9 @@ t_list	*tokenize(char *input, t_list **chunks)
 		end = begin;
 		while (*end != '\0' && !ft_strchr(" ><|&", *begin))
 		{
+			if (ft_strchr("\'\"", *end) && *(end + 1) != '\0')
+				end = ft_strchr(end + 1, *end);
 			if ((*(end + 1) == '(') && isparenclosed(end + 1))
-				break ;
-			if ((ft_strchr("\'\"", *(end + 1)) && isanotherquote(end + 1)))
 				break ;
 			if (istoken(*(end + 1)) || (*(end + 1) == '&' && *(end + 2) == '&'))
 				break ;

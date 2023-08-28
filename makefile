@@ -6,7 +6,7 @@
 #    By: haeem <haeem@student.42seoul.kr>           +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/04/11 14:22:09 by haeem             #+#    #+#              #
-#    Updated: 2023/08/26 22:34:32 by haeem            ###   ########seoul.kr   #
+#    Updated: 2023/08/28 20:25:38 by haeem            ###   ########seoul.kr   #
 #                                                                              #
 # **************************************************************************** #
 
@@ -35,12 +35,13 @@ SOURCES = $(addprefix $(CURDIR)/srcs/,\
 	./parse/get_input.c\
 	./parse/minishell_parse.c\
 	./parse/tokenize.c\
+	./parse/parse_utils.c\
+\
+	./parsetree/parsetree.c\
 \
 	./terminal/terminal.c\
 \
 	./signal/signal.c\
-\
-	./builtins/history.c\
 \
 	./utils/minishell_utils.c\
 )
