@@ -6,7 +6,7 @@
 /*   By: haeem <haeem@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/05 19:33:57 by haeem             #+#    #+#             */
-/*   Updated: 2023/08/28 19:47:15 by haeem            ###   ########seoul.kr  */
+/*   Updated: 2023/08/28 21:29:55 by haeem            ###   ########seoul.kr  */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,6 @@ typedef struct s_pstree
 	struct s_pstree	*right;
 }	t_pstree;
 
-t_pstree	*make_pstree(t_list *chunks);
+t_pstree	*make_pstree(t_list *chunks, t_hashmap *envmap);
 
 #endif

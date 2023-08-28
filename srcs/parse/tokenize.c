@@ -6,67 +6,56 @@
 /*   By: haeem <haeem@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/26 21:07:07 by haeem             #+#    #+#             */
-/*   Updated: 2023/08/28 20:35:50 by haeem            ###   ########seoul.kr  */
+/*   Updated: 2023/08/28 21:42:31 by haeem            ###   ########seoul.kr  */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/minishell.h"
 #include "../../libft/include/libft.h"
 
-bool	isanotherquote(char *begin)
+t_type	redirection(char *str)
 {
-	char	quote;
-
-	quote = *begin;
-	begin++;
-	while (*begin)
-	{
-		if (*begin == quote)
-			return (true);
-		begin++;
-	}
-	return (false);
+	if (*str == '>' && *(str + 1) == '>')
+		return (REDIRECT_APPEND);
+	else if (*str == '<' && *(str + 1) == '<')
+		return (REDIRECT_HEREDOC);
+	else if (*str == '<')
+		return (REDIRECT_IN);
+	else if (*str == '>')
+		return (REDIRECT_OUT);
+	return (WORD);
 }
 
-bool	isparenclosed(char *begin)
+t_type	get_type(char *str)
 {
-	const char	paren = ')';
-
-	begin++;
-	while (*begin)
-	{
-		if (*begin == paren)
-			return (true);
-		begin++;
-	}
-	return (false);
-}
-
-char	*tryfutherparen(char *begin)
-{
-	char	*ret;
-
-	ret = begin;
-	while (*begin)
-	{
-		if (*begin == ')')
-			ret = begin;
-		begin++;
-	}
-	return (ret);
+	if (ft_strchr("><", *str))
+		return (redirection(str));
+	else if (ft_strchr("(", *str) && isparenclosed(str))
+		return (SUBSH);
+	else if (*str == '|' && *(str + 1) == '|')
+		return (DOUBLE_PIPE);
+	else if (*str == '|')
+		return (PIPE);
+	else if (*str == '&' && *(str + 1) == '&')
+		return (DOUBLE_AND);
+	else
+		return (WORD);
+	return (WORD);
 }
 
 // 	print_chunks(chunks);
 char	*make_token(char *input, char *begin, char *end, t_list **chunks)
 {
-	char	*token;
+	t_token	*token;
 	t_list	*temp;
 
-	if (*end == '\0')
+	if (*end == '\0' || ft_isspace(*end))
 		end--;
 	if (*begin == '(' && isparenclosed(begin))
 		end = tryfutherparen(begin + 1);
-	token = ft_substr(input, begin - input, end - begin + 1);
+	token = (t_token *)malloc(sizeof(t_token));
+	token->str = ft_substr(input, begin - input, end - begin + 1);
+	token->type = get_type(token->str);
 	temp = ft_lstnew(token);
 	ft_lstadd_back(chunks, temp);
 	return (end + 1);

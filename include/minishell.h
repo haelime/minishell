@@ -6,7 +6,7 @@
 /*   By: haeem <haeem@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/28 16:58:38 by haeem             #+#    #+#             */
-/*   Updated: 2023/08/28 20:25:27 by haeem            ###   ########seoul.kr  */
+/*   Updated: 2023/08/28 21:20:17 by haeem            ###   ########seoul.kr  */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -121,7 +121,6 @@
 typedef enum e_type
 {
 	WORD,
-	WHITESPACE,
 	PIPE,
 	REDIRECT_IN,
 	REDIRECT_OUT,
@@ -131,7 +130,6 @@ typedef enum e_type
 	DOUBLE_PIPE,
 	DOUBLE_AND,
 	SUBSH,
-	END
 } t_type;
 
 typedef struct s_token
@@ -177,6 +175,9 @@ void		signal_default(void);
 t_pstree	*parse(char *input, t_hashmap *envmap);
 t_list		*tokenize(char *input, t_list **chunks);
 bool		istoken(char ch);
+bool		isanotherquote(char *begin);
+bool		isparenclosed(char *begin);
+char		*tryfutherparen(char *begin);
 /* -------------------------------------------------------------------------- */
 
 #endif

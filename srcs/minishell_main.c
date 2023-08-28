@@ -6,7 +6,7 @@
 /*   By: haeem <haeem@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/28 16:57:45 by haeem             #+#    #+#             */
-/*   Updated: 2023/08/27 18:45:57 by haeem            ###   ########seoul.kr  */
+/*   Updated: 2023/08/28 20:49:27 by haeem            ###   ########seoul.kr  */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,8 +27,10 @@ int	main(int argc, char **argv, char **envp)
 	signal_default();
 	while (1)
 	{
+		signal_interactive();
 		get_input(&input, envmap);
 		pstree = parse(input, envmap);
+		signal_default();
 		// execute(pstree, envmap);
 	}
 	return (0);
