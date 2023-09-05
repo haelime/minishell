@@ -6,7 +6,7 @@
 /*   By: haeem <haeem@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/28 18:48:50 by haeem             #+#    #+#             */
-/*   Updated: 2023/08/28 21:35:55 by haeem            ###   ########seoul.kr  */
+/*   Updated: 2023/09/05 18:16:14 by haeem            ###   ########seoul.kr  */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,22 +46,17 @@ void	print_chunks(t_list *chunks)
 }
 
 // tokenize → parsetree → excute
-t_pstree	*parse(char *input, t_hashmap *envmap)
+t_tree	*parse(char *input, t_hashmap *envmap)
 {
-	t_list		*chunks;
-	t_pstree	*syntax;
+	t_list	*chunks;
+	t_tree	*syntax;
 
 	chunks = NULL;
 	chunks = tokenize(input, &chunks);
 	print_chunks(chunks);
 	syntax = make_pstree(chunks, envmap);
-	// 	free_lst(chunks);
-	// 	return (syntax);
-	// }
-	// else
-	// {
-	// 	printf ("syntax error\n");
-	// 	free (input);
-	// 	return (NULL);
+	// free_lst(chunks);
+	// printf ("syntax error\n");
+	// free (input);
 	return (NULL);
 }

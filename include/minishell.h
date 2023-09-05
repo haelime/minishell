@@ -6,7 +6,7 @@
 /*   By: haeem <haeem@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/28 16:58:38 by haeem             #+#    #+#             */
-/*   Updated: 2023/08/28 21:20:17 by haeem            ###   ########seoul.kr  */
+/*   Updated: 2023/09/05 18:16:33 by haeem            ###   ########seoul.kr  */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -140,7 +140,7 @@ typedef struct s_token
 	char		*path;
 }	t_token;
 
-typedef struct s_pstree	t_pstree;
+typedef struct s_tree	t_tree;
 
 // initiate shell
 /* -------------------------------------------------------------------------- */
@@ -172,12 +172,15 @@ void		signal_default(void);
 
 /* parse */
 /* -------------------------------------------------------------------------- */
-t_pstree	*parse(char *input, t_hashmap *envmap);
+t_tree		*parse(char *input, t_hashmap *envmap);
 t_list		*tokenize(char *input, t_list **chunks);
 bool		istoken(char ch);
 bool		isanotherquote(char *begin);
 bool		isparenclosed(char *begin);
 char		*tryfutherparen(char *begin);
+void		rec_replace_dollar(t_tree *syntax, t_hashmap *envmap);
+void		print_pstree(t_tree *syntax);
+
 /* -------------------------------------------------------------------------- */
 
 #endif

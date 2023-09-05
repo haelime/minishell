@@ -6,7 +6,7 @@
 #    By: haeem <haeem@student.42seoul.kr>           +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/04/11 14:22:09 by haeem             #+#    #+#              #
-#    Updated: 2023/08/28 20:25:38 by haeem            ###   ########seoul.kr   #
+#    Updated: 2023/09/05 17:42:15 by haeem            ###   ########seoul.kr   #
 #                                                                              #
 # **************************************************************************** #
 
@@ -38,6 +38,8 @@ SOURCES = $(addprefix $(CURDIR)/srcs/,\
 	./parse/parse_utils.c\
 \
 	./parsetree/parsetree.c\
+	./parsetree/pstree_utils.c\
+	./parsetree/syntax_word.c\
 \
 	./terminal/terminal.c\
 \

@@ -1,31 +1,24 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   parsetree.h                                        :+:      :+:    :+:   */
+/*   pstree_utils.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: haeem <haeem@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/08/05 19:33:57 by haeem             #+#    #+#             */
-/*   Updated: 2023/09/05 18:13:27 by haeem            ###   ########seoul.kr  */
+/*   Created: 2023/09/05 17:41:03 by haeem             #+#    #+#             */
+/*   Updated: 2023/09/05 18:22:09 by haeem            ###   ########seoul.kr  */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef PARSETREE_H
-# define PARSETREE_H
+#include "../../include/minishell.h"
+#include "../../include/parsetree.h"
+#include "../../include/hashlib.h"
 
-# include "minishell.h"
-# include "../libft/include/libft.h"
-
-typedef struct s_token	t_token;
-
-typedef struct s_tree
+void	print_pstree(t_tree *syntax)
 {
-	void			*data;
-
-	struct s_tree	*left;
-	struct s_tree	*right;
-}	t_tree;
-
-t_tree	*make_pstree(t_list *chunks, t_hashmap *envmap);
-
-#endif
+	if (syntax == NULL)
+		return ;
+	printf("%s\n", ((t_token *)(syntax->data))->str);
+	print_pstree(syntax->left);
+	print_pstree(syntax->right);
+}

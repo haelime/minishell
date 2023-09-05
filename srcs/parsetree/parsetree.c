@@ -6,50 +6,69 @@
 /*   By: haeem <haeem@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/23 15:42:34 by haeem             #+#    #+#             */
-/*   Updated: 2023/08/30 18:33:35 by haeem            ###   ########seoul.kr  */
+/*   Updated: 2023/09/05 18:57:35 by haeem            ###   ########seoul.kr  */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/minishell.h"
 #include "../../include/parsetree.h"
 
-t_pstree	*make_node_pstree(t_list *chunks)
+t_tree	*make_node_pstree(t_list *chunks)
 {
-	t_pstree	*temp;
+	t_tree	*temp;
 
-	temp = (t_pstree *)malloc(sizeof(t_pstree));
-	temp->token = chunks->content;
+	temp = (t_tree *)malloc(sizeof(t_tree));
+	temp->data = chunks->content;
 	temp->left = NULL;
 	temp->right = NULL;
+	return (temp);
 }
 
-void	insert_node_pstree(t_pstree *syntax, t_pstree *node)
+t_tree	*rec_insert_pstree(t_tree **root, t_tree *node)
 {
-	if (node->token->type == PIPE)
+	const t_type	type = ((t_token *)(node->data))->type;
+
+
+	if (*root == NULL)
 	{
-		syntax->right = node;
+		*root = node;
+		return (*root);
 	}
+	if (type == PIPE)
+		(*root)->right = rec_insert_pstree(&(*root)->right, node);
+	else if (type == REDIRECT_APPEND || type == REDIRECT_OUT
+		|| type == REDIRECT_IN || type == REDIRECT_HEREDOC)
+		(*root)->right = rec_insert_pstree(&(*root)->right, node);
+	else if (type == DOUBLE_PIPE || type == DOUBLE_AND)
+		(*root)->right = rec_insert_pstree(&(*root)->right, node);
+	else if (type == SUBSH)
+		(*root)->right = rec_insert_pstree(&(*root)->right, node);
+	else
+		(*root)->left = rec_insert_pstree(&(*root)->left, node);
+	return (*root);
 }
 
-t_pstree	*build_pstree(t_pstree *syntax, t_list *chunks)
+void	build_pstree(t_tree **syntax, t_list *chunks)
 {
-	t_pstree	*ret;
-	t_pstree	*node;
+	t_tree	*node;
 
 	while (chunks)
 	{
 		node = make_node_pstree(chunks);
-		insert_node_pstree(syntax, node);
+		rec_insert_pstree(syntax, node);
 		chunks = chunks->next;
 	}
 }
 
-t_pstree	*make_pstree(t_list *chunks, t_hashmap *envmap)
+// print_pstree(syntax);
+t_tree	*make_pstree(t_list *chunks, t_hashmap *envmap)
 {
-	t_pstree	*syntax;
+	t_tree	*syntax;
 
-	build_pstree(syntax, chunks);
-	rec_replace_dollar(syntax, envmap);
-	check_syntax(syntax);
+	syntax = NULL;
+	build_pstree(&syntax, chunks);
+	// rec_replace_dollar(syntax, envmap);
+	print_pstree(syntax);
+	// check_syntax(syntax);
 	return (syntax);
 }

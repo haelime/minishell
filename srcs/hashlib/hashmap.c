@@ -6,7 +6,7 @@
 /*   By: haeem <haeem@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/05 20:05:16 by haeem             #+#    #+#             */
-/*   Updated: 2023/08/16 15:47:00 by haeem            ###   ########seoul.kr  */
+/*   Updated: 2023/09/05 17:12:41 by haeem            ###   ########seoul.kr  */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,7 +61,7 @@ void	hashmap_insert(t_hashmap *hashmap, char *key, char *value)
 	}
 }
 
-// returns hash value of string, if string is NULL, returns 0
+// returns hash value of string, if string is NULL, returns NULL
 char	*hashmap_search(t_hashmap *hashmap, const char *key)
 {
 	unsigned int	hash;

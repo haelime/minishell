@@ -6,7 +6,7 @@
 /*   By: haeem <haeem@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/28 16:57:45 by haeem             #+#    #+#             */
-/*   Updated: 2023/08/28 20:49:27 by haeem            ###   ########seoul.kr  */
+/*   Updated: 2023/09/05 15:40:31 by haeem            ###   ########seoul.kr  */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ int	main(int argc, char **argv, char **envp)
 {
 	char		*input;
 	t_hashmap	*envmap;
-	t_pstree	*pstree;
+	t_tree	*pstree;
 
 	input = NULL;
 	envmap = hash_envp(envp);
@@ -47,6 +47,11 @@ int	main(int argc, char **argv, char **envp)
 // getenv, tcsetattr, tcgetattr, tgetent, tgetflag,
 // tgetnum, tgetstr, tgoto, tputs
 
+// '<' : input redirection
+// '>' : output redirection
+// '<<' : heredoc
+// '>>' : append
+
 // 수정해야함
 // <pipeline>     ::= <cmd>
 //                |   <pipeline> '|' <cmd>
@@ -70,6 +75,6 @@ int	main(int argc, char **argv, char **envp)
 // <args>        ::= WORD 
 //                 | <args> WORD
 
-// <filename>    ::= WORD
-
 // <file_path>   ::= WORD
+
+// <filename>    ::= WORD
