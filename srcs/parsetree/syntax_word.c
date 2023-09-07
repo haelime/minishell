@@ -23,8 +23,8 @@ char	*make_key(char *str, int i)
 	j = i + 1;
 	if (str[j] == '$')
 		return (ft_strdup("$$"));
-	if (str[j] == '?')
-		return (g_exitnum);
+	// if (str[j] == '?')
+		// return (g_exitnum);
 	while (str[j] && str[j] != ' ' && str[j] != '$' && str[j] != '\"'
 		&& str[j] != '\'' && str[j] != '>' && str[j] != '<' && str[j] != '|')
 		j++;
