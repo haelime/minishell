@@ -31,6 +31,7 @@ int	main(int argc, char **argv, char **envp)
 		get_input(&input, envmap);
 		pstree = parse(input, envmap);
 		signal_default();
+		(void)pstree;
 		// execute(pstree, envmap);
 	}
 	return (0);

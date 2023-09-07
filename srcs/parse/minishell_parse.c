@@ -55,6 +55,7 @@ t_tree	*parse(char *input, t_hashmap *envmap)
 	chunks = tokenize(input, &chunks);
 	// print_chunks(chunks);
 	syntax = make_pstree(chunks, envmap);
+	(void)syntax;
 	// free_lst(chunks);
 	// printf ("syntax error\n");
 	// free (input);

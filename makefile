@@ -22,7 +22,7 @@ LIBFTDIR = $(SRCDIR)/libft
 LIBFT = ./libft/libft.a
 LIBFTHEADER = ./libft/include/libft.h
 
-SOURCES = $(addprefix $(CURDIR)/srcs/,\
+SOURCES = $(addprefix $(SRCDIR)/srcs/,\
 	minishell_main.c\
 \
 	./hashlib/hashmap.c\
@@ -91,7 +91,7 @@ action:
 
 $(NAME): $(OBJ)
 	@$(MAKE) -C $(LIBFTDIR) all
-	@$(CC) $(CFLAGS) $(READLINE_FLAGS) $(ACTION_READLINE) -L$(LIBFTDIR) $(LIBFT) $^ -o $@
+	@$(CC) $(CFLAGS) $(READLINE_FLAGS) $(ACTION_READLINE) $^ -o $@ -L$(LIBFTDIR) $(LIBFT)
 
 clean:
 	@rm -f $(ALLOBJECTS)

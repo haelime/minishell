@@ -21,6 +21,10 @@ char	*make_key(char *str, int i)
 	char	*key;
 
 	j = i + 1;
+	if (str[j] == '$')
+		return (ft_strdup("$$"));
+	if (str[j] == '?')
+		return (g_exitnum);
 	while (str[j] && str[j] != ' ' && str[j] != '$' && str[j] != '\"'
 		&& str[j] != '\'' && str[j] != '>' && str[j] != '<' && str[j] != '|')
 		j++;
@@ -44,7 +48,7 @@ char	*replace_dollar(char *str, t_hashmap *envmap)
 	{
 		if (tmp[i] == '\'')
 			flag = !flag;
-		if (tmp[i] == '$' && !flag)
+		if (tmp[i] == '$' && !flag && tmp[i + 1] != '\0')
 		{
 			key = make_key(tmp, i);
 			tmp2 = ft_strreplace(tmp, key, hashmap_search(envmap, key + 1));

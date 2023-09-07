@@ -102,7 +102,7 @@ all: $(LIBFT)
 	@$(CC) $(CFLAG) -c $< -o $@ -I $(CURDIR)/$(HEADER)
 
 $(LIBFT): $(OBJECTS)
-	@ar crus $@ $^
+	@ar crs $@ $^
 
 clean:
 	@rm -f $(OBJECTS)
