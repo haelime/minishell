@@ -6,14 +6,14 @@
 #    By: haeem <haeem@student.42seoul.kr>           +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/04/11 14:22:09 by haeem             #+#    #+#              #
-#    Updated: 2023/09/05 17:42:15 by haeem            ###   ########seoul.kr   #
+#    Updated: 2023/09/07 17:56:47 by haeem            ###   ########seoul.kr   #
 #                                                                              #
 # **************************************************************************** #
 
 
 CC = cc
 CFLAGS = -Wall -Wextra -Werror -g3\
-# -g -fsanitize=address
+# -fsanitize=address
 SRCDIR = $(CURDIR)
 
 NAME = minishell

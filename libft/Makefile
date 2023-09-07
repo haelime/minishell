@@ -6,7 +6,7 @@
 #    By: haeem <haeem@student.42seoul.kr>           +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/11/25 13:40:12 by haeem             #+#    #+#              #
-#    Updated: 2023/08/26 23:00:54 by haeem            ###   ########seoul.kr   #
+#    Updated: 2023/09/07 19:39:14 by haeem            ###   ########seoul.kr   #
 #                                                                              #
 # **************************************************************************** #
 
@@ -46,6 +46,7 @@ ft_strdup.c\
 ft_tolower.c\
 ft_toupper.c\
 ft_substr.c\
+ft_strreplace.c\
 ft_strjoin.c\
 ft_strtrim.c\
 ft_split.c\

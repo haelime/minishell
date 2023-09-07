@@ -6,7 +6,7 @@
 /*   By: haeem <haeem@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/23 15:42:34 by haeem             #+#    #+#             */
-/*   Updated: 2023/09/05 18:57:35 by haeem            ###   ########seoul.kr  */
+/*   Updated: 2023/09/07 16:39:12 by haeem            ###   ########seoul.kr  */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,7 +67,8 @@ t_tree	*make_pstree(t_list *chunks, t_hashmap *envmap)
 
 	syntax = NULL;
 	build_pstree(&syntax, chunks);
-	// rec_replace_dollar(syntax, envmap);
+	rec_replace_dollar(syntax, envmap);
+	(void)envmap;
 	print_pstree(syntax);
 	// check_syntax(syntax);
 	return (syntax);

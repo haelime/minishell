@@ -6,7 +6,7 @@
 /*   By: haeem <haeem@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/28 16:58:38 by haeem             #+#    #+#             */
-/*   Updated: 2023/09/05 18:16:33 by haeem            ###   ########seoul.kr  */
+/*   Updated: 2023/09/07 20:28:48 by haeem            ###   ########seoul.kr  */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -161,6 +161,8 @@ void		get_input(char **input, t_hashmap *envmap);
 /* -------------------------------------------------------------------------- */
 void		echoctl_off(void);
 void		echoctl_on(void);
+bool		isdoublequoted(char *str, int i);
+bool		isquoted(char *str, int i);
 /* -------------------------------------------------------------------------- */
 
 /* Signal Handler <signal.c> */

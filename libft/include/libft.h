@@ -6,7 +6,7 @@
 /*   By: haeem <haeem@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/09 19:09:44 by haeem             #+#    #+#             */
-/*   Updated: 2023/08/26 23:00:33 by haeem            ###   ########seoul.kr  */
+/*   Updated: 2023/09/07 19:39:33 by haeem            ###   ########seoul.kr  */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,6 +93,7 @@ void		ft_selection_sort(int arr[], int n);
 int			ft_binary_search(int array[], int x, int low, int high);
 bool		ft_isspace(char c);
 bool		ft_isempty(char *str);
+char		*ft_strreplace(char *str, char *old, char *new);
 
 // bonus
 t_list		*ft_lstnew(void *content);

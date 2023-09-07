@@ -6,7 +6,7 @@
 /*   By: haeem <haeem@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/06 16:01:43 by haeem             #+#    #+#             */
-/*   Updated: 2023/04/23 19:39:37 by haeem            ###   ########seoul.kr  */
+/*   Updated: 2023/09/07 18:21:53 by haeem            ###   ########seoul.kr  */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,7 @@ char	*ft_strcat(char *dest, const char *src)
 	return (dest);
 }
 
+// SEGFAULT IF EITHER IS NULL
 char	*ft_strjoin(char const *s1, char const *s2)
 {
 	const size_t	s1len = ft_strlen(s1);
