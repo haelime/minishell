@@ -6,7 +6,7 @@
 /*   By: haeem <haeem@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/30 17:50:18 by haeem             #+#    #+#             */
-/*   Updated: 2023/09/07 21:54:46 by haeem            ###   ########seoul.kr  */
+/*   Updated: 2023/09/09 18:05:26 by haeem            ###   ########seoul.kr  */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,6 +55,7 @@ char	*replace_dollar(char *str, t_hashmap *envmap)
 			free (tmp);
 			tmp = tmp2;
 			free (key);
+			i--;
 		}
 	}
 	free (str);

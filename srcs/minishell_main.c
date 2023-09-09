@@ -6,7 +6,7 @@
 /*   By: haeem <haeem@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/28 16:57:45 by haeem             #+#    #+#             */
-/*   Updated: 2023/09/05 15:40:31 by haeem            ###   ########seoul.kr  */
+/*   Updated: 2023/09/09 18:01:00 by haeem            ###   ########seoul.kr  */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ int	main(int argc, char **argv, char **envp)
 {
 	char		*input;
 	t_hashmap	*envmap;
-	t_tree	*pstree;
+	t_tree		*pstree;
 
 	input = NULL;
 	envmap = hash_envp(envp);
@@ -31,7 +31,6 @@ int	main(int argc, char **argv, char **envp)
 		get_input(&input, envmap);
 		pstree = parse(input, envmap);
 		signal_default();
-		(void)pstree;
 		// execute(pstree, envmap);
 	}
 	return (0);
