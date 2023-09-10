@@ -5,3 +5,5 @@ minishell
 libft.a
 .DS_Store
 test.c
+*.py
+.cph

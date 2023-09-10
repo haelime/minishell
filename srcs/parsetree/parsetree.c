@@ -6,19 +6,35 @@
 /*   By: haeem <haeem@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/23 15:42:34 by haeem             #+#    #+#             */
-/*   Updated: 2023/09/07 16:39:12 by haeem            ###   ########seoul.kr  */
+/*   Updated: 2023/09/10 21:16:56 by haeem            ###   ########seoul.kr  */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/minishell.h"
 #include "../../include/parsetree.h"
 
+extern void	exec_pipe(t_tree *syntax, t_hashmap *envmap);
+extern void	exec_redirect(t_tree *syntax, t_hashmap *envmap);
+extern void	exec_subshell(t_tree *syntax, t_hashmap *envmap);
+extern void	exec_word(t_tree *syntax, t_hashmap *envmap);
+
 t_tree	*make_node_pstree(t_list *chunks)
 {
 	t_tree	*temp;
+	t_token	*token;
 
 	temp = (t_tree *)malloc(sizeof(t_tree));
-	temp->data = chunks->content;
+	token = (t_token *)chunks->content;
+	temp->data = token;
+	if (token->type == PIPE)
+		token->exec = exec_pipe;
+	else if (token->type == REDIRECT_APPEND || token->type == REDIRECT_OUT
+		|| token->type == REDIRECT_IN || token->type == REDIRECT_HEREDOC)
+		token->exec = exec_redirect;
+	else if (token->type == SUBSH)
+		token->exec = exec_subshell;
+	else if (token->type == WORD)
+		token->exec = exec_word;
 	temp->left = NULL;
 	temp->right = NULL;
 	return (temp);
@@ -34,14 +50,10 @@ t_tree	*rec_insert_pstree(t_tree **root, t_tree *node)
 		*root = node;
 		return (*root);
 	}
-	if (type == PIPE)
-		(*root)->right = rec_insert_pstree(&(*root)->right, node);
-	else if (type == REDIRECT_APPEND || type == REDIRECT_OUT
-		|| type == REDIRECT_IN || type == REDIRECT_HEREDOC)
-		(*root)->right = rec_insert_pstree(&(*root)->right, node);
-	else if (type == DOUBLE_PIPE || type == DOUBLE_AND)
-		(*root)->right = rec_insert_pstree(&(*root)->right, node);
-	else if (type == SUBSH)
+	if (type == PIPE || type == REDIRECT_APPEND || type == REDIRECT_OUT
+		|| type == REDIRECT_IN || type == REDIRECT_HEREDOC
+		|| type == DOUBLE_PIPE || type == DOUBLE_AND
+		|| type == SUBSH)
 		(*root)->right = rec_insert_pstree(&(*root)->right, node);
 	else
 		(*root)->left = rec_insert_pstree(&(*root)->left, node);
@@ -51,10 +63,12 @@ t_tree	*rec_insert_pstree(t_tree **root, t_tree *node)
 void	build_pstree(t_tree **syntax, t_list *chunks)
 {
 	t_tree	*node;
+	t_token	*token;
 
 	while (chunks)
 	{
 		node = make_node_pstree(chunks);
+		token = (t_token *)chunks->content;
 		rec_insert_pstree(syntax, node);
 		chunks = chunks->next;
 	}
@@ -68,8 +82,6 @@ t_tree	*make_pstree(t_list *chunks, t_hashmap *envmap)
 	syntax = NULL;
 	build_pstree(&syntax, chunks);
 	rec_replace_dollar(syntax, envmap);
-	(void)envmap;
-	print_pstree(syntax);
 	// check_syntax(syntax);
 	return (syntax);
 }

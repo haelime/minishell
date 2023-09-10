@@ -6,7 +6,7 @@
 /*   By: haeem <haeem@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/28 16:58:38 by haeem             #+#    #+#             */
-/*   Updated: 2023/09/07 20:28:48 by haeem            ###   ########seoul.kr  */
+/*   Updated: 2023/09/10 21:46:02 by haeem            ###   ########seoul.kr  */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -132,12 +132,14 @@ typedef enum e_type
 	SUBSH,
 } t_type;
 
+typedef void	(*t_func)();
 typedef struct s_token
 {
 	t_type		type;
-	int			flag;
+	int			 flag;
 	char 		*str;
 	char		*path;
+	t_func		exec;
 }	t_token;
 
 typedef struct s_tree	t_tree;
@@ -157,12 +159,25 @@ void		set_special_var(t_hashmap *envmap);
 void		get_input(char **input, t_hashmap *envmap);
 /* -------------------------------------------------------------------------- */
 
+// execute
+/* -------------------------------------------------------------------------- */
+void		execute(t_tree *syntax, t_hashmap *envmap);
+void		exec_redirect(t_tree *syntax, t_hashmap *envmap);
+void		exec_pipe(t_tree *syntax, t_hashmap *envmap);
+void		exec_subsh(t_tree *syntax, t_hashmap *envmap);
+void		exec_cmd(t_tree *syntax, t_hashmap *envmap);
+/* -------------------------------------------------------------------------- */
+
 // utils
 /* -------------------------------------------------------------------------- */
 void		echoctl_off(void);
 void		echoctl_on(void);
 bool		isdoublequoted(char *str, int i);
 bool		isquoted(char *str, int i);
+void		dup_stdio(int in_fd, int out_fd);
+void		print2d(t_tree *root);
+void		print2dutil(t_tree *root, int space);
+
 /* -------------------------------------------------------------------------- */
 
 /* Signal Handler <signal.c> */
@@ -183,6 +198,11 @@ char		*tryfutherparen(char *begin);
 void		rec_replace_dollar(t_tree *syntax, t_hashmap *envmap);
 void		print_pstree(t_tree *syntax);
 
+/* -------------------------------------------------------------------------- */
+
+// syntax
+/* -------------------------------------------------------------------------- */
+bool		rec_check_syntax(t_tree *syntax);
 /* -------------------------------------------------------------------------- */
 
 #endif

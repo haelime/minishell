@@ -1,31 +1,21 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   syntax.c                                           :+:      :+:    :+:   */
+/*   execute_utils.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: haeem <haeem@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/09/10 18:21:30 by haeem             #+#    #+#             */
-/*   Updated: 2023/09/10 18:59:50 by haeem            ###   ########seoul.kr  */
+/*   Created: 2023/09/10 19:03:36 by haeem             #+#    #+#             */
+/*   Updated: 2023/09/10 19:04:48 by haeem            ###   ########seoul.kr  */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/minishell.h"
 #include "../../include/parsetree.h"
+#include "../../include/hashlib.h"
 
-bool	rec_check_syntax(t_tree *syntax)
+void	dup_stdio(int in_fd, int out_fd)
 {
-	t_type	type;
-
-	type = ((t_token *)(syntax->data))->type;
-	if (syntax == NULL)
-		return (true);
-	if (type == PIPE || type == REDIRECT_APPEND || type == REDIRECT_OUT
-		|| type == REDIRECT_IN || type == REDIRECT_HEREDOC
-		|| type == DOUBLE_PIPE || type == DOUBLE_AND)
-		if (syntax->left == NULL)
-			return (false);
-	if (!rec_check_syntax(syntax->right) || !rec_check_syntax(syntax->left))
-		return (false);
-	return (true);
+	dup2(in_fd, STDIN);
+	dup2(out_fd, STDOUT);
 }
