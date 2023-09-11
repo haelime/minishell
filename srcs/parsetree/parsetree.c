@@ -6,7 +6,7 @@
 /*   By: haeem <haeem@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/23 15:42:34 by haeem             #+#    #+#             */
-/*   Updated: 2023/09/11 18:05:48 by haeem            ###   ########seoul.kr  */
+/*   Updated: 2023/09/11 18:08:44 by haeem            ###   ########seoul.kr  */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,19 +53,20 @@ t_tree	*rec_insert_pstree(t_tree **root, t_tree *node)
 		syntax_word(root, node);
 	return (*root);
 }
-/* 
+
+/*
           pipe
          /    \
        cmd  	pipe
 	           /    \
 			 cmd    NULL
 			/
-	   simple cmd	 
-	   
+	   simple cmd
+
             cmd					    cmd
          /       \                /      \
     redirect	 simple_cmd   simple_cmd  NULL
-	
+
         redirect
        /  	    \
    <,>,<<,>>	WORD(file name)
@@ -76,13 +77,10 @@ t_tree	*rec_insert_pstree(t_tree **root, t_tree *node)
 				/	\
 			WORD	WORD
 */
-
 void	build_pstree(t_tree **syntax, t_list *chunks)
 {
 	t_tree	*node;
-	t_token	*token;
-
-	
+	t_token	*token;	
 }
 
 // print_pstree(syntax);
