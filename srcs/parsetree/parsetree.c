@@ -6,7 +6,7 @@
 /*   By: haeem <haeem@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/23 15:42:34 by haeem             #+#    #+#             */
-/*   Updated: 2023/09/11 15:54:45 by haeem            ###   ########seoul.kr  */
+/*   Updated: 2023/09/11 18:05:48 by haeem            ###   ########seoul.kr  */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,23 +40,49 @@ t_tree	*make_node_pstree(t_list *chunks)
 // (*root)->left = rec_insert_pstree(&(*root)->left, node);
 t_tree	*rec_insert_pstree(t_tree **root, t_tree *node)
 {
-	// const t_type	type = ((t_token *)(node->data))->type;
-	(void)node;
+	t_token	*token;
+
+	token = (t_token *)node->data;
+
+	if (token->type == PIPE)
+		syntax_pipe(root, node);
+	else if (token->type == REDIRECT_APPEND || token->type == REDIRECT_OUT
+		|| token->type == REDIRECT_IN || token->type == REDIRECT_HEREDOC)
+		syntax_redirect(root, node);
+	else if (token->type == WORD)
+		syntax_word(root, node);
 	return (*root);
 }
+/* 
+          pipe
+         /    \
+       cmd  	pipe
+	           /    \
+			 cmd    NULL
+			/
+	   simple cmd	 
+	   
+            cmd					    cmd
+         /       \                /      \
+    redirect	 simple_cmd   simple_cmd  NULL
+	
+        redirect
+       /  	    \
+   <,>,<<,>>	WORD(file name)
+
+		simple cmd
+		/		\
+	WORD(exec)	simple cmd
+				/	\
+			WORD	WORD
+*/
 
 void	build_pstree(t_tree **syntax, t_list *chunks)
 {
 	t_tree	*node;
 	t_token	*token;
 
-	while (chunks)
-	{
-		node = make_node_pstree(chunks);
-		token = (t_token *)chunks->content;
-		rec_insert_pstree(syntax, node);
-		chunks = chunks->next;
-	}
+	
 }
 
 // print_pstree(syntax);
