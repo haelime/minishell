@@ -6,7 +6,7 @@
 /*   By: haeem <haeem@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/26 21:07:07 by haeem             #+#    #+#             */
-/*   Updated: 2023/08/28 21:42:31 by haeem            ###   ########seoul.kr  */
+/*   Updated: 2023/09/11 16:06:45 by haeem            ###   ########seoul.kr  */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,14 +30,8 @@ t_type	get_type(char *str)
 {
 	if (ft_strchr("><", *str))
 		return (redirection(str));
-	else if (ft_strchr("(", *str) && isparenclosed(str))
-		return (SUBSH);
-	else if (*str == '|' && *(str + 1) == '|')
-		return (DOUBLE_PIPE);
 	else if (*str == '|')
 		return (PIPE);
-	else if (*str == '&' && *(str + 1) == '&')
-		return (DOUBLE_AND);
 	else
 		return (WORD);
 	return (WORD);
@@ -51,8 +45,6 @@ char	*make_token(char *input, char *begin, char *end, t_list **chunks)
 
 	if (*end == '\0' || ft_isspace(*end))
 		end--;
-	if (*begin == '(' && isparenclosed(begin))
-		end = tryfutherparen(begin + 1);
 	token = (t_token *)malloc(sizeof(t_token));
 	token->str = ft_substr(input, begin - input, end - begin + 1);
 	token->type = get_type(token->str);
@@ -61,7 +53,7 @@ char	*make_token(char *input, char *begin, char *end, t_list **chunks)
 	return (end + 1);
 }
 
-// two pointer tokenizer, find | || && () "" ''
+// two pointer tokenizer, find | "" ''
 t_list	*tokenize(char *input, t_list **chunks)
 {
 	char	*begin;
@@ -78,12 +70,11 @@ t_list	*tokenize(char *input, t_list **chunks)
 			if (ft_strchr("\'\"", *end) && *(end + 1) != '\0'
 				&& isanotherquote(end))
 				end = ft_strchr(end + 1, *end);
-			if (istoken(*(end + 1)) || (*(end + 1) == '&' && *(end + 2) == '&')
-				|| ((*(end + 1) == '(') && isparenclosed(end + 1)))
+			if (istoken(*(end + 1)))
 				break ;
 			end++;
 		}
-		if (*begin && *begin == *(begin + 1) && ft_strchr("><|&", *begin))
+		if (*begin && *begin == *(begin + 1) && ft_strchr("><|", *begin))
 			++end;
 		if (*begin != '\0')
 			begin = make_token(input, begin, end, chunks);

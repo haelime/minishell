@@ -6,7 +6,7 @@
 /*   By: haeem <haeem@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/28 16:58:38 by haeem             #+#    #+#             */
-/*   Updated: 2023/09/10 21:46:02 by haeem            ###   ########seoul.kr  */
+/*   Updated: 2023/09/11 15:52:05 by haeem            ###   ########seoul.kr  */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -127,9 +127,6 @@ typedef enum e_type
 	REDIRECT_APPEND,
 	REDIRECT_HEREDOC,
 	REDIRECT_HEREDOC_DELIMITER,
-	DOUBLE_PIPE,
-	DOUBLE_AND,
-	SUBSH,
 } t_type;
 
 typedef void	(*t_func)();

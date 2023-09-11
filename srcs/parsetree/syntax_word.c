@@ -6,7 +6,7 @@
 /*   By: haeem <haeem@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/30 17:50:18 by haeem             #+#    #+#             */
-/*   Updated: 2023/09/09 18:05:26 by haeem            ###   ########seoul.kr  */
+/*   Updated: 2023/09/11 16:03:40 by haeem            ###   ########seoul.kr  */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,9 +64,12 @@ char	*replace_dollar(char *str, t_hashmap *envmap)
 
 void	rec_replace_dollar(t_tree *syntax, t_hashmap *envmap)
 {
-	const t_type	type = ((t_token *)(syntax->data))->type;
+	t_type			type;
 	t_token			*token;
 
+	if (syntax == NULL)
+		return ;
+	type = ((t_token *)(syntax->data))->type;
 	token = syntax->data;
 	if (type == WORD)
 	{

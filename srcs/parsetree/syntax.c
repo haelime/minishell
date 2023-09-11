@@ -6,7 +6,7 @@
 /*   By: haeem <haeem@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/10 18:21:30 by haeem             #+#    #+#             */
-/*   Updated: 2023/09/10 18:59:50 by haeem            ###   ########seoul.kr  */
+/*   Updated: 2023/09/11 15:52:23 by haeem            ###   ########seoul.kr  */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,8 +21,7 @@ bool	rec_check_syntax(t_tree *syntax)
 	if (syntax == NULL)
 		return (true);
 	if (type == PIPE || type == REDIRECT_APPEND || type == REDIRECT_OUT
-		|| type == REDIRECT_IN || type == REDIRECT_HEREDOC
-		|| type == DOUBLE_PIPE || type == DOUBLE_AND)
+		|| type == REDIRECT_IN || type == REDIRECT_HEREDOC)
 		if (syntax->left == NULL)
 			return (false);
 	if (!rec_check_syntax(syntax->right) || !rec_check_syntax(syntax->left))

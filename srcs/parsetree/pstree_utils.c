@@ -6,7 +6,7 @@
 /*   By: haeem <haeem@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/05 17:41:03 by haeem             #+#    #+#             */
-/*   Updated: 2023/09/10 21:42:58 by haeem            ###   ########seoul.kr  */
+/*   Updated: 2023/09/11 16:02:25 by haeem            ###   ########seoul.kr  */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,12 +26,13 @@ void	print_pstree(t_tree *syntax)
 
 void	print2dutil(t_tree *root, int space)
 {
-	const int			count = 10;
-	int					i;
-	const t_token		*token = root->data;
+	const int	count = 10;
+	int			i;
+	t_token		*token;
 
-	if (root == NULL || token == NULL)
+	if (root == NULL || root->data == NULL)
 		return ;
+	token = (t_token *)root->data;
 	space += count;
 	if (root->right)
 		print2dutil(root->right, space);

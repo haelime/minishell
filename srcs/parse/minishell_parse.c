@@ -6,7 +6,7 @@
 /*   By: haeem <haeem@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/28 18:48:50 by haeem             #+#    #+#             */
-/*   Updated: 2023/09/10 21:39:13 by haeem            ###   ########seoul.kr  */
+/*   Updated: 2023/09/11 15:54:19 by haeem            ###   ########seoul.kr  */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,14 +32,9 @@ void	print_chunks(t_list *chunks)
 			printf ("REDIRECT_APPEND\n");
 		else if (((t_token *)(chunks->content))->type == REDIRECT_HEREDOC)
 			printf ("REDIRECT_HEREDOC\n");
-		else if (((t_token *)(chunks->content))->type == REDIRECT_HEREDOC_DELIMITER)
+		else if (((t_token *)(chunks->content))->type
+			== REDIRECT_HEREDOC_DELIMITER)
 			printf ("REDIRECT_HEREDOC_DELIMITER\n");
-		else if (((t_token *)(chunks->content))->type == DOUBLE_PIPE)
-			printf ("DOUBLE_PIPE\n");
-		else if (((t_token *)(chunks->content))->type == DOUBLE_AND)
-			printf ("DOUBLE_AND\n");
-		else if (((t_token *)(chunks->content))->type == SUBSH)
-			printf ("SUBSH\n");
 		printf ("----------------\n");
 		chunks = chunks->next;
 	}
@@ -53,7 +48,7 @@ t_tree	*parse(char *input, t_hashmap *envmap)
 
 	chunks = NULL;
 	chunks = tokenize(input, &chunks);
-	// print_chunks(chunks);
+	print_chunks(chunks);
 	syntax = make_pstree(chunks, envmap);
 	print2d(syntax);
 	// free_lst(chunks);
