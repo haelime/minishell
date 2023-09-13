@@ -6,7 +6,7 @@
 /*   By: haeem <haeem@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/28 16:58:38 by haeem             #+#    #+#             */
-/*   Updated: 2023/09/11 15:52:05 by haeem            ###   ########seoul.kr  */
+/*   Updated: 2023/09/13 17:28:09 by haeem            ###   ########seoul.kr  */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -162,7 +162,7 @@ void		execute(t_tree *syntax, t_hashmap *envmap);
 void		exec_redirect(t_tree *syntax, t_hashmap *envmap);
 void		exec_pipe(t_tree *syntax, t_hashmap *envmap);
 void		exec_subsh(t_tree *syntax, t_hashmap *envmap);
-void		exec_cmd(t_tree *syntax, t_hashmap *envmap);
+void		exec_word(t_tree *syntax, t_hashmap *envmap);
 /* -------------------------------------------------------------------------- */
 
 // utils

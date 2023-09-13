@@ -6,16 +6,12 @@
 /*   By: haeem <haeem@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/23 15:42:34 by haeem             #+#    #+#             */
-/*   Updated: 2023/09/11 18:08:44 by haeem            ###   ########seoul.kr  */
+/*   Updated: 2023/09/13 17:29:42 by haeem            ###   ########seoul.kr  */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/minishell.h"
 #include "../../include/parsetree.h"
-
-extern void	exec_pipe(t_tree *syntax, t_hashmap *envmap);
-extern void	exec_redirect(t_tree *syntax, t_hashmap *envmap);
-extern void	exec_word(t_tree *syntax, t_hashmap *envmap);
 
 t_tree	*make_node_pstree(t_list *chunks)
 {
@@ -40,17 +36,7 @@ t_tree	*make_node_pstree(t_list *chunks)
 // (*root)->left = rec_insert_pstree(&(*root)->left, node);
 t_tree	*rec_insert_pstree(t_tree **root, t_tree *node)
 {
-	t_token	*token;
-
-	token = (t_token *)node->data;
-
-	if (token->type == PIPE)
-		syntax_pipe(root, node);
-	else if (token->type == REDIRECT_APPEND || token->type == REDIRECT_OUT
-		|| token->type == REDIRECT_IN || token->type == REDIRECT_HEREDOC)
-		syntax_redirect(root, node);
-	else if (token->type == WORD)
-		syntax_word(root, node);
+	(void)node;
 	return (*root);
 }
 
@@ -79,8 +65,8 @@ t_tree	*rec_insert_pstree(t_tree **root, t_tree *node)
 */
 void	build_pstree(t_tree **syntax, t_list *chunks)
 {
-	t_tree	*node;
-	t_token	*token;	
+	(void)syntax;
+	(void)chunks;
 }
 
 // print_pstree(syntax);
