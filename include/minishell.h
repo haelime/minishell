@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hyunjunk <hyunjunk@student.42.fr>          +#+  +:+       +#+        */
+/*   By: haeem <haeem@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/28 16:58:38 by haeem             #+#    #+#             */
-/*   Updated: 2023/09/13 20:56:51 by hyunjunk         ###   ########.fr       */
+/*   Updated: 2023/09/15 17:52:11 by haeem            ###   ########seoul.kr  */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -129,6 +129,17 @@ typedef enum e_type
 	REDIRECT_HEREDOC_DELIMITER,
 } t_type;
 
+typedef enum e_exit
+{
+	SUCCESS = 0,
+	FAILURE = 1,
+	BUILTIN = 2,
+	UNABLE_TO_EXECUTE = 126,
+	COMMAND_NOT_FOUND = 127,
+	ARGUMENT_OUT_OF_RANGE = 128,
+	NOTNUMERIC = 255,
+} t_exit;
+
 typedef void	(*t_func)();
 typedef struct s_token
 {
@@ -200,6 +211,12 @@ void		print_pstree(t_tree *syntax);
 // syntax
 /* -------------------------------------------------------------------------- */
 bool		rec_check_syntax(t_tree *syntax);
+/* -------------------------------------------------------------------------- */
+
+// builtins
+/* -------------------------------------------------------------------------- */
+int			builtin_env(t_hashmap *envmap);
+int			builtin_pwd(void);
 /* -------------------------------------------------------------------------- */
 
 #endif
