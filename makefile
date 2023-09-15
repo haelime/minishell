@@ -3,7 +3,7 @@
 #                                                         :::      ::::::::    #
 #    makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: haeem <haeem@student.42seoul.kr>           +#+  +:+       +#+         #
+#    By: hyunjunk <hyunjunk@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/04/11 14:22:09 by haeem             #+#    #+#              #
 #    Updated: 2023/09/15 19:35:56 by haeem            ###   ########seoul.kr   #
@@ -36,11 +36,8 @@ SOURCES = $(addprefix $(SRCDIR)/srcs/,\
 	./parse/minishell_parse.c\
 	./parse/tokenize.c\
 	./parse/parse_utils.c\
-\
-	./parsetree/parsetree.c\
-	./parsetree/pstree_utils.c\
-	./parsetree/syntax_word.c\
-	./parsetree/syntax.c\
+	./parse/command_block.c\
+	./parse/syntax_word.c\
 \
 	./execute/execute.c\
 	./execute/execute_utils.c\

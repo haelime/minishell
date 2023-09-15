@@ -6,7 +6,7 @@
 /*   By: hyunjunk <hyunjunk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/05 19:33:57 by haeem             #+#    #+#             */
-/*   Updated: 2023/09/15 18:50:44 by hyunjunk         ###   ########.fr       */
+/*   Updated: 2023/09/15 19:11:07 by hyunjunk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,22 +33,6 @@ typedef struct s_tree
 	t_tree			*left;
 	t_tree			*right;
 }	t_tree;
-
-// Format : <cmd> <options> <redicrect...>
-// It uses shallow copy.
-// Don't remove original strings until this becomes not used
-// Only options use malloc. (Dereference strings are non-malloc)
-typedef struct s_cmd_block
-{
-	t_tree_node_type	type;
-	t_token				*cmd;
-	int					num_options;
-	char				**options;
-	char				*redirect_in;
-	char				*redirect_out;
-	int					redirect_is_heredoc;
-	int					redirect_is_append;
-}	t_cmd_block;
 
 t_tree	*make_pstree(t_list *chunks, t_hashmap *envmap);
 

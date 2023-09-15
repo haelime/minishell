@@ -3,15 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   syntax_word.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: haeem <haeem@student.42seoul.kr>           +#+  +:+       +#+        */
+/*   By: hyunjunk <hyunjunk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/30 17:50:18 by haeem             #+#    #+#             */
-/*   Updated: 2023/09/11 16:03:40 by haeem            ###   ########seoul.kr  */
+/*   Updated: 2023/09/15 19:21:59 by hyunjunk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/minishell.h"
-#include "../../include/parsetree.h"
 #include "../../include/hashlib.h"
 
 // make key, from $ to null, $ or ' '

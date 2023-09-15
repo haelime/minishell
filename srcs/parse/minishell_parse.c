@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell_parse.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: haeem <haeem@student.42seoul.kr>           +#+  +:+       +#+        */
+/*   By: hyunjunk <hyunjunk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/28 18:48:50 by haeem             #+#    #+#             */
-/*   Updated: 2023/09/13 17:30:39 by haeem            ###   ########seoul.kr  */
+/*   Updated: 2023/09/15 19:23:26 by hyunjunk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,16 +41,17 @@ void	print_chunks(t_list *chunks)
 }
 
 // tokenize → parsetree → excute
-t_tree	*parse(char *input, t_hashmap *envmap)
+t_list	*parse(char *input, t_hashmap *envmap)
 {
 	t_list	*chunks;
-	t_tree	*syntax;
+	t_list	*syntax;
 
 	chunks = NULL;
 	chunks = tokenize(input, &chunks);
 	print_chunks(chunks);
-	syntax = make_pstree(chunks, envmap);
-	print2d(syntax);
+	(void)envmap;
+	make_cmd_blocks_by_tokens(&syntax, chunks);
+	// rint2d(syntax);
 	// free_lst(chunks);
 	// free (input);
 	return (syntax);

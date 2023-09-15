@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execute.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: haeem <haeem@student.42seoul.kr>           +#+  +:+       +#+        */
+/*   By: hyunjunk <hyunjunk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/10 19:02:33 by haeem             #+#    #+#             */
-/*   Updated: 2023/09/10 19:58:12 by haeem            ###   ########seoul.kr  */
+/*   Updated: 2023/09/15 19:26:09 by hyunjunk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,12 +54,12 @@ void	execute(t_tree *syntax, t_hashmap *envmap)
 	if (syntax == NULL)
 		return ;
 	dup_stdio(fd[0], fd[1]);
-	if (!rec_check_syntax(syntax))
-	{
-		printf ("syntax error\n");
-		return ;
-	}
-	else
+	// if (!rec_check_syntax(syntax))
+	// {
+	// 	printf ("syntax error\n");
+	// 	return ;
+	// }
+	// else
 	{
 		token = (t_token *)(syntax->data);
 		token->exec(syntax, envmap);
