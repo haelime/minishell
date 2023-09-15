@@ -162,7 +162,7 @@ void		execute(t_tree *syntax, t_hashmap *envmap);
 void		exec_redirect(t_tree *syntax, t_hashmap *envmap);
 void		exec_pipe(t_tree *syntax, t_hashmap *envmap);
 void		exec_subsh(t_tree *syntax, t_hashmap *envmap);
-void		exec_cmd(t_tree *syntax, t_hashmap *envmap);
+void		exec_word(t_tree *syntax, t_hashmap *envmap);
 /* -------------------------------------------------------------------------- */
 
 // utils
