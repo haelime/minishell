@@ -6,7 +6,7 @@
 /*   By: haeem <haeem@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/28 16:58:38 by haeem             #+#    #+#             */
-/*   Updated: 2023/09/15 17:52:11 by haeem            ###   ########seoul.kr  */
+/*   Updated: 2023/09/15 19:35:49 by haeem            ###   ########seoul.kr  */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -217,6 +217,8 @@ bool		rec_check_syntax(t_tree *syntax);
 /* -------------------------------------------------------------------------- */
 int			builtin_env(t_hashmap *envmap);
 int			builtin_pwd(void);
+int			builtin_unset(char **argv, t_hashmap *envmap);
+int			builtin_echo(char **argv);
 /* -------------------------------------------------------------------------- */
 
 #endif
