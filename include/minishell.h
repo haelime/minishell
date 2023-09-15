@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: haeem <haeem@student.42seoul.kr>           +#+  +:+       +#+        */
+/*   By: hyunjunk <hyunjunk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/28 16:58:38 by haeem             #+#    #+#             */
-/*   Updated: 2023/09/15 17:52:11 by haeem            ###   ########seoul.kr  */
+/*   Updated: 2023/09/15 19:23:04 by hyunjunk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -150,6 +150,22 @@ typedef struct s_token
 	t_func		exec;
 }	t_token;
 
+// Format : <cmd> <options> <redicrect...>
+// It uses shallow copy.
+// Don't remove original strings until this becomes not used
+// Only options use malloc. (Dereference strings are non-malloc)
+typedef struct s_cmd_block
+{
+	t_tree_node_type	type;
+	t_token				*cmd;
+	int					num_options;
+	char				**options;
+	char				*redirect_in;
+	char				*redirect_out;
+	int					redirect_is_heredoc;
+	int					redirect_is_append;
+}	t_cmd_block;
+
 typedef struct s_tree	t_tree;
 
 // initiate shell
@@ -197,7 +213,7 @@ void		signal_default(void);
 
 /* parse */
 /* -------------------------------------------------------------------------- */
-t_tree		*parse(char *input, t_hashmap *envmap);
+t_list		*parse(char *input, t_hashmap *envmap);
 t_list		*tokenize(char *input, t_list **chunks);
 bool		istoken(char ch);
 bool		isanotherquote(char *begin);
@@ -205,7 +221,7 @@ bool		isparenclosed(char *begin);
 char		*tryfutherparen(char *begin);
 void		rec_replace_dollar(t_tree *syntax, t_hashmap *envmap);
 void		print_pstree(t_tree *syntax);
-
+void		make_cmd_blocks_by_tokens(t_list **out_list_cmd_blocks, t_list *list_tokens);
 /* -------------------------------------------------------------------------- */
 
 // syntax
