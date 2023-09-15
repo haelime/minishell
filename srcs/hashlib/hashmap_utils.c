@@ -6,7 +6,7 @@
 /*   By: haeem <haeem@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/15 18:14:23 by haeem             #+#    #+#             */
-/*   Updated: 2023/08/15 18:27:31 by haeem            ###   ########seoul.kr  */
+/*   Updated: 2023/09/15 17:38:24 by haeem            ###   ########seoul.kr  */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,7 +74,7 @@ void	print_hashmap(t_hashmap *hashmap)
 		tmp = hashmap->buckets[i];
 		if (tmp != NULL)
 		{
-			printf("key: %s, value: %s\n", tmp->key, tmp->value);
+			printf("%s=%s\n", tmp->key, tmp->value);
 		}
 		i++;
 	}
