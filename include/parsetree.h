@@ -6,7 +6,7 @@
 /*   By: hyunjunk <hyunjunk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/05 19:33:57 by haeem             #+#    #+#             */
-/*   Updated: 2023/09/13 20:56:29 by hyunjunk         ###   ########.fr       */
+/*   Updated: 2023/09/15 18:50:44 by hyunjunk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,8 +46,8 @@ typedef struct s_cmd_block
 	char				**options;
 	char				*redirect_in;
 	char				*redirect_out;
-	char				*redirect_heredoc;
-	char				*redirect_append;
+	int					redirect_is_heredoc;
+	int					redirect_is_append;
 }	t_cmd_block;
 
 t_tree	*make_pstree(t_list *chunks, t_hashmap *envmap);
