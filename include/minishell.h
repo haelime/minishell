@@ -233,6 +233,8 @@ bool		rec_check_syntax(t_tree *syntax);
 /* -------------------------------------------------------------------------- */
 int			builtin_env(t_hashmap *envmap);
 int			builtin_pwd(void);
+int			builtin_unset(char **argv, t_hashmap *envmap);
+int			builtin_echo(char **argv);
 /* -------------------------------------------------------------------------- */
 
 #endif
