@@ -6,7 +6,7 @@
 /*   By: hyunjunk <hyunjunk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/23 15:42:34 by haeem             #+#    #+#             */
-/*   Updated: 2023/09/13 20:36:18 by hyunjunk         ###   ########.fr       */
+/*   Updated: 2023/09/15 18:54:48 by hyunjunk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -98,21 +98,19 @@ static t_list	*fill_subcontext_cmd_block(
 	{
 		token = (t_token *)pos->content;
 		if (token->type == WORD)
-			pos = fill_options_cmd_block(out_cmd_block, pos);
-		else
 		{
-			next_token = (t_token *)pos->next->content;
-			if (token->type == REDIRECT_IN)
-				out_cmd_block->redirect_in = next_token->str;
-			else if (token->type == REDIRECT_OUT)
-				out_cmd_block->redirect_out = next_token->str;
-			else if (token->type == REDIRECT_HEREDOC)
-				out_cmd_block->redirect_heredoc = next_token->str;
-			else if (token->type == REDIRECT_APPEND)
-				out_cmd_block->redirect_append = next_token->str;
-			pos = pos->next;
-			pos = pos->next;
+			pos = fill_options_cmd_block(out_cmd_block, pos);
+			continue ;
 		}
+		next_token = (t_token *)pos->next->content;
+		if (token->type == REDIRECT_IN || token->type == REDIRECT_HEREDOC)
+			out_cmd_block->redirect_in = next_token->str;
+		if (token->type == REDIRECT_OUT || token->type == REDIRECT_APPEND)
+			out_cmd_block->redirect_out = next_token->str;
+		out_cmd_block->redirect_is_heredoc = token->type == REDIRECT_HEREDOC;
+		out_cmd_block->redirect_is_append = token->type == REDIRECT_APPEND;
+		pos = pos->next;
+		pos = pos->next;
 	}
 	return (pos);
 }
@@ -193,8 +191,8 @@ t_tree	*make_pstree(t_list *chunks, t_hashmap *envmap)
 		{
 			printf("    %s\n", now->options[i]);
 		}
-		printf("redirect = %p %p %p %p\n", 
-			now->redirect_in, now->redirect_out, now->redirect_append, now->redirect_heredoc);
+		printf("redirect = %p %d %p %d\n", 
+			now->redirect_in, now->redirect_is_heredoc, now->redirect_out, now->redirect_is_append);
 		printf("\n\n");
 	}
 
