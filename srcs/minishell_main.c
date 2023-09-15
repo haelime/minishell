@@ -6,7 +6,7 @@
 /*   By: hyunjunk <hyunjunk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/28 16:57:45 by haeem             #+#    #+#             */
-/*   Updated: 2023/09/15 19:22:42 by hyunjunk         ###   ########.fr       */
+/*   Updated: 2023/09/15 19:51:20 by hyunjunk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ int	main(int argc, char **argv, char **envp)
 			continue ;
 		syntax = parse(input, envmap);
 		signal_default();
-		// execute(syntax, envmap);
+		execute(syntax, envmap);
 	}
 	return (0);
 }

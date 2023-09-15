@@ -6,7 +6,7 @@
 /*   By: hyunjunk <hyunjunk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/28 16:58:38 by haeem             #+#    #+#             */
-/*   Updated: 2023/09/15 19:23:04 by hyunjunk         ###   ########.fr       */
+/*   Updated: 2023/09/15 19:51:12 by hyunjunk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -185,7 +185,7 @@ void		get_input(char **input, t_hashmap *envmap);
 
 // execute
 /* -------------------------------------------------------------------------- */
-void		execute(t_tree *syntax, t_hashmap *envmap);
+void		execute(t_list *syntax, t_hashmap *envmap);
 void		exec_redirect(t_tree *syntax, t_hashmap *envmap);
 void		exec_pipe(t_tree *syntax, t_hashmap *envmap);
 void		exec_subsh(t_tree *syntax, t_hashmap *envmap);
