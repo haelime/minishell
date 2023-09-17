@@ -6,7 +6,7 @@
 /*   By: haeem <haeem@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/10 19:02:33 by haeem             #+#    #+#             */
-/*   Updated: 2023/09/17 17:55:22 by haeem            ###   ########seoul.kr  */
+/*   Updated: 2023/09/17 18:24:15 by haeem            ###   ########seoul.kr  */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,7 @@ static int	*malloc_open_pipe(int num_cmd)
 	}
 }
 
-static void	fork_childs(t_list *cmd_blocks)
+static void	fork_childs(t_list *cmd_blocks, char **paths)
 {
 	int		i;
 	pid_t	pid;
@@ -82,6 +82,6 @@ void	execute(t_list *cmd_blocks, t_hashmap *envmap)
 		return ;
 	paths = get_path_from_env(envmap);
 	pipes = malloc_open_pipe(ft_lstsize(cmd_blocks));
-	fork_childs(cmd_blocks);
+	fork_childs(cmd_blocks, paths);
 	close_pipes(pipes, ft_lstsize(cmd_blocks));
 }
