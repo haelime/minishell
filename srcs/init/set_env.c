@@ -6,7 +6,7 @@
 /*   By: haeem <haeem@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/16 16:06:45 by haeem             #+#    #+#             */
-/*   Updated: 2023/08/16 16:19:21 by haeem            ###   ########seoul.kr  */
+/*   Updated: 2023/09/17 17:15:10 by haeem            ###   ########seoul.kr  */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,4 +50,16 @@ void	set_cwd(t_hashmap *envmap)
 void	set_special_var(t_hashmap *envmap)
 {
 	hashmap_insert(envmap, "?", "0");
+}
+
+void	set_path(t_hashmap *envmap)
+{
+	char	*path;
+
+	path = hashmap_search(envmap, "PATH");
+	if (path == NULL)
+	{
+		hashmap_insert(envmap, "PATH",
+			"/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin");
+	}
 }

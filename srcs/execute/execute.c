@@ -3,48 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   execute.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hyunjunk <hyunjunk@student.42.fr>          +#+  +:+       +#+        */
+/*   By: haeem <haeem@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/10 19:02:33 by haeem             #+#    #+#             */
-/*   Updated: 2023/09/17 16:39:41 by hyunjunk         ###   ########.fr       */
+/*   Updated: 2023/09/17 17:55:22 by haeem            ###   ########seoul.kr  */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/minishell.h"
 #include "../../include/parsetree.h"
 #include "../../include/hashlib.h"
-
-// void	exec_redirect(t_tree *syntax, t_hashmap *envmap)
-// {
-// 	t_token	*token;
-
-// 	token = syntax->data;
-// 	(void)envmap;
-// }
-
-// void	exec_pipe(t_tree *syntax, t_hashmap *envmap)
-// {
-// 	t_token	*token;
-
-// 	token = syntax->data;
-// 	(void)envmap;
-// }
-
-// void	exec_subshell(t_tree *syntax, t_hashmap *envmap)
-// {
-// 	t_token	*token;
-
-// 	token = syntax->data;
-// 	(void)envmap;
-// }
-
-// void	exec_word(t_tree *syntax, t_hashmap *envmap)
-// {
-// 	t_token	*token;
-
-// 	token = syntax->data;
-// 	(void)envmap;
-// }
 
 static void	close_pipes(int *pipes, int num_cmd)
 {
@@ -83,7 +51,7 @@ static void	fork_childs(t_list *cmd_blocks)
 	pid_t	pid;
 
 	i = 0;
-	while (i < cb->cmd_num)
+	while (i < ft_lstsize(cmd_blocks))
 	{
 		pid = fork();
 		if (pid == -1)
@@ -94,13 +62,25 @@ static void	fork_childs(t_list *cmd_blocks)
 	}
 }
 
+// can be NULL
+char	**get_path_from_env(t_hashmap *envmap)
+{
+	char	*value;
+
+	value = NULL;
+	value = hashmap_search(envmap, "PATH");
+	return (ft_split(value, ":"));
+}
+
 void	execute(t_list *cmd_blocks, t_hashmap *envmap)
 {
 	int		*pipes;
-	t_token	*token;
+	int		pipenum;
+	char	**paths;
 
 	if (cmd_blocks == NULL)
 		return ;
+	paths = get_path_from_env(envmap);
 	pipes = malloc_open_pipe(ft_lstsize(cmd_blocks));
 	fork_childs(cmd_blocks);
 	close_pipes(pipes, ft_lstsize(cmd_blocks));

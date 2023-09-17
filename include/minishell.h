@@ -6,7 +6,7 @@
 /*   By: haeem <haeem@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/28 16:58:38 by haeem             #+#    #+#             */
-/*   Updated: 2023/09/17 15:53:06 by haeem            ###   ########seoul.kr  */
+/*   Updated: 2023/09/17 17:55:49 by haeem            ###   ########seoul.kr  */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -176,6 +176,7 @@ void		set_shlvl(t_hashmap *envmap);
 void		set_ps1(t_hashmap *envmap);
 void		set_cwd(t_hashmap *envmap);
 void		set_special_var(t_hashmap *envmap);
+void		set_path(t_hashmap *envmap);
 /* -------------------------------------------------------------------------- */
 
 // get input & parse
@@ -198,9 +199,12 @@ void		echoctl_off(void);
 void		echoctl_on(void);
 bool		isdoublequoted(char *str, int i);
 bool		isquoted(char *str, int i);
+bool		is_builtin(t_cmd_block *cmd_block);
 void		dup_stdio(int in_fd, int out_fd);
 void		print2d(t_tree *root);
 void		print2dutil(t_tree *root, int space);
+void		print_hashmap(t_hashmap *hashmap);
+void		print_chunks(t_list *chunks);
 
 /* -------------------------------------------------------------------------- */
 
