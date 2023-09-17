@@ -185,7 +185,7 @@ void		get_input(char **input, t_hashmap *envmap);
 
 // execute
 /* -------------------------------------------------------------------------- */
-void		execute(t_tree *syntax, t_hashmap *envmap);
+void		execute(t_list *syntax, t_hashmap *envmap);
 void		exec_redirect(t_tree *syntax, t_hashmap *envmap);
 void		exec_pipe(t_tree *syntax, t_hashmap *envmap);
 void		exec_subsh(t_tree *syntax, t_hashmap *envmap);
