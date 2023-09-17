@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell_parse.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hyunjunk <hyunjunk@student.42.fr>          +#+  +:+       +#+        */
+/*   By: haeem <haeem@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/28 18:48:50 by haeem             #+#    #+#             */
-/*   Updated: 2023/09/15 19:23:26 by hyunjunk         ###   ########.fr       */
+/*   Updated: 2023/09/17 15:50:44 by haeem            ###   ########seoul.kr  */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,11 +45,14 @@ t_list	*parse(char *input, t_hashmap *envmap)
 {
 	t_list	*chunks;
 	t_list	*syntax;
+	t_token	*token;
 
 	chunks = NULL;
 	chunks = tokenize(input, &chunks);
+	token = (t_token *)(chunks->content);
+	if (ft_strchr(token->str, '$'))
+		token->str = replace_dollar(token->str, envmap);
 	print_chunks(chunks);
-	(void)envmap;
 	make_cmd_blocks_by_tokens(&syntax, chunks);
 	// rint2d(syntax);
 	// free_lst(chunks);
