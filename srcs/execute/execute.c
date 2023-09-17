@@ -6,7 +6,7 @@
 /*   By: hyunjunk <hyunjunk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/10 19:02:33 by haeem             #+#    #+#             */
-/*   Updated: 2023/09/15 20:31:33 by hyunjunk         ###   ########.fr       */
+/*   Updated: 2023/09/17 16:39:41 by hyunjunk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,7 @@
 // 	(void)envmap;
 // }
 
-static void	close_pipes(int* pipes, int num_cmd)
+static void	close_pipes(int *pipes, int num_cmd)
 {
 	int	i;
 
@@ -61,7 +61,7 @@ static void	close_pipes(int* pipes, int num_cmd)
 	}
 }
 
-static int	*malloc_create_pipe(int num_cmd)
+static int	*malloc_open_pipe(int num_cmd)
 {
 	int	*pipes;
 	int	i;
@@ -79,7 +79,19 @@ static int	*malloc_create_pipe(int num_cmd)
 
 static void	fork_childs(t_list *cmd_blocks)
 {
-	
+	int		i;
+	pid_t	pid;
+
+	i = 0;
+	while (i < cb->cmd_num)
+	{
+		pid = fork();
+		if (pid == -1)
+			perror_and_exit();
+		else if (pid == 0)
+			execute_cmd_block();
+		i++;
+	}
 }
 
 void	execute(t_list *cmd_blocks, t_hashmap *envmap)
@@ -89,7 +101,7 @@ void	execute(t_list *cmd_blocks, t_hashmap *envmap)
 
 	if (cmd_blocks == NULL)
 		return ;
-	pipes = malloc_create_pipe(ft_lstsize(cmd_blocks));
+	pipes = malloc_open_pipe(ft_lstsize(cmd_blocks));
 	fork_childs(cmd_blocks);
 	close_pipes(pipes, ft_lstsize(cmd_blocks));
 }
