@@ -6,7 +6,7 @@
 /*   By: hyunjunk <hyunjunk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/28 16:58:38 by haeem             #+#    #+#             */
-/*   Updated: 2023/09/18 18:19:22 by hyunjunk         ###   ########.fr       */
+/*   Updated: 2023/09/18 20:09:51 by hyunjunk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -166,6 +166,7 @@ typedef struct s_cmd_block
 	int					redirect_is_heredoc;
 	int					redirect_is_append;
 	char				*completed_cmd;
+	int					idx;
 }	t_cmd_block;
 
 typedef struct s_tree	t_tree;

@@ -6,7 +6,7 @@
 /*   By: hyunjunk <hyunjunk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/10 19:02:33 by haeem             #+#    #+#             */
-/*   Updated: 2023/09/18 18:19:28 by hyunjunk         ###   ########.fr       */
+/*   Updated: 2023/09/18 21:05:31 by hyunjunk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ static void	close_pipes(int *pipes, int num_cmd)
 	{
 		if (close(pipes[i]) < 0)
 		{
-			exit(1);
+			msg_exit("pipe close() failed.\n", 1);
 		}
 		i++;
 	}
@@ -39,17 +39,43 @@ static int	*malloc_open_pipe(int num_cmd)
 	{
 		if (pipe(pipes + (2 * i)) < 0)
 		{
-			exit(1);
+			msg_exit("pipe open() failed.\n", 1);
 		}
+		i++;
 	}
 	return (pipes);
 }
 
 static void	execute_cmd_block(
-	t_cmd_block *cmd_block, int idx, int *pipes, char **envp)
+	t_cmd_block *cmd_block, int num_cmd, int *pipes, char **envp)
 {
-	(void)idx;
-	(void)pipes;
+	int	fd;
+
+	if (cmd_block->redirect_in != NULL)
+	{
+		// TODO : implement here_doc
+		//if (cmd_block->redirect_is_heredoc)
+			//fd = redirect_heredoc()
+		//else
+			fd = open(cmd_block->redirect_in, O_RDONLY);
+		if (fd == -1)
+			str_msg_exit("%s open() failed.\n", cmd_block->redirect_in, 1);
+		dup2(fd, STDIN_FILENO);
+	}
+	else if (cmd_block->idx != 0)
+		dup2(pipes[cmd_block->idx * 2 - 2], STDIN_FILENO);
+	if (cmd_block->redirect_out != NULL)
+	{
+		fd = open(cmd_block->redirect_out, O_WRONLY | O_CREAT | O_TRUNC
+				| (O_APPEND & ~(cmd_block->redirect_is_append - 1)),
+				S_IRUSR | S_IWUSR | S_IRGRP | S_IROTH);
+		if (fd == -1)
+			str_msg_exit("%s open() failed.\n", cmd_block->redirect_out, 1);
+		dup2(fd, STDOUT_FILENO);
+	}
+	else if (cmd_block->idx != num_cmd - 1)
+		dup2(pipes[cmd_block->idx * 2 + 1], STDOUT_FILENO);
+	close_pipes(pipes, num_cmd);
 	cmd_block->options[0] = cmd_block->completed_cmd;
 	if (execve(cmd_block->completed_cmd, cmd_block->options, envp) == -1)
 		str_msg_exit("%s execve() failed.\n", cmd_block->options[0], 1);
@@ -77,7 +103,8 @@ static void	fork_childs(
 				= malloc_find_completed_cmd(cmd_block->cmd->str, paths);
 			if (cmd_block->completed_cmd == NULL)
 				str_msg_exit("%s not command.\n", cmd_block->cmd->str, 1);
-			execute_cmd_block(cmd_block, i, pipes, envp);
+			cmd_block->idx = i;
+			execute_cmd_block(cmd_block, ft_lstsize(cmd_blocks), pipes, envp);
 		}
 		i++;
 		p_list = p_list->next;
