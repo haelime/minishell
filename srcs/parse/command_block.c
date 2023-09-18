@@ -6,7 +6,7 @@
 /*   By: hyunjunk <hyunjunk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/23 15:42:34 by haeem             #+#    #+#             */
-/*   Updated: 2023/09/15 19:29:15 by hyunjunk         ###   ########.fr       */
+/*   Updated: 2023/09/18 18:18:35 by hyunjunk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ static t_list	*fill_options_cmd_block(
 	int			i;
 
 	pos_origin = pos;
-	out_cmd_block->num_options = 0;
+	out_cmd_block->num_options = 1;
 	while (pos != NULL && ((t_token *)pos->content)->type == WORD)
 	{
 		out_cmd_block->num_options += 1;
@@ -32,14 +32,26 @@ static t_list	*fill_options_cmd_block(
 	out_cmd_block->options = (char **)malloc(
 			(out_cmd_block->num_options + 1) * sizeof(char *));
 	out_cmd_block->options[out_cmd_block->num_options] = NULL;
+	out_cmd_block->options[0] = out_cmd_block->cmd->str;
 	pos = pos_origin;
-	i = 0;
+	i = 1;
 	while (pos != NULL && ((t_token *)pos->content)->type == WORD)
 	{
 		out_cmd_block->options[i++] = ((t_token *)pos->content)->str;
 		pos = pos->next;
 	}
 	return (pos);
+}
+
+static void	malloc_options_default(t_cmd_block *cmd_block)
+{
+	if (cmd_block->options == NULL)
+	{
+		cmd_block->num_options = 1;
+		cmd_block->options = (char **)malloc(2 * sizeof(char *));
+		cmd_block->options[1] = NULL;
+		cmd_block->options[0] = cmd_block->cmd->str;
+	}
 }
 
 /*
@@ -52,7 +64,8 @@ static t_list	*fill_subcontext_cmd_block(
 	t_token		*token;
 	t_token		*next_token;
 
-	while (pos != NULL && ((t_token *)pos->content)->type != PIPE)
+	if (pos == NULL)
+		malloc_options_default(out_cmd_block);	while (pos != NULL && ((t_token *)pos->content)->type != PIPE)
 	{
 		token = (t_token *)pos->content;
 		if (token->type == WORD)
@@ -67,8 +80,7 @@ static t_list	*fill_subcontext_cmd_block(
 			out_cmd_block->redirect_out = next_token->str;
 		out_cmd_block->redirect_is_heredoc = token->type == REDIRECT_HEREDOC;
 		out_cmd_block->redirect_is_append = token->type == REDIRECT_APPEND;
-		pos = pos->next;
-		pos = pos->next;
+		pos = pos->next->next;
 	}
 	return (pos);
 }

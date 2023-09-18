@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell_utils.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: haeem <haeem@student.42seoul.kr>           +#+  +:+       +#+        */
+/*   By: hyunjunk <hyunjunk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/15 19:24:09 by haeem             #+#    #+#             */
-/*   Updated: 2023/09/10 20:17:15 by haeem            ###   ########seoul.kr  */
+/*   Updated: 2023/09/18 17:17:58 by hyunjunk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,4 +47,17 @@ bool	isdoublequoted(char *str, int i)
 	if (flag == 1)
 		return (true);
 	return (false);
+}
+
+void	msg_exit(const char *str, int err_code)
+{
+	printf("%s", str);
+	exit(err_code);
+}
+
+
+void	str_msg_exit(const char *str, const char *str_arg, int err_code)
+{
+	printf(str, str_arg);
+	exit(err_code);
 }
