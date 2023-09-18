@@ -6,7 +6,7 @@
 /*   By: hyunjunk <hyunjunk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/10 19:02:33 by haeem             #+#    #+#             */
-/*   Updated: 2023/09/18 21:05:31 by hyunjunk         ###   ########.fr       */
+/*   Updated: 2023/09/18 22:02:11 by hyunjunk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -139,5 +139,6 @@ void	execute(t_list *cmd_blocks, t_hashmap *envmap)
 	envp = malloc_get_envp(envmap);
 	fork_childs(cmd_blocks, pipes, paths, envp);
 	close_pipes(pipes, ft_lstsize(cmd_blocks));
-	waitpid(-1, NULL, 0); //< TODO: change to receive error code  
+	for (int i = 0; i < ft_lstsize(cmd_blocks); i++)
+		waitpid(-1, NULL, 0); //< TODO: change to receive error code  
 }
