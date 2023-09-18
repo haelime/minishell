@@ -6,7 +6,7 @@
 /*   By: hyunjunk <hyunjunk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/10 19:02:33 by haeem             #+#    #+#             */
-/*   Updated: 2023/09/18 21:54:51 by hyunjunk         ###   ########.fr       */
+/*   Updated: 2023/09/18 22:02:11 by hyunjunk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,6 @@ static void	close_pipes(int *pipes, int num_cmd)
 	i = 0;
 	while (i < (num_cmd - 1) * 2)
 	{
-		fprintf(stderr, "close() = %d\n", i);
 		if (close(pipes[i]) < 0)
 		{
 			msg_exit("pipe close() failed.\n", 1);
@@ -38,7 +37,6 @@ static int	*malloc_open_pipe(int num_cmd)
 	i = 0;
 	while (i < num_cmd - 1)
 	{
-		fprintf(stderr, "pipe() = %d * 2 : %d\n", i, 2 * i);
 		if (pipe(pipes + (2 * i)) < 0)
 		{
 			msg_exit("pipe open() failed.\n", 1);
