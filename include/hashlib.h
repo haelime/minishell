@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   hashlib.h                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: haeem <haeem@student.42seoul.kr>           +#+  +:+       +#+        */
+/*   By: hyunjunk <hyunjunk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/05 19:33:58 by haeem             #+#    #+#             */
-/*   Updated: 2023/08/16 15:46:30 by haeem            ###   ########seoul.kr  */
+/*   Updated: 2023/09/18 16:15:28 by hyunjunk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,5 +43,6 @@ unsigned int	hash_string(const char *s);
 void			free_bucket(t_bucket *bucket);
 void			free_hashmap(t_hashmap *hashmap);
 void			print_hashmap(t_hashmap *hashmap);
+char			**malloc_get_envp(t_hashmap *hashmap);
 
 #endif

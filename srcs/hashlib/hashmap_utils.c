@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   hashmap_utils.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: haeem <haeem@student.42seoul.kr>           +#+  +:+       +#+        */
+/*   By: hyunjunk <hyunjunk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/15 18:14:23 by haeem             #+#    #+#             */
-/*   Updated: 2023/09/15 17:38:24 by haeem            ###   ########seoul.kr  */
+/*   Updated: 2023/09/18 17:18:20 by hyunjunk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,4 +78,54 @@ void	print_hashmap(t_hashmap *hashmap)
 		}
 		i++;
 	}
+}
+
+int	get_count_hashmap(t_hashmap	*hashmap)
+{
+	t_bucket		*p;
+	unsigned int	i;
+	int				count;
+
+	count = 0;
+	i = 0;
+	while (i < hashmap->size)
+	{
+		p = hashmap->buckets[i];
+		while (p != NULL)
+		{
+			count += 1;
+			p = p->next;
+		}
+		i++;
+	}
+	return (count);
+}
+
+char	**malloc_get_envp(t_hashmap *hashmap)
+{
+	unsigned int	bucket_i;
+	unsigned int	envp_i;
+	t_bucket		*tmp;
+	char			**ret_envp;
+
+	ret_envp = (char **)malloc(
+			(get_count_hashmap(hashmap) + 1) * sizeof(char *));
+	ret_envp[hashmap->size] = NULL;
+	bucket_i = 0;
+	envp_i = 0;
+	while (bucket_i < hashmap->size)
+	{
+		tmp = hashmap->buckets[bucket_i++];
+		while (tmp != NULL)
+		{
+			ret_envp[envp_i] = malloc(
+					(ft_strlen(tmp->key) + ft_strlen(tmp->value) + 2));
+			ft_strcpy(ret_envp[envp_i], tmp->key);
+			ret_envp[envp_i][ft_strlen(tmp->key)] = '=';
+			ft_strcpy(ret_envp[envp_i] + ft_strlen(tmp->key) + 1, tmp->value);
+			envp_i += 1;
+			tmp = tmp->next;
+		}
+	}
+	return (ret_envp);
 }

@@ -6,7 +6,7 @@
 #    By: hyunjunk <hyunjunk@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/04/11 14:22:09 by haeem             #+#    #+#              #
-#    Updated: 2023/09/15 19:35:56 by haeem            ###   ########seoul.kr   #
+#    Updated: 2023/09/18 18:18:24 by hyunjunk         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -41,6 +41,7 @@ SOURCES = $(addprefix $(SRCDIR)/srcs/,\
 \
 	./execute/execute.c\
 	./execute/execute_utils.c\
+	./execute/find_completed_cmd.c\
 \
 	./terminal/terminal.c\
 \

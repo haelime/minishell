@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: haeem <haeem@student.42seoul.kr>           +#+  +:+       +#+        */
+/*   By: hyunjunk <hyunjunk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/28 16:58:38 by haeem             #+#    #+#             */
-/*   Updated: 2023/09/17 17:55:49 by haeem            ###   ########seoul.kr  */
+/*   Updated: 2023/09/18 18:19:22 by hyunjunk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -153,7 +153,8 @@ typedef struct s_token
 // Format : <cmd> <options> <redicrect...>
 // It uses shallow copy.
 // Don't remove original strings until this becomes not used
-// Only options use malloc. (Dereference strings are non-malloc)
+// Only options and completed_cmd use malloc.
+// (The internal strings of options is not malloc)
 typedef struct s_cmd_block
 {
 	t_tree_node_type	type;
@@ -164,6 +165,7 @@ typedef struct s_cmd_block
 	char				*redirect_out;
 	int					redirect_is_heredoc;
 	int					redirect_is_append;
+	char				*completed_cmd;
 }	t_cmd_block;
 
 typedef struct s_tree	t_tree;
@@ -191,6 +193,7 @@ void		exec_redirect(t_tree *syntax, t_hashmap *envmap);
 void		exec_pipe(t_tree *syntax, t_hashmap *envmap);
 void		exec_subsh(t_tree *syntax, t_hashmap *envmap);
 void		exec_word(t_tree *syntax, t_hashmap *envmap);
+char		*malloc_find_completed_cmd(char *cmd, char **paths);
 /* -------------------------------------------------------------------------- */
 
 // utils
@@ -205,7 +208,8 @@ void		print2d(t_tree *root);
 void		print2dutil(t_tree *root, int space);
 void		print_hashmap(t_hashmap *hashmap);
 void		print_chunks(t_list *chunks);
-
+void		msg_exit(const char *str, int err_code);
+void		str_msg_exit(const char *str, const char *str_arg, int err_code);
 /* -------------------------------------------------------------------------- */
 
 /* Signal Handler <signal.c> */
