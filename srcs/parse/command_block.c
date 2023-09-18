@@ -6,17 +6,25 @@
 /*   By: hyunjunk <hyunjunk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/23 15:42:34 by haeem             #+#    #+#             */
-/*   Updated: 2023/09/18 18:18:35 by hyunjunk         ###   ########.fr       */
+/*   Updated: 2023/09/18 20:46:20 by hyunjunk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/minishell.h"
 
+static void	malloc_options(t_cmd_block *out_cmd_block)
+{
+	out_cmd_block->options = (char **)malloc(
+			(out_cmd_block->num_options + 1) * sizeof(char *));
+	out_cmd_block->options[out_cmd_block->num_options] = NULL;
+	out_cmd_block->options[0] = out_cmd_block->cmd->str;
+}
+
 /*
 @Return : returns the position of the chunk that should be read next. 
 			It will be the position of PIPE or REDIRECT or NULL.
 */
-static t_list	*fill_options_cmd_block(
+static void	fill_options_cmd_block(
 	t_cmd_block *out_cmd_block, t_list *pos)
 {
 	t_list		*pos_origin;
@@ -24,33 +32,24 @@ static t_list	*fill_options_cmd_block(
 
 	pos_origin = pos;
 	out_cmd_block->num_options = 1;
-	while (pos != NULL && ((t_token *)pos->content)->type == WORD)
+	while (pos != NULL && ((t_token *)pos->content)->type != PIPE)
 	{
-		out_cmd_block->num_options += 1;
+		if (((t_token *)pos->content)->type != WORD)
+			pos = pos->next;
+		else
+			out_cmd_block->num_options += 1;
 		pos = pos->next;
 	}
-	out_cmd_block->options = (char **)malloc(
-			(out_cmd_block->num_options + 1) * sizeof(char *));
-	out_cmd_block->options[out_cmd_block->num_options] = NULL;
-	out_cmd_block->options[0] = out_cmd_block->cmd->str;
+	malloc_options(out_cmd_block);
 	pos = pos_origin;
 	i = 1;
-	while (pos != NULL && ((t_token *)pos->content)->type == WORD)
+	while (pos != NULL && ((t_token *)pos->content)->type != PIPE)
 	{
-		out_cmd_block->options[i++] = ((t_token *)pos->content)->str;
+		if (((t_token *)pos->content)->type == WORD)
+			out_cmd_block->options[i++] = ((t_token *)pos->content)->str;
+		else
+			pos = pos->next;
 		pos = pos->next;
-	}
-	return (pos);
-}
-
-static void	malloc_options_default(t_cmd_block *cmd_block)
-{
-	if (cmd_block->options == NULL)
-	{
-		cmd_block->num_options = 1;
-		cmd_block->options = (char **)malloc(2 * sizeof(char *));
-		cmd_block->options[1] = NULL;
-		cmd_block->options[0] = cmd_block->cmd->str;
 	}
 }
 
@@ -64,13 +63,13 @@ static t_list	*fill_subcontext_cmd_block(
 	t_token		*token;
 	t_token		*next_token;
 
-	if (pos == NULL)
-		malloc_options_default(out_cmd_block);	while (pos != NULL && ((t_token *)pos->content)->type != PIPE)
+	fill_options_cmd_block(out_cmd_block, pos);
+	while (pos != NULL && ((t_token *)pos->content)->type != PIPE)
 	{
 		token = (t_token *)pos->content;
 		if (token->type == WORD)
 		{
-			pos = fill_options_cmd_block(out_cmd_block, pos);
+			pos = pos->next;
 			continue ;
 		}
 		next_token = (t_token *)pos->next->content;
