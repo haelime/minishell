@@ -6,7 +6,7 @@
 /*   By: hyunjunk <hyunjunk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/10 19:02:33 by haeem             #+#    #+#             */
-/*   Updated: 2023/09/18 21:05:31 by hyunjunk         ###   ########.fr       */
+/*   Updated: 2023/09/18 21:54:51 by hyunjunk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,7 @@ static void	close_pipes(int *pipes, int num_cmd)
 	i = 0;
 	while (i < (num_cmd - 1) * 2)
 	{
+		fprintf(stderr, "close() = %d\n", i);
 		if (close(pipes[i]) < 0)
 		{
 			msg_exit("pipe close() failed.\n", 1);
@@ -37,6 +38,7 @@ static int	*malloc_open_pipe(int num_cmd)
 	i = 0;
 	while (i < num_cmd - 1)
 	{
+		fprintf(stderr, "pipe() = %d * 2 : %d\n", i, 2 * i);
 		if (pipe(pipes + (2 * i)) < 0)
 		{
 			msg_exit("pipe open() failed.\n", 1);
@@ -139,5 +141,6 @@ void	execute(t_list *cmd_blocks, t_hashmap *envmap)
 	envp = malloc_get_envp(envmap);
 	fork_childs(cmd_blocks, pipes, paths, envp);
 	close_pipes(pipes, ft_lstsize(cmd_blocks));
-	waitpid(-1, NULL, 0); //< TODO: change to receive error code  
+	for (int i = 0; i < ft_lstsize(cmd_blocks); i++)
+		waitpid(-1, NULL, 0); //< TODO: change to receive error code  
 }
