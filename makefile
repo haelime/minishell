@@ -6,13 +6,13 @@
 #    By: hyunjunk <hyunjunk@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/04/11 14:22:09 by haeem             #+#    #+#              #
-#    Updated: 2023/09/21 16:25:03 by hyunjunk         ###   ########.fr        #
+#    Updated: 2023/09/21 19:15:10 by hyunjunk         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 
 CC = cc
-CFLAGS = -Wall -Wextra -Werror -g3\
+CFLAGS = -Wall -Wextra -Werror -g3 
 # -fsanitize=address
 SRCDIR = $(CURDIR)
 
@@ -39,6 +39,7 @@ SOURCES = $(addprefix $(SRCDIR)/srcs/,\
 	./parse/command_block.c\
 	./parse/syntax_word.c\
 	./parse/check_parse_invalid.c\
+	./parse/free_parse.c\
 \
 	./execute/execute.c\
 	./execute/execute_utils.c\
