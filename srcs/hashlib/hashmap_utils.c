@@ -6,29 +6,12 @@
 /*   By: haeem <haeem@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/15 18:14:23 by haeem             #+#    #+#             */
-/*   Updated: 2023/09/20 18:12:19 by haeem            ###   ########seoul.kr  */
+/*   Updated: 2023/09/21 16:48:03 by haeem            ###   ########seoul.kr  */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/minishell.h"
 #include "../../include/hashlib.h"
-
-// FNV hash algorithm
-unsigned int	hash_string(const char *s)
-{
-	unsigned int	i;
-	char			*ptr;
-
-	i = FNV_OFFSET;
-	ptr = (char *)s;
-	while (*ptr != '\0')
-	{
-		i += (i << 1) + (i << 4) + (i << 7) + (i << 8) + (i << 24);
-		i ^= *ptr;
-		ptr++;
-	}
-	return (i);
-}
 
 // free exactly one bucket
 void	free_bucket(t_bucket *bucket)
