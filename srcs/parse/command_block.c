@@ -6,7 +6,7 @@
 /*   By: hyunjunk <hyunjunk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/23 15:42:34 by haeem             #+#    #+#             */
-/*   Updated: 2023/09/18 20:46:20 by hyunjunk         ###   ########.fr       */
+/*   Updated: 2023/09/21 20:41:33 by hyunjunk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,10 @@ static void	malloc_options(t_cmd_block *out_cmd_block)
 	out_cmd_block->options = (char **)malloc(
 			(out_cmd_block->num_options + 1) * sizeof(char *));
 	out_cmd_block->options[out_cmd_block->num_options] = NULL;
-	out_cmd_block->options[0] = out_cmd_block->cmd->str;
+	if (out_cmd_block->cmd != NULL)
+		out_cmd_block->options[0] = out_cmd_block->cmd->str;
+	else
+		out_cmd_block->options[0] = NULL;
 }
 
 /*
@@ -100,11 +103,11 @@ void	make_cmd_blocks_by_tokens(
 			now = now->next;
 		new_block = (t_cmd_block *)malloc(sizeof(t_cmd_block));
 		ft_bzero(new_block, sizeof(t_cmd_block));
-		// DEBUG
-		if (((t_token *)now->content)->type != WORD)
-			printf("DEBUG : token is not word. build_token_to_cmd_block() : %d\n", ((t_token *)now->content)->type);
-		new_block->cmd = (t_token *)now->content;
-		now = fill_subcontext_cmd_block(new_block, now->next);
+		if (((t_token *)now->content)->type == WORD)
+			new_block->cmd = (t_token *)now->content;
+		if (((t_token *)now->content)->type == WORD)
+			now = now->next;
+		now = fill_subcontext_cmd_block(new_block, now);
 		ft_lstadd_back(out_list_cmd_blocks, ft_lstnew(new_block));
 	}
 	// DEBUG 
@@ -112,8 +115,13 @@ void	make_cmd_blocks_by_tokens(
 	for (; p != NULL; p = p->next)
 	{
 		t_cmd_block* now = (t_cmd_block *)p->content;
-		printf("cmd.str = %s\n", now->cmd->str);
-		printf("cmd.type = %d\n", now->cmd->type);
+		if (now->cmd == NULL)
+			printf("cmd = NULL\n");
+		else
+		{
+			printf("cmd.str = %s\n", now->cmd->str);
+			printf("cmd.type = %d\n", now->cmd->type);
+		}
 		printf("num_options = %d\n", now->num_options);
 		for (int i = 0; i < now->num_options; i++)
 		{

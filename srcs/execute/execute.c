@@ -6,7 +6,7 @@
 /*   By: hyunjunk <hyunjunk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/10 19:02:33 by haeem             #+#    #+#             */
-/*   Updated: 2023/09/21 20:07:21 by hyunjunk         ###   ########.fr       */
+/*   Updated: 2023/09/21 20:40:52 by hyunjunk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,6 +77,8 @@ static void	execute_cmd_block(
 		dup2(pipes[cmd_block->idx * 2 + 1], STDOUT_FILENO);
 	close_pipes(pipes, num_cmd);
 	cmd_block->options[0] = cmd_block->completed_cmd;
+	if (cmd_block->completed_cmd == NULL)
+		msg_exit("DEBUG:NULL execution\n", 1); //< DEBUG
 	if (execve(cmd_block->completed_cmd, cmd_block->options, envp) == -1)
 		str_msg_exit("%s execve() failed.\n", cmd_block->options[0], 1);
 }
@@ -100,8 +102,8 @@ static void	fork_childs(
 		{
 			cmd_block = (t_cmd_block *)p_list->content;
 			cmd_block->completed_cmd
-				= malloc_find_completed_cmd(cmd_block->cmd->str, paths);
-			if (cmd_block->completed_cmd == NULL)
+				= malloc_find_completed_cmd(cmd_block->cmd, paths);
+			if (cmd_block->completed_cmd == NULL && cmd_block->cmd != NULL)
 				str_msg_exit("%s not command.\n", cmd_block->cmd->str, 1);
 			cmd_block->idx = i;
 			execute_cmd_block(cmd_block, ft_lstsize(cmd_blocks), pipes, envp);

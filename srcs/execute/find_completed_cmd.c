@@ -6,7 +6,7 @@
 /*   By: hyunjunk <hyunjunk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/18 18:17:09 by hyunjunk          #+#    #+#             */
-/*   Updated: 2023/09/18 18:34:03 by hyunjunk         ###   ########.fr       */
+/*   Updated: 2023/09/21 20:36:07 by hyunjunk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,12 +59,14 @@ static char	*find_path(char *cmd, char **paths)
 	return (NULL);
 }
 
-char	*malloc_find_completed_cmd(char *cmd, char **paths)
+char	*malloc_find_completed_cmd(t_token *cmd, char **paths)
 {
-	if (ft_strchr(cmd, '/') != NULL)
-		return (find_relative(cmd));
+	if (cmd == NULL)
+		return (NULL);
+	if (ft_strchr(cmd->str, '/') != NULL)
+		return (find_relative(cmd->str));
 	else if (paths != NULL)
-		return (find_path(cmd, paths));
+		return (find_path(cmd->str, paths));
 	else
-		return (find_cwd(cmd));
+		return (find_cwd(cmd->str));
 }
