@@ -6,7 +6,7 @@
 /*   By: hyunjunk <hyunjunk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/28 16:58:38 by haeem             #+#    #+#             */
-/*   Updated: 2023/09/21 19:27:54 by hyunjunk         ###   ########.fr       */
+/*   Updated: 2023/09/21 19:50:59 by hyunjunk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -222,6 +222,9 @@ void		signal_default(void);
 
 /* parse */
 /* -------------------------------------------------------------------------- */
+/*	@summary	Separates the input into tokens to return.
+				If the input is invalid and can't be parsed,
+				then returns NULL and handle the memory release internally */
 t_list		*parse(char *input, t_hashmap *envmap);
 void		tokenize(char *input, t_list **out_chunks);
 bool		istoken(char ch);

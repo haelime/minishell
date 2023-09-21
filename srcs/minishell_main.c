@@ -6,7 +6,7 @@
 /*   By: hyunjunk <hyunjunk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/28 16:57:45 by haeem             #+#    #+#             */
-/*   Updated: 2023/09/21 19:21:04 by hyunjunk         ###   ########.fr       */
+/*   Updated: 2023/09/21 19:49:13 by hyunjunk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,12 +35,8 @@ int	main(int argc, char **argv, char **envp)
 		if (input == NULL || ft_strlen(input) == 0)
 			continue ;
 		tokens = parse(input, envmap);
-		if (check_parse_invalid(tokens))
-		{
-			printf("syntax error\n");
-			free_tokens(&tokens);
+		if (tokens == NULL)
 			continue ;
-		}
 		make_cmd_blocks_by_tokens(&cmd_blocks, tokens);
 		signal_default();
 		execute(cmd_blocks, envmap);
