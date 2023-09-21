@@ -6,7 +6,7 @@
 #    By: hyunjunk <hyunjunk@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/04/11 14:22:09 by haeem             #+#    #+#              #
-#    Updated: 2023/09/18 18:18:24 by hyunjunk         ###   ########.fr        #
+#    Updated: 2023/09/21 16:25:03 by hyunjunk         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -38,6 +38,7 @@ SOURCES = $(addprefix $(SRCDIR)/srcs/,\
 	./parse/parse_utils.c\
 	./parse/command_block.c\
 	./parse/syntax_word.c\
+	./parse/check_parse_invalid.c\
 \
 	./execute/execute.c\
 	./execute/execute_utils.c\

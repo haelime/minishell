@@ -6,7 +6,7 @@
 /*   By: hyunjunk <hyunjunk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/28 16:57:45 by haeem             #+#    #+#             */
-/*   Updated: 2023/09/15 19:51:20 by hyunjunk         ###   ########.fr       */
+/*   Updated: 2023/09/21 16:47:48 by hyunjunk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,8 +32,16 @@ int	main(int argc, char **argv, char **envp)
 		if (input == NULL || ft_strlen(input) == 0)
 			continue ;
 		syntax = parse(input, envmap);
-		signal_default();
-		execute(syntax, envmap);
+		if (check_parse_invalid(syntax))
+		{
+			printf("syntax error\n");
+		}
+		else
+		{
+			signal_default();
+			execute(syntax, envmap);
+		}
+		// TODO : free tokens and cmd_blocks.
 	}
 	return (0);
 }
