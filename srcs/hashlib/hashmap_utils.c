@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   hashmap_utils.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: haeem <haeem@student.42seoul.kr>           +#+  +:+       +#+        */
+/*   By: hyunjunk <hyunjunk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/15 18:14:23 by haeem             #+#    #+#             */
-/*   Updated: 2023/09/21 16:48:03 by haeem            ###   ########seoul.kr  */
+/*   Updated: 2023/09/21 19:31:58 by hyunjunk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,16 +29,19 @@ void	free_hashmap(t_hashmap *hashmap)
 {
 	size_t		i;
 	t_bucket	*tmp;
+	t_bucket	*next;
 
 	i = 0;
 	while (i < hashmap->size)
 	{
 		tmp = hashmap->buckets[i];
-		if (tmp != NULL)
+		while (tmp != NULL)
 		{
+			next = tmp->next;
 			free_bucket(tmp);
-			hashmap->buckets[i] = NULL;
+			tmp = next;
 		}
+		hashmap->buckets[i] = NULL;
 		i++;
 	}
 	free(hashmap->buckets);
