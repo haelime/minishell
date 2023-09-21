@@ -6,7 +6,7 @@
 /*   By: hyunjunk <hyunjunk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/21 16:22:06 by hyunjunk          #+#    #+#             */
-/*   Updated: 2023/09/21 17:19:00 by hyunjunk         ###   ########.fr       */
+/*   Updated: 2023/09/21 17:45:14 by hyunjunk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,7 +54,7 @@ static int	check_redirection_invalid(t_list *tokens)
 		{
 			if (p->next == NULL)
 				return (1);
-			else if (((t_token *)p->next->content)->type == WORD)
+			else if (((t_token *)p->next->content)->type != WORD)
 				return (1);
 		}
 		p = p->next;

@@ -6,7 +6,7 @@
 /*   By: hyunjunk <hyunjunk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/28 16:58:38 by haeem             #+#    #+#             */
-/*   Updated: 2023/09/21 16:48:27 by hyunjunk         ###   ########.fr       */
+/*   Updated: 2023/09/21 17:33:08 by hyunjunk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -223,7 +223,7 @@ void		signal_default(void);
 /* parse */
 /* -------------------------------------------------------------------------- */
 t_list		*parse(char *input, t_hashmap *envmap);
-t_list		*tokenize(char *input, t_list **chunks);
+void		tokenize(char *input, t_list **out_chunks);
 bool		istoken(char ch);
 bool		isanotherquote(char *begin);
 bool		isparenclosed(char *begin);
