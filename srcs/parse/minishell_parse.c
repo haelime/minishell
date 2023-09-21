@@ -6,7 +6,7 @@
 /*   By: hyunjunk <hyunjunk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/28 18:48:50 by haeem             #+#    #+#             */
-/*   Updated: 2023/09/21 17:32:56 by hyunjunk         ###   ########.fr       */
+/*   Updated: 2023/09/21 19:45:18 by hyunjunk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,7 @@ void	print_chunks(t_list *chunks)
 	}
 }
 
-// tokenize → parsetree → excute
+// input -> tokens -> cmd_blocks
 t_list	*parse(char *input, t_hashmap *envmap)
 {
 	t_token	*token;
@@ -51,6 +51,12 @@ t_list	*parse(char *input, t_hashmap *envmap)
 	token = (t_token *)(tokens->content);
 	if (ft_strchr(token->str, '$'))
 		token->str = replace_dollar(token->str, envmap);
-	print_chunks(tokens);
+	if (check_parse_invalid(tokens))
+	{
+		printf("syntax error\n");
+		free_tokens(&tokens);
+		return (NULL);
+	}
+	print_chunks(tokens); // DEBUG
 	return (tokens);
 }
