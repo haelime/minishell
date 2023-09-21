@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   tokenize.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: haeem <haeem@student.42seoul.kr>           +#+  +:+       +#+        */
+/*   By: hyunjunk <hyunjunk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/26 21:07:07 by haeem             #+#    #+#             */
-/*   Updated: 2023/09/11 16:06:45 by haeem            ###   ########seoul.kr  */
+/*   Updated: 2023/09/21 17:28:08 by hyunjunk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,7 @@ t_type	get_type(char *str)
 }
 
 // 	print_chunks(chunks);
-char	*make_token(char *input, char *begin, char *end, t_list **chunks)
+char	*make_token(char *input, char *begin, char *end, t_list **out_tokens)
 {
 	t_token	*token;
 	t_list	*temp;
@@ -49,12 +49,12 @@ char	*make_token(char *input, char *begin, char *end, t_list **chunks)
 	token->str = ft_substr(input, begin - input, end - begin + 1);
 	token->type = get_type(token->str);
 	temp = ft_lstnew(token);
-	ft_lstadd_back(chunks, temp);
+	ft_lstadd_back(out_tokens, temp);
 	return (end + 1);
 }
 
 // two pointer tokenizer, find | "" ''
-t_list	*tokenize(char *input, t_list **chunks)
+void	tokenize(char *input, t_list **out_tokens)
 {
 	char	*begin;
 	char	*end;
@@ -77,7 +77,6 @@ t_list	*tokenize(char *input, t_list **chunks)
 		if (*begin && *begin == *(begin + 1) && ft_strchr("><|", *begin))
 			++end;
 		if (*begin != '\0')
-			begin = make_token(input, begin, end, chunks);
+			begin = make_token(input, begin, end, out_tokens);
 	}
-	return (*chunks);
 }

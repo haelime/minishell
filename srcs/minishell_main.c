@@ -6,7 +6,7 @@
 /*   By: hyunjunk <hyunjunk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/28 16:57:45 by haeem             #+#    #+#             */
-/*   Updated: 2023/09/15 19:51:20 by hyunjunk         ###   ########.fr       */
+/*   Updated: 2023/09/21 17:35:56 by hyunjunk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,8 @@ int	main(int argc, char **argv, char **envp)
 {
 	char		*input;
 	t_hashmap	*envmap;
-	t_list		*syntax;
+	t_list		*tokens;
+	t_list		*cmd_blocks;
 
 	input = NULL;
 	envmap = hash_envp(envp);
@@ -31,9 +32,17 @@ int	main(int argc, char **argv, char **envp)
 		get_input(&input, envmap);
 		if (input == NULL || ft_strlen(input) == 0)
 			continue ;
-		syntax = parse(input, envmap);
+		tokens = parse(input, envmap);
+		if (check_parse_invalid(tokens))
+		{
+			printf("syntax error\n");
+			// TODO : free tokens.
+			continue ;
+		}
+		make_cmd_blocks_by_tokens(&cmd_blocks, tokens);
 		signal_default();
-		execute(syntax, envmap);
+		execute(cmd_blocks, envmap);
+		// TODO : free tokens and cmd_blocks.
 	}
 	return (0);
 }

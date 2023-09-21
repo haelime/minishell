@@ -6,7 +6,7 @@
 /*   By: hyunjunk <hyunjunk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/28 16:58:38 by haeem             #+#    #+#             */
-/*   Updated: 2023/09/18 20:09:51 by hyunjunk         ###   ########.fr       */
+/*   Updated: 2023/09/21 17:33:08 by hyunjunk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -223,7 +223,7 @@ void		signal_default(void);
 /* parse */
 /* -------------------------------------------------------------------------- */
 t_list		*parse(char *input, t_hashmap *envmap);
-t_list		*tokenize(char *input, t_list **chunks);
+void		tokenize(char *input, t_list **out_chunks);
 bool		istoken(char ch);
 bool		isanotherquote(char *begin);
 bool		isparenclosed(char *begin);
@@ -232,6 +232,7 @@ void		rec_replace_dollar(t_tree *syntax, t_hashmap *envmap);
 char		*replace_dollar(char *str, t_hashmap *envmap);
 void		print_pstree(t_tree *syntax);
 void		make_cmd_blocks_by_tokens(t_list **out_list_cmd_blocks, t_list *list_tokens);
+int			check_parse_invalid(t_list *tokens);
 /* -------------------------------------------------------------------------- */
 
 // syntax
