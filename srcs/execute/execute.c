@@ -6,7 +6,7 @@
 /*   By: hyunjunk <hyunjunk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/10 19:02:33 by haeem             #+#    #+#             */
-/*   Updated: 2023/09/18 22:02:11 by hyunjunk         ###   ########.fr       */
+/*   Updated: 2023/09/21 20:07:21 by hyunjunk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -124,6 +124,19 @@ char	**get_path_from_env(t_hashmap *envmap)
 	return (ft_split(value, ':'));
 }
 
+static void	free_envp(char **envp)
+{
+	char	**p;
+
+	p = envp;
+	while (*p != NULL)
+	{
+		free(*p);
+		p++;
+	}
+	free(envp);
+}
+
 void	execute(t_list *cmd_blocks, t_hashmap *envmap)
 {
 	int		*pipes;
@@ -141,4 +154,6 @@ void	execute(t_list *cmd_blocks, t_hashmap *envmap)
 	close_pipes(pipes, ft_lstsize(cmd_blocks));
 	for (int i = 0; i < ft_lstsize(cmd_blocks); i++)
 		waitpid(-1, NULL, 0); //< TODO: change to receive error code  
+	free(pipes);
+	free_envp(envp);
 }

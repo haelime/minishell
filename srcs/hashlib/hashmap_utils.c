@@ -6,7 +6,7 @@
 /*   By: hyunjunk <hyunjunk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/15 18:14:23 by haeem             #+#    #+#             */
-/*   Updated: 2023/09/21 19:31:58 by hyunjunk         ###   ########.fr       */
+/*   Updated: 2023/09/21 20:16:50 by hyunjunk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,7 +97,7 @@ char	**malloc_get_envp(t_hashmap *hashmap)
 
 	ret_envp = (char **)malloc(
 			(get_count_hashmap(hashmap) + 1) * sizeof(char *));
-	ret_envp[hashmap->size] = NULL;
+	ret_envp[get_count_hashmap(hashmap)] = NULL;
 	bucket_i = 0;
 	envp_i = 0;
 	while (bucket_i < hashmap->size)
