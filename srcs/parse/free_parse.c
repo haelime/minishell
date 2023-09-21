@@ -6,7 +6,7 @@
 /*   By: hyunjunk <hyunjunk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/21 17:55:58 by hyunjunk          #+#    #+#             */
-/*   Updated: 2023/09/21 19:27:54 by hyunjunk         ###   ########.fr       */
+/*   Updated: 2023/09/21 19:38:46 by hyunjunk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,8 @@ void	free_tokens(t_list **out_tokens)
 	t_list	*next;
 	t_token	*token;
 
+	if (*out_tokens == NULL)
+		return ;
 	p = *out_tokens;
 	while (p != NULL)
 	{
@@ -37,6 +39,8 @@ void	free_cmd_blocks(t_list **out_cmd_blocks)
 	t_list		*next;
 	t_cmd_block	*cmd_block;
 
+	if (*out_cmd_blocks == NULL)
+		return ;
 	p = *out_cmd_blocks;
 	while (p != NULL)
 	{
