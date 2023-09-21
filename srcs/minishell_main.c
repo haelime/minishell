@@ -6,7 +6,7 @@
 /*   By: hyunjunk <hyunjunk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/28 16:57:45 by haeem             #+#    #+#             */
-/*   Updated: 2023/09/21 17:35:56 by hyunjunk         ###   ########.fr       */
+/*   Updated: 2023/09/21 19:21:04 by hyunjunk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,9 @@
 #include "../include/parsetree.h"
 #include "../libft/include/libft.h"
 
+extern void		*__wrap_malloc(size_t size, const char* FILE, int LINE, const char* FUNCTION);
+extern void		__wrap_free(void* ptr, const char* FILE, int LINE, const char* FUNCTION);
+
 int	main(int argc, char **argv, char **envp)
 {
 	char		*input;
@@ -22,7 +25,6 @@ int	main(int argc, char **argv, char **envp)
 	t_list		*tokens;
 	t_list		*cmd_blocks;
 
-	input = NULL;
 	envmap = hash_envp(envp);
 	init_shell(argc, argv, envp, envmap);
 	signal_default();
@@ -36,13 +38,14 @@ int	main(int argc, char **argv, char **envp)
 		if (check_parse_invalid(tokens))
 		{
 			printf("syntax error\n");
-			// TODO : free tokens.
+			free_tokens(&tokens);
 			continue ;
 		}
 		make_cmd_blocks_by_tokens(&cmd_blocks, tokens);
 		signal_default();
 		execute(cmd_blocks, envmap);
-		// TODO : free tokens and cmd_blocks.
+		free_tokens(&tokens);
+		free_cmd_blocks(&cmd_blocks);
 	}
 	return (0);
 }

@@ -6,7 +6,7 @@
 /*   By: hyunjunk <hyunjunk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/28 16:58:38 by haeem             #+#    #+#             */
-/*   Updated: 2023/09/21 17:33:08 by hyunjunk         ###   ########.fr       */
+/*   Updated: 2023/09/21 19:27:54 by hyunjunk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -233,6 +233,8 @@ char		*replace_dollar(char *str, t_hashmap *envmap);
 void		print_pstree(t_tree *syntax);
 void		make_cmd_blocks_by_tokens(t_list **out_list_cmd_blocks, t_list *list_tokens);
 int			check_parse_invalid(t_list *tokens);
+void		free_tokens(t_list **out_tokens);
+void		free_cmd_blocks(t_list **out_cmd_blocks);
 /* -------------------------------------------------------------------------- */
 
 // syntax
@@ -246,6 +248,28 @@ int			builtin_env(t_hashmap *envmap);
 int			builtin_pwd(void);
 int			builtin_unset(char **argv, t_hashmap *envmap);
 int			builtin_echo(char **argv);
+/* -------------------------------------------------------------------------- */
+
+// debug
+/* -------------------------------------------------------------------------- */
+inline void		*__wrap_malloc(size_t size, const char* FILE, int LINE, const char* FUNCTION)
+{
+	void* ret = malloc(size);
+	printf("malloc() %6lu.bytes %s:%d:%s() ADDR=%p\n",
+		size, FILE, LINE, FUNCTION, ret);
+
+	return ret;
+}
+
+inline void	__wrap_free(void* ptr, const char* FILE, int LINE, const char* FUNCTION)
+{
+	printf("free() %s:%d:%s() ADDR=%p value={%s}\n",
+		FILE, LINE, FUNCTION, ptr, (char*)ptr);
+	free(ptr);
+}
+
+#define malloc(x) __wrap_malloc(x, __FILE__, __LINE__, __FUNCTION__)
+#define free(x) __wrap_free(x, __FILE__, __LINE__, __FUNCTION__);
 /* -------------------------------------------------------------------------- */
 
 #endif
