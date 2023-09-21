@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execute.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: haeem <haeem@student.42seoul.kr>           +#+  +:+       +#+        */
+/*   By: hyunjunk <hyunjunk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/10 19:02:33 by haeem             #+#    #+#             */
-/*   Updated: 2023/09/21 20:07:21 by hyunjunk         ###   ########.fr       */
+/*   Updated: 2023/09/21 20:48:52 by hyunjunk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,6 +86,8 @@ static void	execute_cmd_block(
 	// if (is_builtin(cmd_block))
 	// 	execute_builtin(cmd_block, pipes, envp);
 	// else if (execve(cmd_block->completed_cmd, cmd_block->options, envp) == -1)
+	if (cmd_block->completed_cmd == NULL)
+		msg_exit("DEBUG:NULL execution\n", 1); //< DEBUG
 	if (execve(cmd_block->completed_cmd, cmd_block->options, envp) == -1)
 		str_msg_exit("%s execve() failed.\n", cmd_block->options[0], 1);
 }
@@ -109,8 +111,8 @@ static void	fork_childs(
 		{
 			cmd_block = (t_cmd_block *)p_list->content;
 			cmd_block->completed_cmd
-				= malloc_find_completed_cmd(cmd_block->cmd->str, paths);
-			if (cmd_block->completed_cmd == NULL)
+				= malloc_find_completed_cmd(cmd_block->cmd, paths);
+			if (cmd_block->completed_cmd == NULL && cmd_block->cmd != NULL)
 				str_msg_exit("%s not command.\n", cmd_block->cmd->str, 1);
 			cmd_block->idx = i;
 			execute_cmd_block(cmd_block, ft_lstsize(cmd_blocks), pipes, envp);

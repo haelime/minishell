@@ -6,7 +6,7 @@
 /*   By: hyunjunk <hyunjunk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/28 16:58:38 by haeem             #+#    #+#             */
-/*   Updated: 2023/09/21 19:50:59 by hyunjunk         ###   ########.fr       */
+/*   Updated: 2023/09/21 20:35:36 by hyunjunk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -194,7 +194,7 @@ void		exec_redirect(t_tree *syntax, t_hashmap *envmap);
 void		exec_pipe(t_tree *syntax, t_hashmap *envmap);
 void		exec_subsh(t_tree *syntax, t_hashmap *envmap);
 void		exec_word(t_tree *syntax, t_hashmap *envmap);
-char		*malloc_find_completed_cmd(char *cmd, char **paths);
+char		*malloc_find_completed_cmd(t_token *cmd, char **paths);
 /* -------------------------------------------------------------------------- */
 
 // utils

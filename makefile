@@ -3,16 +3,16 @@
 #                                                         :::      ::::::::    #
 #    makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: haeem <haeem@student.42seoul.kr>           +#+  +:+       +#+         #
+#    By: hyunjunk <hyunjunk@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/04/11 14:22:09 by haeem             #+#    #+#              #
-#    Updated: 2023/09/21 19:56:57 by haeem            ###   ########seoul.kr   #
+#    Updated: 2023/09/21 20:47:37 by hyunjunk         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 
 CC = cc
-CFLAGS = -Wall -Wextra -Werror -g3\
+CFLAGS = -Wall -Wextra -Werror -g3 
 # -fsanitize=address
 SRCDIR = $(CURDIR)
 
