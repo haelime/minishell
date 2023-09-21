@@ -6,13 +6,30 @@
 /*   By: haeem <haeem@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/05 20:05:16 by haeem             #+#    #+#             */
-/*   Updated: 2023/09/05 17:12:41 by haeem            ###   ########seoul.kr  */
+/*   Updated: 2023/09/21 17:13:36 by haeem            ###   ########seoul.kr  */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/minishell.h"
 #include "../../include/hashlib.h"
 #include "../../libft/include/libft.h"
+
+// FNV hash algorithm
+unsigned int	hash_string(const char *s)
+{
+	unsigned int	i;
+	char			*ptr;
+
+	i = FNV_OFFSET;
+	ptr = (char *)s;
+	while (*ptr != '\0')
+	{
+		i += (i << 1) + (i << 4) + (i << 7) + (i << 8) + (i << 24);
+		i ^= *ptr;
+		ptr++;
+	}
+	return (i);
+}
 
 // create hash table with size SHOULD BE 2^n
 t_hashmap	*hashmap_create(int size)
@@ -35,30 +52,31 @@ t_hashmap	*hashmap_create(int size)
 // simple hash insert
 void	hashmap_insert(t_hashmap *hashmap, char *key, char *value)
 {
-	unsigned int	hash;
-	t_bucket		*newbucket;
-	t_bucket		*current;
+	const unsigned int	hash = hash_string(key);
+	t_bucket			**ptr_new_place;
+	t_bucket			*current;
 
-	newbucket = (t_bucket *)malloc(sizeof(t_bucket));
-	hash = hash_string(key);
-	newbucket->key = ft_strdup(key);
-	newbucket->value = ft_strdup(value);
-	newbucket->next = NULL;
 	if (hashmap->buckets[hash % hashmap->size] == NULL)
-		hashmap->buckets[hash % hashmap->size] = newbucket;
+		ptr_new_place = &hashmap->buckets[hash % hashmap->size];
 	else
 	{
 		current = hashmap->buckets[hash % hashmap->size];
-		if (ft_strcmp(current->key, key) == 0)
-		{
-			free(current->value);
-			current->value = value;
-			return ;
-		}
 		while (current->next != NULL)
+		{
+			if (ft_strcmp(current->key, key) == 0)
+			{
+				free(current->value);
+				current->value = ft_strdup(value);
+				return ;
+			}
 			current = current->next;
-		current->next = newbucket;
+		}
+		ptr_new_place = &current->next;
 	}
+	*ptr_new_place = (t_bucket *)malloc(sizeof(t_bucket));
+	(*ptr_new_place)->key = ft_strdup(key);
+	(*ptr_new_place)->value = ft_strdup(value);
+	(*ptr_new_place)->next = NULL;
 }
 
 // returns hash value of string, if string is NULL, returns NULL
