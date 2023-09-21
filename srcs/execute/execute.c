@@ -6,7 +6,7 @@
 /*   By: hyunjunk <hyunjunk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/10 19:02:33 by haeem             #+#    #+#             */
-/*   Updated: 2023/09/21 20:40:52 by hyunjunk         ###   ########.fr       */
+/*   Updated: 2023/09/21 20:48:52 by hyunjunk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,6 +46,12 @@ static int	*malloc_open_pipe(int num_cmd)
 	return (pipes);
 }
 
+// __attribute__((noreturn))
+// static void	execute_builtin(t_cmd_block *cmd_block, int *pipes, char **envp)
+// {
+
+// }
+
 static void	execute_cmd_block(
 	t_cmd_block *cmd_block, int num_cmd, int *pipes, char **envp)
 {
@@ -77,6 +83,9 @@ static void	execute_cmd_block(
 		dup2(pipes[cmd_block->idx * 2 + 1], STDOUT_FILENO);
 	close_pipes(pipes, num_cmd);
 	cmd_block->options[0] = cmd_block->completed_cmd;
+	// if (is_builtin(cmd_block))
+	// 	execute_builtin(cmd_block, pipes, envp);
+	// else if (execve(cmd_block->completed_cmd, cmd_block->options, envp) == -1)
 	if (cmd_block->completed_cmd == NULL)
 		msg_exit("DEBUG:NULL execution\n", 1); //< DEBUG
 	if (execve(cmd_block->completed_cmd, cmd_block->options, envp) == -1)
