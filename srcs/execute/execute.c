@@ -6,7 +6,7 @@
 /*   By: hyunjunk <hyunjunk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/10 19:02:33 by haeem             #+#    #+#             */
-/*   Updated: 2023/09/22 20:10:10 by hyunjunk         ###   ########.fr       */
+/*   Updated: 2023/09/22 21:30:45 by hyunjunk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,8 @@ static int	*malloc_open_pipe(int num_cmd)
 }
 
 //	Close fd_heredoc by itself
-static void	read_heredoc(t_cmd_block *cmd_block, int fd_heredoc)
+static void	read_heredoc(
+	t_cmd_block *cmd_block, int fd_heredoc, t_hashmap *envmap)
 {
 	char	*line;	
 
@@ -55,20 +56,18 @@ static void	read_heredoc(t_cmd_block *cmd_block, int fd_heredoc)
 	{
 		line = readline("heredoc> ");
 		if (line == NULL || ft_strcmp(line, cmd_block->redirect_in) == 0)
-		{
-			free(line);
 			break ;
-		}
-		// TODO: extend dollar
+		line = replace_dollar(line, envmap, 1);
 		if (write(fd_heredoc, line, ft_strlen(line)) < 0)
 			msg_exit("read_heredoc() write failed.\n", 1);
 		if (write(fd_heredoc, "\n", sizeof(char)) < 0)
 			msg_exit("read_heredoc() write failed.\n", 1);
 		free(line);
 	}
+	free(line);
 }
 
-static void	get_heredoc(t_cmd_block	*cmd_block)
+static void	get_heredoc(t_cmd_block	*cmd_block, t_hashmap *envmap)
 {
 	int			fd;
 	char		*idx_str;
@@ -84,7 +83,7 @@ static void	get_heredoc(t_cmd_block	*cmd_block)
 			msg_exit("get_heredoc() create file failed.\n", 1);
 		free(idx_str);
 		cmd_block->heredoc_file = tmp_file_name;
-		read_heredoc(cmd_block, fd);
+		read_heredoc(cmd_block, fd, envmap);
 	}
 }
 
@@ -127,10 +126,10 @@ static void	connect_stdio(t_cmd_block *cmd_block, int num_cmd, int *pipes)
 // }
 
 static void	execute_cmd_block(
-	t_cmd_block *cmd_block, int num_cmd, int *pipes, char **envp)
+	t_cmd_block *cmd_block, int num_cmd, int *pipes, t_hashmap *envmap)
 {
 	if (cmd_block->redirect_is_heredoc)
-		get_heredoc(cmd_block);
+		get_heredoc(cmd_block, envmap);
 	connect_stdio(cmd_block, num_cmd, pipes);
 	close_pipes(pipes, num_cmd);
 	cmd_block->options[0] = cmd_block->completed_cmd;
@@ -138,12 +137,28 @@ static void	execute_cmd_block(
 		//execute_builtin(cmd_block, pipes, envp);
 	if (cmd_block->completed_cmd == NULL)
 		msg_exit("DEBUG:NULL execution\n", 1); //< DEBUG
-	else if (execve(cmd_block->completed_cmd, cmd_block->options, envp) == -1)
+	else if (execve(
+			cmd_block->completed_cmd,
+			cmd_block->options,
+			malloc_get_envp(envmap)) == -1)
 		str_msg_exit("%s execve() failed.\n", cmd_block->options[0], 1);
 }
 
+// @return	IF 		(value does not exist) 	THEN (NULL)
+//			ELSE 	(value exists) 			THEN (paths)
+char	**malloc_get_paths(t_hashmap *envmap)
+{
+	char	*value;
+
+	value = NULL;
+	value = hashmap_search(envmap, "PATH");
+	if (value == NULL)
+		return (NULL);
+	return (ft_split(value, ':'));
+}
+
 static void	fork_childs(
-	t_list *cmd_blocks, int *pipes, char **paths, char **envp)
+	t_list *cmd_blocks, int *pipes, t_hashmap *envmap)
 {
 	int			i;
 	pid_t		pid;
@@ -160,61 +175,44 @@ static void	fork_childs(
 		else if (pid == 0)
 		{
 			cmd_block = (t_cmd_block *)p_list->content;
-			cmd_block->completed_cmd
-				= malloc_find_completed_cmd(cmd_block->cmd, paths);
+			cmd_block->completed_cmd = malloc_find_completed_cmd(
+					cmd_block->cmd, malloc_get_paths(envmap));
 			if (cmd_block->completed_cmd == NULL && cmd_block->cmd != NULL)
 				str_msg_exit("%s not command.\n", cmd_block->cmd->str, 1);
 			cmd_block->idx = i;
-			execute_cmd_block(cmd_block, ft_lstsize(cmd_blocks), pipes, envp);
+			execute_cmd_block(cmd_block, ft_lstsize(cmd_blocks), pipes, envmap);
 		}
 		i++;
 		p_list = p_list->next;
 	}
 }
 
-// @return	IF 		(value does not exist) 	THEN (NULL)
-//			ELSE 	(value exists) 			THEN (paths)
-char	**get_path_from_env(t_hashmap *envmap)
-{
-	char	*value;
 
-	value = NULL;
-	value = hashmap_search(envmap, "PATH");
-	if (value == NULL)
-		return (NULL);
-	return (ft_split(value, ':'));
-}
+// static void	free_envp(char **envp)
+// {
+// 	char	**p;
 
-static void	free_envp(char **envp)
-{
-	char	**p;
-
-	p = envp;
-	while (*p != NULL)
-	{
-		free(*p);
-		p++;
-	}
-	free(envp);
-}
+// 	p = envp;
+// 	while (*p != NULL)
+// 	{
+// 		free(*p);
+// 		p++;
+// 	}
+// 	free(envp);
+// }
 
 void	execute(t_list *cmd_blocks, t_hashmap *envmap)
 {
 	int		*pipes;
 	int		num_pipe;
-	char	**paths;
-	char	**envp;
 
 	if (cmd_blocks == NULL)
 		return ;
-	paths = get_path_from_env(envmap);
 	num_pipe = ft_lstsize(cmd_blocks) - 1;
 	pipes = malloc_open_pipe(ft_lstsize(cmd_blocks));
-	envp = malloc_get_envp(envmap);
-	fork_childs(cmd_blocks, pipes, paths, envp);
+	fork_childs(cmd_blocks, pipes, envmap);
 	close_pipes(pipes, ft_lstsize(cmd_blocks));
 	for (int i = 0; i < ft_lstsize(cmd_blocks); i++)
 		waitpid(-1, NULL, 0); //< TODO: change to receive error code  
 	free(pipes);
-	free_envp(envp);
 }

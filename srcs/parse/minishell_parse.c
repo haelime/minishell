@@ -6,7 +6,7 @@
 /*   By: hyunjunk <hyunjunk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/28 18:48:50 by haeem             #+#    #+#             */
-/*   Updated: 2023/09/21 19:45:18 by hyunjunk         ###   ########.fr       */
+/*   Updated: 2023/09/22 21:30:57 by hyunjunk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,12 +45,18 @@ t_list	*parse(char *input, t_hashmap *envmap)
 {
 	t_token	*token;
 	t_list	*tokens;
+	t_list	*p;
 
 	tokens = NULL;
 	tokenize(input, &tokens);
-	token = (t_token *)(tokens->content);
-	if (ft_strchr(token->str, '$'))
-		token->str = replace_dollar(token->str, envmap);
+	p = tokens;
+	while (p != NULL)
+	{
+		token = (t_token *)(p->content);
+		if (ft_strchr(token->str, '$'))
+			token->str = replace_dollar(token->str, envmap, 0);
+		p = p->next;
+	}
 	if (check_parse_invalid(tokens))
 	{
 		printf("syntax error\n");

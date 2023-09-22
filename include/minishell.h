@@ -6,7 +6,7 @@
 /*   By: hyunjunk <hyunjunk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/28 16:58:38 by haeem             #+#    #+#             */
-/*   Updated: 2023/09/22 19:18:40 by hyunjunk         ###   ########.fr       */
+/*   Updated: 2023/09/22 21:28:10 by hyunjunk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -237,7 +237,7 @@ bool		isanotherquote(char *begin);
 bool		isparenclosed(char *begin);
 char		*tryfutherparen(char *begin);
 void		rec_replace_dollar(t_tree *syntax, t_hashmap *envmap);
-char		*replace_dollar(char *str, t_hashmap *envmap);
+char		*replace_dollar(char *str, t_hashmap *envmap, int is_heredoc_mode);
 void		print_pstree(t_tree *syntax);
 void		make_cmd_blocks_by_tokens(t_list **out_list_cmd_blocks, t_list *list_tokens);
 int			check_parse_invalid(t_list *tokens);
