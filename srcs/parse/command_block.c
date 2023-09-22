@@ -6,7 +6,7 @@
 /*   By: hyunjunk <hyunjunk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/23 15:42:34 by haeem             #+#    #+#             */
-/*   Updated: 2023/09/21 20:41:33 by hyunjunk         ###   ########.fr       */
+/*   Updated: 2023/09/22 19:12:15 by hyunjunk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,31 +57,35 @@ static void	fill_options_cmd_block(
 }
 
 /*
-@Return : returns the position of the chunk that should be read next. 
+@Arguments 	: pos	position of the option after the command
+
+@Return 	: returns the position of the chunk that should be read next. 
 			It will be the position of PIPE or NULL.
 */
 static t_list	*fill_subcontext_cmd_block(
 	t_cmd_block *out_cmd_block, t_list *pos)
 {
-	t_token		*token;
+	t_type		type;
 	t_token		*next_token;
 
 	fill_options_cmd_block(out_cmd_block, pos);
 	while (pos != NULL && ((t_token *)pos->content)->type != PIPE)
 	{
-		token = (t_token *)pos->content;
-		if (token->type == WORD)
+		type = ((t_token *)pos->content)->type;
+		if (type == WORD || pos->next == NULL)
 		{
 			pos = pos->next;
 			continue ;
 		}
 		next_token = (t_token *)pos->next->content;
-		if (token->type == REDIRECT_IN || token->type == REDIRECT_HEREDOC)
+		if (type == REDIRECT_IN || type == REDIRECT_HEREDOC)
 			out_cmd_block->redirect_in = next_token->str;
-		if (token->type == REDIRECT_OUT || token->type == REDIRECT_APPEND)
+		if (type == REDIRECT_IN || type == REDIRECT_HEREDOC)
+			out_cmd_block->redirect_is_heredoc = type == REDIRECT_HEREDOC;
+		if (type == REDIRECT_OUT || type == REDIRECT_APPEND)
 			out_cmd_block->redirect_out = next_token->str;
-		out_cmd_block->redirect_is_heredoc = token->type == REDIRECT_HEREDOC;
-		out_cmd_block->redirect_is_append = token->type == REDIRECT_APPEND;
+		if (type == REDIRECT_OUT || type == REDIRECT_APPEND)
+			out_cmd_block->redirect_is_append = type == REDIRECT_APPEND;
 		pos = pos->next->next;
 	}
 	return (pos);

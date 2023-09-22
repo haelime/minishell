@@ -6,7 +6,7 @@
 /*   By: hyunjunk <hyunjunk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/10 19:02:33 by haeem             #+#    #+#             */
-/*   Updated: 2023/09/21 20:48:52 by hyunjunk         ###   ########.fr       */
+/*   Updated: 2023/09/22 20:10:10 by hyunjunk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,23 +46,61 @@ static int	*malloc_open_pipe(int num_cmd)
 	return (pipes);
 }
 
-// __attribute__((noreturn))
-// static void	execute_builtin(t_cmd_block *cmd_block, int *pipes, char **envp)
-// {
-
-// }
-
-static void	execute_cmd_block(
-	t_cmd_block *cmd_block, int num_cmd, int *pipes, char **envp)
+//	Close fd_heredoc by itself
+static void	read_heredoc(t_cmd_block *cmd_block, int fd_heredoc)
 {
-	int	fd;
+	char	*line;	
+
+	while (1)
+	{
+		line = readline("heredoc> ");
+		if (line == NULL || ft_strcmp(line, cmd_block->redirect_in) == 0)
+		{
+			free(line);
+			break ;
+		}
+		// TODO: extend dollar
+		if (write(fd_heredoc, line, ft_strlen(line)) < 0)
+			msg_exit("read_heredoc() write failed.\n", 1);
+		if (write(fd_heredoc, "\n", sizeof(char)) < 0)
+			msg_exit("read_heredoc() write failed.\n", 1);
+		free(line);
+	}
+}
+
+static void	get_heredoc(t_cmd_block	*cmd_block)
+{
+	int			fd;
+	char		*idx_str;
+	char		*tmp_file_name;
+
+	if (cmd_block->redirect_is_heredoc)
+	{
+		idx_str = ft_itoa(cmd_block->idx);
+		tmp_file_name = ft_strjoin(".tmp_heredoc_", idx_str);
+		fd = open(tmp_file_name, O_WRONLY | O_CREAT | O_TRUNC,
+				S_IRUSR | S_IWUSR | S_IRGRP | S_IROTH);
+		if (fd < 0)
+			msg_exit("get_heredoc() create file failed.\n", 1);
+		free(idx_str);
+		cmd_block->heredoc_file = tmp_file_name;
+		read_heredoc(cmd_block, fd);
+	}
+}
+
+/* @descript	am = append_mask
+					IF (is_append) 	THEN 0xFFFFFFFF
+					ELSE 			THEN 0x00000000	*/
+static void	connect_stdio(t_cmd_block *cmd_block, int num_cmd, int *pipes)
+{
+	int			fd;
+	const int	am = ~(cmd_block->redirect_is_append - 1);
 
 	if (cmd_block->redirect_in != NULL)
 	{
-		// TODO : implement here_doc
-		//if (cmd_block->redirect_is_heredoc)
-			//fd = redirect_heredoc()
-		//else
+		if (cmd_block->redirect_is_heredoc)
+			fd = open(cmd_block->heredoc_file, O_RDONLY);
+		else
 			fd = open(cmd_block->redirect_in, O_RDONLY);
 		if (fd == -1)
 			str_msg_exit("%s open() failed.\n", cmd_block->redirect_in, 1);
@@ -72,23 +110,35 @@ static void	execute_cmd_block(
 		dup2(pipes[cmd_block->idx * 2 - 2], STDIN_FILENO);
 	if (cmd_block->redirect_out != NULL)
 	{
-		fd = open(cmd_block->redirect_out, O_WRONLY | O_CREAT | O_TRUNC
-				| (O_APPEND & ~(cmd_block->redirect_is_append - 1)),
-				S_IRUSR | S_IWUSR | S_IRGRP | S_IROTH);
+		fd = open(cmd_block->redirect_out, O_WRONLY | O_CREAT | (O_TRUNC & ~am)
+				| (O_APPEND & am), S_IRUSR | S_IWUSR | S_IRGRP | S_IROTH);
 		if (fd == -1)
 			str_msg_exit("%s open() failed.\n", cmd_block->redirect_out, 1);
 		dup2(fd, STDOUT_FILENO);
 	}
 	else if (cmd_block->idx != num_cmd - 1)
 		dup2(pipes[cmd_block->idx * 2 + 1], STDOUT_FILENO);
+}
+
+// __attribute__((noreturn))
+// static void	execute_builtin(t_cmd_block *cmd_block, int *pipes, char **envp)
+// {
+
+// }
+
+static void	execute_cmd_block(
+	t_cmd_block *cmd_block, int num_cmd, int *pipes, char **envp)
+{
+	if (cmd_block->redirect_is_heredoc)
+		get_heredoc(cmd_block);
+	connect_stdio(cmd_block, num_cmd, pipes);
 	close_pipes(pipes, num_cmd);
 	cmd_block->options[0] = cmd_block->completed_cmd;
-	// if (is_builtin(cmd_block))
-	// 	execute_builtin(cmd_block, pipes, envp);
-	// else if (execve(cmd_block->completed_cmd, cmd_block->options, envp) == -1)
+	//if (is_builtin(cmd_block))
+		//execute_builtin(cmd_block, pipes, envp);
 	if (cmd_block->completed_cmd == NULL)
 		msg_exit("DEBUG:NULL execution\n", 1); //< DEBUG
-	if (execve(cmd_block->completed_cmd, cmd_block->options, envp) == -1)
+	else if (execve(cmd_block->completed_cmd, cmd_block->options, envp) == -1)
 		str_msg_exit("%s execve() failed.\n", cmd_block->options[0], 1);
 }
 

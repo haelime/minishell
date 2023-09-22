@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: haeem <haeem@student.42seoul.kr>           +#+  +:+       +#+        */
+/*   By: hyunjunk <hyunjunk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/28 16:58:38 by haeem             #+#    #+#             */
-/*   Updated: 2023/09/22 17:20:22 by haeem            ###   ########seoul.kr  */
+/*   Updated: 2023/09/22 19:18:40 by hyunjunk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -150,11 +150,15 @@ typedef struct s_token
 	t_func		exec;
 }	t_token;
 
-// Format : <cmd> <options> <redicrect...>
-// It uses shallow copy.
-// Don't remove original strings until this becomes not used
-// Only options and completed_cmd use malloc.
-// (The internal strings of options is not malloc)
+/* 	Format : <cmd> <options> <redicrect...>
+	It uses shallow copy.
+	Don't remove original strings until this becomes not used
+	Only options and completed_cmd use malloc.
+	(The internal strings of options is not malloc)
+
+	@Exceptional case :		
+	If input redirection is heredoc, 
+	then heredoc_file will use malloc)	*/
 typedef struct s_cmd_block
 {
 	t_tree_node_type	type;
@@ -164,6 +168,7 @@ typedef struct s_cmd_block
 	char				*redirect_in;
 	char				*redirect_out;
 	int					redirect_is_heredoc;
+	char				*heredoc_file;
 	int					redirect_is_append;
 	char				*completed_cmd;
 	int					idx;
@@ -272,8 +277,8 @@ inline void	__wrap_free(void* ptr, const char* FILE, int LINE, const char* FUNCT
 	free(ptr);
 }
 
-#define malloc(x) __wrap_malloc(x, __FILE__, __LINE__, __FUNCTION__)
-#define free(x) __wrap_free(x, __FILE__, __LINE__, __FUNCTION__);
+// #define malloc(x) __wrap_malloc(x, __FILE__, __LINE__, __FUNCTION__)
+// #define free(x) __wrap_free(x, __FILE__, __LINE__, __FUNCTION__);
 /* -------------------------------------------------------------------------- */
 
 #endif
