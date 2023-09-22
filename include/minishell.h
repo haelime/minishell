@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hyunjunk <hyunjunk@student.42.fr>          +#+  +:+       +#+        */
+/*   By: haeem <haeem@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/28 16:58:38 by haeem             #+#    #+#             */
-/*   Updated: 2023/09/21 20:35:36 by hyunjunk         ###   ########.fr       */
+/*   Updated: 2023/09/22 17:20:22 by haeem            ###   ########seoul.kr  */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -251,6 +251,7 @@ int			builtin_env(t_hashmap *envmap);
 int			builtin_pwd(void);
 int			builtin_unset(char **argv, t_hashmap *envmap);
 int			builtin_echo(char **argv);
+int			builtin_cd(char **argv, t_hashmap *envmap);
 /* -------------------------------------------------------------------------- */
 
 // debug
