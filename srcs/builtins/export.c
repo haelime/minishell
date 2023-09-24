@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   export.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hyunjunk <hyunjunk@student.42.fr>          +#+  +:+       +#+        */
+/*   By: haeem <haeem@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/15 16:45:29 by haeem             #+#    #+#             */
-/*   Updated: 2023/09/24 17:17:29 by hyunjunk         ###   ########.fr       */
+/*   Updated: 2023/09/24 18:34:01 by haeem            ###   ########seoul.kr  */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,7 +66,7 @@ int	builtin_export(char **argv, t_hashmap *envmap)
 		start = end;
 		while ((*argv)[end] != '\0')
 			end++;
-		value = ft_substr(*argv, start, end - start);
+		value = ft_substr(*argv, start + 1, end - start);
 	}
 	return (norm_builtin_export(envmap, key, value));
 }
