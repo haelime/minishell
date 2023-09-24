@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execute.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hyunjunk <hyunjunk@student.42.fr>          +#+  +:+       +#+        */
+/*   By: haeem <haeem@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/10 19:02:33 by haeem             #+#    #+#             */
-/*   Updated: 2023/09/24 16:30:07 by hyunjunk         ###   ########.fr       */
+/*   Updated: 2023/09/24 17:16:55 by haeem            ###   ########seoul.kr  */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -225,11 +225,22 @@ static void	execute_single_builtin(
 		printf("DEBUG : unspecified builtin\n"); //< DEBUG
 	return ;
 }
+void	insert_exit_status(t_hashmap *envmap, int exitstatus)
+{
+	char	*str;
+	int		exitcode;
+
+	exitcode = WEXITSTATUS(exitstatus);
+	str = ft_itoa(exitcode);
+	hashmap_insert(envmap, "?", str);
+	free(str);
+}
 
 void	execute(t_list *cmd_blocks, t_hashmap *envmap)
 {
 	int		*pipes;
 	int		num_pipe;
+	int		exitstatus;
 
 	if (cmd_blocks == NULL)
 		return ;
@@ -243,7 +254,7 @@ void	execute(t_list *cmd_blocks, t_hashmap *envmap)
 	pipes = malloc_open_pipe(ft_lstsize(cmd_blocks));
 	fork_childs(cmd_blocks, pipes, envmap);
 	close_pipes(pipes, ft_lstsize(cmd_blocks));
-	for (int i = 0; i < ft_lstsize(cmd_blocks); i++)
-		waitpid(-1, NULL, 0); //< TODO: change to receive error code  
+	waitpid(-1, &exitstatus, 0); //< TODO: change to receive error code  
+	insert_exit_status(envmap, exitstatus);
 	free(pipes);
 }
