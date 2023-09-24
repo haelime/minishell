@@ -119,25 +119,28 @@ static void	connect_stdio(t_cmd_block *cmd_block, int num_cmd, int *pipes)
 		dup2(pipes[cmd_block->idx * 2 + 1], STDOUT_FILENO);
 }
 
-static void	execute_builtin(t_cmd_block *cmd_block, t_hashmap *envmap)
+static int	execute_builtin(t_cmd_block *cmd_block, t_hashmap *envmap)
 {
+	int	exit;
+
+	exit = 1;
 	if (ft_strcmp(cmd_block->cmd->str, "env") == 0)
-		builtin_env(envmap);
+		exit = builtin_env(envmap);
 	else if (ft_strcmp(cmd_block->cmd->str, "pwd") == 0)
-		builtin_pwd();
+		exit = builtin_pwd();
 	else if (ft_strcmp(cmd_block->cmd->str, "export") == 0)
-		builtin_export(cmd_block->options, envmap);
+		exit = builtin_export(cmd_block->options, envmap);
 	else if (ft_strcmp(cmd_block->cmd->str, "unset") == 0)
-		builtin_unset(cmd_block->options, envmap);
+		exit = builtin_unset(cmd_block->options, envmap);
 	else if (ft_strcmp(cmd_block->cmd->str, "echo") == 0)
-		builtin_echo(cmd_block->options);
+		exit = builtin_echo(cmd_block->options);
 	else if (ft_strcmp(cmd_block->cmd->str, "cd") == 0)
-		builtin_cd(cmd_block->options, envmap);
+		exit = builtin_cd(cmd_block->options, envmap);
 	else if (ft_strcmp(cmd_block->cmd->str, "exit") == 0)
-		builtin_exit(cmd_block->options);
+		exit = builtin_exit(cmd_block->options);
 	else
 		printf("DEBUG : unspecified builtin\n"); //< DEBUG
-	exit(0);
+	return exit;
 }
 
 static void	execute_cmd_block(
@@ -151,7 +154,7 @@ static void	execute_cmd_block(
 	if (cmd_block->completed_cmd == NULL)
 		msg_exit("DEBUG:NULL execution\n", 1); //< DEBUG. such as "<< a | cat"
 	else if (is_builtin(cmd_block))
-		execute_builtin(cmd_block, envmap);
+		exit(execute_builtin(cmd_block, envmap));
 	else if (execve(
 			cmd_block->completed_cmd,
 			cmd_block->options,
@@ -202,29 +205,6 @@ static void	fork_childs(
 	}
 }
 
-/* @Summary		Handle builtins that have different behavior when executed alone.
-				such as cd, exit, export, unset. 	*/
-static void	execute_single_builtin(
-	t_cmd_block *cmd_block, t_hashmap *envmap)
-{
-	if (ft_strcmp(cmd_block->cmd->str, "env") == 0)
-		builtin_env(envmap);
-	else if (ft_strcmp(cmd_block->cmd->str, "pwd") == 0)
-		builtin_pwd();
-	else if (ft_strcmp(cmd_block->cmd->str, "export") == 0)
-		builtin_export(cmd_block->options, envmap);
-	else if (ft_strcmp(cmd_block->cmd->str, "unset") == 0)
-		builtin_unset(cmd_block->options, envmap);
-	else if (ft_strcmp(cmd_block->cmd->str, "echo") == 0)
-		builtin_echo(cmd_block->options);
-	else if (ft_strcmp(cmd_block->cmd->str, "cd") == 0)
-		builtin_cd(cmd_block->options, envmap);
-	else if (ft_strcmp(cmd_block->cmd->str, "exit") == 0)
-		builtin_exit(cmd_block->options);
-	else
-		printf("DEBUG : unspecified builtin\n"); //< DEBUG
-	return ;
-}
 void	insert_exit_status(t_hashmap *envmap, int exitstatus)
 {
 	char	*str;
@@ -247,7 +227,10 @@ void	execute(t_list *cmd_blocks, t_hashmap *envmap)
 	if (is_builtin((t_cmd_block *)cmd_blocks->content)
 		&& ft_lstsize(cmd_blocks) == 1)
 	{
-		execute_single_builtin((t_cmd_block *)cmd_blocks->content, envmap);
+		exit = execute_builtin((t_cmd_block *)cmd_blocks->content, envmap);
+		exit_str = ft_itoa(exit);
+		hashmap_insert(envmap, "?", exit_str);
+		free(exit_str);
 		return ;
 	}
 	num_pipe = ft_lstsize(cmd_blocks) - 1;

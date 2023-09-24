@@ -6,7 +6,7 @@
 /*   By: hyunjunk <hyunjunk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/15 16:45:29 by haeem             #+#    #+#             */
-/*   Updated: 2023/09/24 16:09:53 by hyunjunk         ###   ########.fr       */
+/*   Updated: 2023/09/24 17:17:29 by hyunjunk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,8 +49,11 @@ int	builtin_export(char **argv, t_hashmap *envmap)
 	char	*key;
 	char	*value;
 
-	if (*(argv + 1) == NULL)
+	if (argv[1] == NULL)
+	{
 		print_hashmap(envmap);
+		key = NULL;
+	}
 	while (*(++argv))
 	{
 		start = 0;
