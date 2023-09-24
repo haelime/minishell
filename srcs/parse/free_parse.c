@@ -6,7 +6,7 @@
 /*   By: hyunjunk <hyunjunk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/21 17:55:58 by hyunjunk          #+#    #+#             */
-/*   Updated: 2023/09/21 19:38:46 by hyunjunk         ###   ########.fr       */
+/*   Updated: 2023/09/22 18:43:53 by hyunjunk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,6 +48,7 @@ void	free_cmd_blocks(t_list **out_cmd_blocks)
 		next = p->next;
 		free(cmd_block->options);
 		free(cmd_block->completed_cmd);
+		free(cmd_block->heredoc_file);
 		free(p->content);
 		free(p);
 		p = next;

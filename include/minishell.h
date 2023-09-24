@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: haeem <haeem@student.42seoul.kr>           +#+  +:+       +#+        */
+/*   By: hyunjunk <hyunjunk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/28 16:58:38 by haeem             #+#    #+#             */
-/*   Updated: 2023/09/24 15:55:42 by haeem            ###   ########seoul.kr  */
+/*   Updated: 2023/09/24 16:10:18 by hyunjunk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -150,11 +150,15 @@ typedef struct s_token
 	t_func		exec;
 }	t_token;
 
-// Format : <cmd> <options> <redicrect...>
-// It uses shallow copy.
-// Don't remove original strings until this becomes not used
-// Only options and completed_cmd use malloc.
-// (The internal strings of options is not malloc)
+/* 	Format : <cmd> <options> <redicrect...>
+	It uses shallow copy.
+	Don't remove original strings until this becomes not used
+	Only options and completed_cmd use malloc.
+	(The internal strings of options is not malloc)
+
+	@Exceptional case :		
+	If input redirection is heredoc, 
+	then heredoc_file will use malloc)	*/
 typedef struct s_cmd_block
 {
 	t_tree_node_type	type;
@@ -164,6 +168,7 @@ typedef struct s_cmd_block
 	char				*redirect_in;
 	char				*redirect_out;
 	int					redirect_is_heredoc;
+	char				*heredoc_file;
 	int					redirect_is_append;
 	char				*completed_cmd;
 	int					idx;
@@ -233,7 +238,7 @@ bool		isanotherquote(char *begin);
 bool		isparenclosed(char *begin);
 char		*tryfutherparen(char *begin);
 void		rec_replace_dollar(t_tree *syntax, t_hashmap *envmap);
-char		*replace_dollar(char *str, t_hashmap *envmap);
+char		*replace_dollar(char *str, t_hashmap *envmap, int is_heredoc_mode);
 void		print_pstree(t_tree *syntax);
 void		make_cmd_blocks_by_tokens(t_list **out_list_cmd_blocks, t_list *list_tokens);
 int			check_parse_invalid(t_list *tokens);
@@ -250,9 +255,11 @@ bool		rec_check_syntax(t_tree *syntax);
 /* -------------------------------------------------------------------------- */
 int			builtin_env(t_hashmap *envmap);
 int			builtin_pwd(void);
+int			builtin_export(char **argv, t_hashmap *envmap);
 int			builtin_unset(char **argv, t_hashmap *envmap);
 int			builtin_echo(char **argv);
 int			builtin_cd(char **argv, t_hashmap *envmap);
+int			builtin_exit(char **argv);
 /* -------------------------------------------------------------------------- */
 
 // debug
@@ -273,8 +280,8 @@ inline void	__wrap_free(void* ptr, const char* FILE, int LINE, const char* FUNCT
 	free(ptr);
 }
 
-#define malloc(x) __wrap_malloc(x, __FILE__, __LINE__, __FUNCTION__)
-#define free(x) __wrap_free(x, __FILE__, __LINE__, __FUNCTION__);
+// #define malloc(x) __wrap_malloc(x, __FILE__, __LINE__, __FUNCTION__)
+// #define free(x) __wrap_free(x, __FILE__, __LINE__, __FUNCTION__);
 /* -------------------------------------------------------------------------- */
 
 #endif
