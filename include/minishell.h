@@ -6,7 +6,7 @@
 /*   By: haeem <haeem@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/28 16:58:38 by haeem             #+#    #+#             */
-/*   Updated: 2023/09/22 17:20:22 by haeem            ###   ########seoul.kr  */
+/*   Updated: 2023/09/24 15:55:42 by haeem            ###   ########seoul.kr  */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -211,6 +211,7 @@ void		print_hashmap(t_hashmap *hashmap);
 void		print_chunks(t_list *chunks);
 void		msg_exit(const char *str, int err_code);
 void		str_msg_exit(const char *str, const char *str_arg, int err_code);
+int			int_to_exitcode(int status);
 /* -------------------------------------------------------------------------- */
 
 /* Signal Handler <signal.c> */

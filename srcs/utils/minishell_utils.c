@@ -6,7 +6,7 @@
 /*   By: haeem <haeem@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/15 19:24:09 by haeem             #+#    #+#             */
-/*   Updated: 2023/09/20 18:06:27 by haeem            ###   ########seoul.kr  */
+/*   Updated: 2023/09/24 15:55:20 by haeem            ###   ########seoul.kr  */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,4 +61,9 @@ void	str_msg_exit(const char *str, const char *str_arg, int err_code)
 {
 	printf(str, str_arg);
 	exit(err_code);
+}
+
+int	int_to_exitcode(int status)
+{
+	return ((*(int *)&(status)) >> 8 & 0x000000ff);
 }
