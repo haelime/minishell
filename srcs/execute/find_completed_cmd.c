@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   find_completed_cmd.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hyunjunk <hyunjunk@student.42.fr>          +#+  +:+       +#+        */
+/*   By: haeem <haeem@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/18 18:17:09 by hyunjunk          #+#    #+#             */
-/*   Updated: 2023/09/21 20:36:07 by hyunjunk         ###   ########.fr       */
+/*   Updated: 2023/09/24 18:42:49 by haeem            ###   ########seoul.kr  */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,12 @@ static char	*find_relative(char *cmd)
 	else if (cmd[0] != '/')
 		return (find_cwd(cmd));
 	else
-		return (NULL);
+	{
+		if (access(cmd, X_OK) == 0)
+			return (ft_strdup(cmd));
+		else
+			return (NULL);
+	}
 }
 
 static char	*find_path(char *cmd, char **paths)
