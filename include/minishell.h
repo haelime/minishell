@@ -6,7 +6,7 @@
 /*   By: hyunjunk <hyunjunk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/28 16:58:38 by haeem             #+#    #+#             */
-/*   Updated: 2023/09/22 21:28:10 by hyunjunk         ###   ########.fr       */
+/*   Updated: 2023/09/24 16:10:18 by hyunjunk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -254,9 +254,11 @@ bool		rec_check_syntax(t_tree *syntax);
 /* -------------------------------------------------------------------------- */
 int			builtin_env(t_hashmap *envmap);
 int			builtin_pwd(void);
+int			builtin_export(char **argv, t_hashmap *envmap);
 int			builtin_unset(char **argv, t_hashmap *envmap);
 int			builtin_echo(char **argv);
 int			builtin_cd(char **argv, t_hashmap *envmap);
+int			builtin_exit(char **argv);
 /* -------------------------------------------------------------------------- */
 
 // debug

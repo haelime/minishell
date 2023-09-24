@@ -6,7 +6,7 @@
 /*   By: hyunjunk <hyunjunk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/10 19:02:33 by haeem             #+#    #+#             */
-/*   Updated: 2023/09/22 21:30:45 by hyunjunk         ###   ########.fr       */
+/*   Updated: 2023/09/24 16:30:07 by hyunjunk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -119,11 +119,26 @@ static void	connect_stdio(t_cmd_block *cmd_block, int num_cmd, int *pipes)
 		dup2(pipes[cmd_block->idx * 2 + 1], STDOUT_FILENO);
 }
 
-// __attribute__((noreturn))
-// static void	execute_builtin(t_cmd_block *cmd_block, int *pipes, char **envp)
-// {
-
-// }
+static void	execute_builtin(t_cmd_block *cmd_block, t_hashmap *envmap)
+{
+	if (ft_strcmp(cmd_block->cmd->str, "env") == 0)
+		builtin_env(envmap);
+	else if (ft_strcmp(cmd_block->cmd->str, "pwd") == 0)
+		builtin_pwd();
+	else if (ft_strcmp(cmd_block->cmd->str, "export") == 0)
+		builtin_export(cmd_block->options, envmap);
+	else if (ft_strcmp(cmd_block->cmd->str, "unset") == 0)
+		builtin_unset(cmd_block->options, envmap);
+	else if (ft_strcmp(cmd_block->cmd->str, "echo") == 0)
+		builtin_echo(cmd_block->options);
+	else if (ft_strcmp(cmd_block->cmd->str, "cd") == 0)
+		builtin_cd(cmd_block->options, envmap);
+	else if (ft_strcmp(cmd_block->cmd->str, "exit") == 0)
+		builtin_exit(cmd_block->options);
+	else
+		printf("DEBUG : unspecified builtin\n"); //< DEBUG
+	exit(0);
+}
 
 static void	execute_cmd_block(
 	t_cmd_block *cmd_block, int num_cmd, int *pipes, t_hashmap *envmap)
@@ -133,10 +148,10 @@ static void	execute_cmd_block(
 	connect_stdio(cmd_block, num_cmd, pipes);
 	close_pipes(pipes, num_cmd);
 	cmd_block->options[0] = cmd_block->completed_cmd;
-	//if (is_builtin(cmd_block))
-		//execute_builtin(cmd_block, pipes, envp);
 	if (cmd_block->completed_cmd == NULL)
-		msg_exit("DEBUG:NULL execution\n", 1); //< DEBUG
+		msg_exit("DEBUG:NULL execution\n", 1); //< DEBUG. such as "<< a | cat"
+	else if (is_builtin(cmd_block))
+		execute_builtin(cmd_block, envmap);
 	else if (execve(
 			cmd_block->completed_cmd,
 			cmd_block->options,
@@ -187,19 +202,29 @@ static void	fork_childs(
 	}
 }
 
-
-// static void	free_envp(char **envp)
-// {
-// 	char	**p;
-
-// 	p = envp;
-// 	while (*p != NULL)
-// 	{
-// 		free(*p);
-// 		p++;
-// 	}
-// 	free(envp);
-// }
+/* @Summary		Handle builtins that have different behavior when executed alone.
+				such as cd, exit, export, unset. 	*/
+static void	execute_single_builtin(
+	t_cmd_block *cmd_block, t_hashmap *envmap)
+{
+	if (ft_strcmp(cmd_block->cmd->str, "env") == 0)
+		builtin_env(envmap);
+	else if (ft_strcmp(cmd_block->cmd->str, "pwd") == 0)
+		builtin_pwd();
+	else if (ft_strcmp(cmd_block->cmd->str, "export") == 0)
+		builtin_export(cmd_block->options, envmap);
+	else if (ft_strcmp(cmd_block->cmd->str, "unset") == 0)
+		builtin_unset(cmd_block->options, envmap);
+	else if (ft_strcmp(cmd_block->cmd->str, "echo") == 0)
+		builtin_echo(cmd_block->options);
+	else if (ft_strcmp(cmd_block->cmd->str, "cd") == 0)
+		builtin_cd(cmd_block->options, envmap);
+	else if (ft_strcmp(cmd_block->cmd->str, "exit") == 0)
+		builtin_exit(cmd_block->options);
+	else
+		printf("DEBUG : unspecified builtin\n"); //< DEBUG
+	return ;
+}
 
 void	execute(t_list *cmd_blocks, t_hashmap *envmap)
 {
@@ -208,6 +233,12 @@ void	execute(t_list *cmd_blocks, t_hashmap *envmap)
 
 	if (cmd_blocks == NULL)
 		return ;
+	if (is_builtin((t_cmd_block *)cmd_blocks->content)
+		&& ft_lstsize(cmd_blocks) == 1)
+	{
+		execute_single_builtin((t_cmd_block *)cmd_blocks->content, envmap);
+		return ;
+	}
 	num_pipe = ft_lstsize(cmd_blocks) - 1;
 	pipes = malloc_open_pipe(ft_lstsize(cmd_blocks));
 	fork_childs(cmd_blocks, pipes, envmap);

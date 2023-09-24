@@ -6,7 +6,7 @@
 #    By: hyunjunk <hyunjunk@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/04/11 14:22:09 by haeem             #+#    #+#              #
-#    Updated: 2023/09/21 20:47:37 by hyunjunk         ###   ########.fr        #
+#    Updated: 2023/09/24 15:40:02 by hyunjunk         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -55,6 +55,9 @@ SOURCES = $(addprefix $(SRCDIR)/srcs/,\
 	./builtins/pwd.c\
 	./builtins/unset.c\
 	./builtins/echo.c\
+	./builtins/cd.c\
+	./builtins/exit.c\
+	./builtins/export.c\
 )
 
 # BONUSES = $(addprefix $(CURDIR)/srcs_bonus/,\
