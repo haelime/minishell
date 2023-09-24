@@ -6,7 +6,7 @@
 /*   By: haeem <haeem@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/15 16:45:34 by haeem             #+#    #+#             */
-/*   Updated: 2023/09/15 19:29:42 by haeem            ###   ########seoul.kr  */
+/*   Updated: 2023/09/24 18:09:57 by haeem            ###   ########seoul.kr  */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,9 +22,9 @@ int	builtin_unset(char **argv, t_hashmap *envmap)
 	while (*(++argv))
 	{
 		i = 0;
-		while ((*argv[i]))
+		while ((*argv)[i])
 		{
-			if (ft_isdigit(*argv[i]))
+			if (ft_isdigit((*argv)[i]))
 				return (FAILURE);
 			i++;
 		}
