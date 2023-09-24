@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execute.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: haeem <haeem@student.42seoul.kr>           +#+  +:+       +#+        */
+/*   By: hyunjunk <hyunjunk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/10 19:02:33 by haeem             #+#    #+#             */
-/*   Updated: 2023/09/24 17:16:55 by haeem            ###   ########seoul.kr  */
+/*   Updated: 2023/09/24 17:31:27 by hyunjunk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -220,6 +220,8 @@ void	execute(t_list *cmd_blocks, t_hashmap *envmap)
 {
 	int		*pipes;
 	int		num_pipe;
+	int		exitcode;
+	char	*exit_str;
 	int		exitstatus;
 
 	if (cmd_blocks == NULL)
@@ -227,8 +229,8 @@ void	execute(t_list *cmd_blocks, t_hashmap *envmap)
 	if (is_builtin((t_cmd_block *)cmd_blocks->content)
 		&& ft_lstsize(cmd_blocks) == 1)
 	{
-		exit = execute_builtin((t_cmd_block *)cmd_blocks->content, envmap);
-		exit_str = ft_itoa(exit);
+		exitcode = execute_builtin((t_cmd_block *)cmd_blocks->content, envmap);
+		exit_str = ft_itoa(exitcode);
 		hashmap_insert(envmap, "?", exit_str);
 		free(exit_str);
 		return ;
