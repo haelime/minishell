@@ -6,7 +6,7 @@
 /*   By: haeem <haeem@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/16 16:06:45 by haeem             #+#    #+#             */
-/*   Updated: 2023/09/17 17:15:10 by haeem            ###   ########seoul.kr  */
+/*   Updated: 2023/09/24 17:48:50 by haeem            ###   ########seoul.kr  */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,7 @@
 void	set_shlvl(t_hashmap *envmap)
 {
 	char	*shelllvl;
+	char	*value;
 	int		lv;
 
 	shelllvl = hashmap_search(envmap, "SHLVL");
@@ -24,7 +25,9 @@ void	set_shlvl(t_hashmap *envmap)
 		lv = 1;
 	else
 		lv = ft_atoi(shelllvl) + 1;
-	hashmap_insert(envmap, "SHLVL", ft_itoa(lv));
+	value = ft_itoa(lv);
+	hashmap_insert(envmap, "SHLVL", value);
+	free(value);
 }
 
 void	set_ps1(t_hashmap *envmap)

@@ -6,7 +6,7 @@
 /*   By: haeem <haeem@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/05 20:05:16 by haeem             #+#    #+#             */
-/*   Updated: 2023/09/21 17:13:36 by haeem            ###   ########seoul.kr  */
+/*   Updated: 2023/09/24 17:47:03 by haeem            ###   ########seoul.kr  */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,24 +54,24 @@ void	hashmap_insert(t_hashmap *hashmap, char *key, char *value)
 {
 	const unsigned int	hash = hash_string(key);
 	t_bucket			**ptr_new_place;
-	t_bucket			*current;
+	t_bucket			**current;
 
 	if (hashmap->buckets[hash % hashmap->size] == NULL)
 		ptr_new_place = &hashmap->buckets[hash % hashmap->size];
 	else
 	{
-		current = hashmap->buckets[hash % hashmap->size];
-		while (current->next != NULL)
+		current = &hashmap->buckets[hash % hashmap->size];
+		while (*current != NULL)
 		{
-			if (ft_strcmp(current->key, key) == 0)
+			if (ft_strcmp((*current)->key, key) == 0)
 			{
-				free(current->value);
-				current->value = ft_strdup(value);
+				free((*current)->value);
+				(*current)->value = ft_strdup(value);
 				return ;
 			}
-			current = current->next;
+			current = &(*current)->next;
 		}
-		ptr_new_place = &current->next;
+		ptr_new_place = current;
 	}
 	*ptr_new_place = (t_bucket *)malloc(sizeof(t_bucket));
 	(*ptr_new_place)->key = ft_strdup(key);
@@ -89,7 +89,7 @@ char	*hashmap_search(t_hashmap *hashmap, const char *key)
 	if (hashmap->buckets[hash % hashmap->size] == NULL)
 		return (NULL);
 	bucket = hashmap->buckets[hash % hashmap->size];
-	while (bucket)
+	while (bucket != NULL)
 	{
 		if (ft_strcmp(bucket->key, key) == 0)
 			return (bucket->value);

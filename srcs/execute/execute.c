@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execute.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hyunjunk <hyunjunk@student.42.fr>          +#+  +:+       +#+        */
+/*   By: haeem <haeem@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/10 19:02:33 by haeem             #+#    #+#             */
-/*   Updated: 2023/09/24 17:31:27 by hyunjunk         ###   ########.fr       */
+/*   Updated: 2023/09/24 18:00:04 by haeem            ###   ########seoul.kr  */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -151,10 +151,10 @@ static void	execute_cmd_block(
 	connect_stdio(cmd_block, num_cmd, pipes);
 	close_pipes(pipes, num_cmd);
 	cmd_block->options[0] = cmd_block->completed_cmd;
-	if (cmd_block->completed_cmd == NULL)
-		msg_exit("DEBUG:NULL execution\n", 1); //< DEBUG. such as "<< a | cat"
-	else if (is_builtin(cmd_block))
+	if (is_builtin(cmd_block))
 		exit(execute_builtin(cmd_block, envmap));
+	else if (cmd_block->completed_cmd == NULL)
+		msg_exit("DEBUG:NULL execution\n", 1); //< DEBUG. such as "<< a | cat"
 	else if (execve(
 			cmd_block->completed_cmd,
 			cmd_block->options,
@@ -195,7 +195,8 @@ static void	fork_childs(
 			cmd_block = (t_cmd_block *)p_list->content;
 			cmd_block->completed_cmd = malloc_find_completed_cmd(
 					cmd_block->cmd, malloc_get_paths(envmap));
-			if (cmd_block->completed_cmd == NULL && cmd_block->cmd != NULL)
+			if (cmd_block->completed_cmd == NULL && cmd_block->cmd != NULL
+				&& !is_builtin(cmd_block))
 				str_msg_exit("%s not command.\n", cmd_block->cmd->str, 1);
 			cmd_block->idx = i;
 			execute_cmd_block(cmd_block, ft_lstsize(cmd_blocks), pipes, envmap);
@@ -210,7 +211,15 @@ void	insert_exit_status(t_hashmap *envmap, int exitstatus)
 	char	*str;
 	int		exitcode;
 
-	exitcode = WEXITSTATUS(exitstatus);
+	exitcode = 0;
+	if (WIFEXITED(exitstatus))
+	{
+		exitcode = WEXITSTATUS(exitstatus);
+	}
+	else if (WIFSIGNALED(exitstatus))
+	{
+		exitcode = WTERMSIG(exitstatus);
+	}
 	str = ft_itoa(exitcode);
 	hashmap_insert(envmap, "?", str);
 	free(str);
@@ -239,7 +248,8 @@ void	execute(t_list *cmd_blocks, t_hashmap *envmap)
 	pipes = malloc_open_pipe(ft_lstsize(cmd_blocks));
 	fork_childs(cmd_blocks, pipes, envmap);
 	close_pipes(pipes, ft_lstsize(cmd_blocks));
-	waitpid(-1, &exitstatus, 0); //< TODO: change to receive error code  
+	for (int i = 0; i < ft_lstsize(cmd_blocks); i++)
+		waitpid(-1, &exitstatus, 0); //< TODO: change to receive error code  
 	insert_exit_status(envmap, exitstatus);
 	free(pipes);
 }
