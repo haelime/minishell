@@ -216,6 +216,7 @@ void		print_hashmap(t_hashmap *hashmap);
 void		print_chunks(t_list *chunks);
 void		msg_exit(const char *str, int err_code);
 void		str_msg_exit(const char *str, const char *str_arg, int err_code);
+int			int_to_exitcode(int status);
 /* -------------------------------------------------------------------------- */
 
 /* Signal Handler <signal.c> */
