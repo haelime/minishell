@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cd.c                                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hyunjunk <hyunjunk@student.42.fr>          +#+  +:+       +#+        */
+/*   By: haeem <haeem@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/15 16:45:13 by haeem             #+#    #+#             */
-/*   Updated: 2023/09/24 16:18:24 by hyunjunk         ###   ########.fr       */
+/*   Updated: 2023/09/24 18:26:19 by haeem            ###   ########seoul.kr  */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,13 +27,25 @@ static int	cd_dir_changer(t_hashmap *envmap, char *path)
 static int	cd_try_relative_path(t_hashmap *envmap, char **argv)
 {
 	char	*cwd;
+	char	*terminated_path;
 	char	*path;
+	int		ret;
 
 	cwd = getcwd(NULL, 0);
-	path = ft_strjoin(cwd, argv[1]);
+	if (ft_strcmp(cwd, "/") == 0)
+		path = ft_strdup(argv[1]);
+	else
+	{
+		terminated_path = ft_strjoin(cwd, "/");
+		path = ft_strjoin(terminated_path, argv[1]);
+		free(terminated_path);
+	}
 	free(cwd);
+	terminated_path = NULL;
 	cwd = NULL;
-	return (cd_dir_changer(envmap, path));
+	ret = cd_dir_changer(envmap, path);
+	free(path);
+	return (ret);
 }
 
 // try absolute path, if it doesn't exist, try relative path
