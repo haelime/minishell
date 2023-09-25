@@ -6,7 +6,7 @@
 /*   By: haeem <haeem@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/28 18:48:50 by haeem             #+#    #+#             */
-/*   Updated: 2023/09/25 20:31:13 by haeem            ###   ########seoul.kr  */
+/*   Updated: 2023/09/25 20:46:09 by haeem            ###   ########seoul.kr  */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,10 +79,13 @@ void	rm_quotes(t_list **out_tokens)
 	ret = NULL;
 	while (p != NULL)
 	{
-		str = ((t_token *)(p->content))->str;
-		ret = get_removed_quotes(str);
-		free(((t_token *)(p->content))->str);
-		((t_token *)(p->content))->str = ret;
+		if (ft_strchr(str, '\'') || ft_strchr(str, '\"'))
+		{
+			str = ((t_token *)(p->content))->str;
+			ret = get_removed_quotes(str);
+			free(((t_token *)(p->content))->str);
+			((t_token *)(p->content))->str = ret;
+		}
 		p = p->next;
 	}
 }
