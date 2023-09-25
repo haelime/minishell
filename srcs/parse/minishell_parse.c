@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell_parse.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hyunjunk <hyunjunk@student.42.fr>          +#+  +:+       +#+        */
+/*   By: haeem <haeem@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/28 18:48:50 by haeem             #+#    #+#             */
-/*   Updated: 2023/09/22 21:30:57 by hyunjunk         ###   ########.fr       */
+/*   Updated: 2023/09/25 20:31:13 by haeem            ###   ########seoul.kr  */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,6 +40,53 @@ void	print_chunks(t_list *chunks)
 	}
 }
 
+// a"'bc'"d"e" should be a'bc'd e
+char	*get_removed_quotes(char *str)
+{
+	char	*start;
+	char	*end;
+	char	*ret;
+	char	*cut;
+
+	ret = ft_strdup("");
+	start = str;
+	end = start;
+	while (*end)
+	{
+		if (ft_strchr("\'\"", *end) && *(end + 1) && isanotherquote(end))
+		{
+			cut = ft_substr(str, start - str, end - start);
+			ret = ft_strjoinfree(&ret, &cut);
+			start = end;
+			end = ft_strchr(end + 1, *end);
+			cut = ft_substr(str, start - str + 1, end - start - 1);
+			ret = ft_strjoinfree(&ret, &cut);
+			start = ++end;
+		}
+		end++;
+	}
+	return (ret);
+}
+
+// a"'bc'"d"e" should be a'bc'de
+void	rm_quotes(t_list **out_tokens)
+{
+	t_list	*p;
+	char	*str;
+	char	*ret;
+
+	p = *out_tokens;
+	ret = NULL;
+	while (p != NULL)
+	{
+		str = ((t_token *)(p->content))->str;
+		ret = get_removed_quotes(str);
+		free(((t_token *)(p->content))->str);
+		((t_token *)(p->content))->str = ret;
+		p = p->next;
+	}
+}
+
 // input -> tokens -> cmd_blocks
 t_list	*parse(char *input, t_hashmap *envmap)
 {
@@ -63,6 +110,7 @@ t_list	*parse(char *input, t_hashmap *envmap)
 		free_tokens(&tokens);
 		return (NULL);
 	}
+	rm_quotes(&tokens);
 	print_chunks(tokens); // DEBUG
 	return (tokens);
 }
