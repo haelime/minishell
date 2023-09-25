@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   tokenize.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hyunjunk <hyunjunk@student.42.fr>          +#+  +:+       +#+        */
+/*   By: haeem <haeem@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/26 21:07:07 by haeem             #+#    #+#             */
-/*   Updated: 2023/09/21 17:28:08 by hyunjunk         ###   ########.fr       */
+/*   Updated: 2023/09/25 17:37:15 by haeem            ###   ########seoul.kr  */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,45 +38,47 @@ t_type	get_type(char *str)
 }
 
 // 	print_chunks(chunks);
-char	*make_token(char *input, char *begin, char *end, t_list **out_tokens)
+char	*make_token(char *input, char *a, char *b, t_list **out_tokens)
 {
 	t_token	*token;
 	t_list	*temp;
 
-	if (*end == '\0' || ft_isspace(*end))
-		end--;
+	if (*b == '\0' || ft_isspace(*b))
+		b--;
 	token = (t_token *)malloc(sizeof(t_token));
-	token->str = ft_substr(input, begin - input, end - begin + 1);
+	token->str = ft_substr(input, a - input, b - a + 1);
 	token->type = get_type(token->str);
 	temp = ft_lstnew(token);
 	ft_lstadd_back(out_tokens, temp);
-	return (end + 1);
+	return (b + 1);
 }
 
 // two pointer tokenizer, find | "" ''
 void	tokenize(char *input, t_list **out_tokens)
 {
-	char	*begin;
-	char	*end;
+	char	*wd[2];
 
-	begin = input;
-	while (*begin)
+	wd[0] = input;
+	while (*wd[0])
 	{
-		while (ft_isspace(*begin))
-			begin++;
-		end = begin;
-		while (*end != '\0' && !ft_strchr(" ><|&", *begin))
+		while (ft_isspace(*wd[0]))
+			wd[0]++;
+		wd[1] = wd[0];
+		while (*wd[1] != '\0' && !ft_strchr(" ><|&", *wd[0]))
 		{
-			if (ft_strchr("\'\"", *end) && *(end + 1) != '\0'
-				&& isanotherquote(end))
-				end = ft_strchr(end + 1, *end);
-			if (istoken(*(end + 1)))
+			if (ft_strchr("\'\"", *wd[1]) && *(wd[1] + 1) != '\0'
+				&& isanotherquote(wd[1]))
+			{
+				wd[1] = ft_strchr(wd[1] + 1, *wd[1]);
 				break ;
-			end++;
+			}
+			if (istoken(*(wd[1] + 1)))
+				break ;
+			wd[1]++;
 		}
-		if (*begin && *begin == *(begin + 1) && ft_strchr("><|", *begin))
-			++end;
-		if (*begin != '\0')
-			begin = make_token(input, begin, end, out_tokens);
+		if (*wd[0] && *wd[0] == *(wd[0] + 1) && ft_strchr("><|", *wd[0]))
+			++wd[1];
+		if (*wd[0] != '\0')
+			wd[0] = make_token(input, wd[0], wd[1], out_tokens);
 	}
 }
