@@ -6,25 +6,41 @@
 /*   By: haeem <haeem@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/15 16:45:29 by haeem             #+#    #+#             */
-/*   Updated: 2023/09/24 18:34:01 by haeem            ###   ########seoul.kr  */
+/*   Updated: 2023/09/25 20:50:47 by haeem            ###   ########seoul.kr  */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/minishell.h"
 
-static int	norm_builtin_export(t_hashmap *envmap, char *key, char *value)
+static void	norm_builtin_export(t_hashmap *envmap, char *key, char *value,
+	int *ret)
 {
 	if (key == NULL)
-		return (BUILTIN);
+	{
+		if (*value)
+		{
+			free(value);
+			value = NULL;
+		}
+		if (*ret == SUCCESS)
+			*ret = FAILURE;
+		return ;
+	}
+	if (ft_isdigit(*key))
+	{
+		printf("minishell: export: `%s': not a valid identifier\n", key);
+		if (*ret == SUCCESS)
+			*ret = FAILURE;
+		return ;
+	}
 	if (value == NULL)
 		value = ft_strdup("");
 	hashmap_insert(envmap, key, value);
 	free(key);
 	free(value);
-	return (SUCCESS);
 }
 
-// syntax is already checked & replaced dollar, so trust every argv
+// throws err when any *argv[0] is numeric, but works every argvs except it
 //   end
 //    |
 // zzz=asdf           get key "zzz"
@@ -48,25 +64,24 @@ int	builtin_export(char **argv, t_hashmap *envmap)
 	int		end;
 	char	*key;
 	char	*value;
+	int		ret;
 
+	// TODO : print_sorted_hashmap
 	if (argv[1] == NULL)
-	{
 		print_hashmap(envmap);
-		key = NULL;
-	}
+	ret = SUCCESS;
 	while (*(++argv))
 	{
 		start = 0;
 		end = 0;
 		while ((*argv)[end] != '=' && (*argv)[end] != '\0')
 			end++;
-		if ((*argv)[end] == '\0')
-			return (SUCCESS);
 		key = ft_substr(*argv, start, end - start);
 		start = end;
 		while ((*argv)[end] != '\0')
 			end++;
 		value = ft_substr(*argv, start + 1, end - start);
+		norm_builtin_export(envmap, key, value, &ret);
 	}
-	return (norm_builtin_export(envmap, key, value));
+	return (ret);
 }
