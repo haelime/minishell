@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   hashmap_utils.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hyunjunk <hyunjunk@student.42.fr>          +#+  +:+       +#+        */
+/*   By: haeem <haeem@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/15 18:14:23 by haeem             #+#    #+#             */
-/*   Updated: 2023/09/21 20:16:50 by hyunjunk         ###   ########.fr       */
+/*   Updated: 2023/09/25 18:44:40 by haeem            ###   ########seoul.kr  */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,7 +60,8 @@ void	print_hashmap(t_hashmap *hashmap)
 		tmp = hashmap->buckets[i];
 		while (tmp != NULL)
 		{
-			printf("%s=%s\n", tmp->key, tmp->value);
+			if (tmp->key && *tmp->value)
+				printf("%s=%s\n", tmp->key, tmp->value);
 			tmp = tmp->next;
 		}
 		i++;
