@@ -6,7 +6,7 @@
 /*   By: haeem <haeem@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/26 21:07:07 by haeem             #+#    #+#             */
-/*   Updated: 2023/09/25 19:10:55 by haeem            ###   ########seoul.kr  */
+/*   Updated: 2023/09/25 19:27:35 by haeem            ###   ########seoul.kr  */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,26 +56,27 @@ char	*make_token(char *input, char *a, char *b, t_list **out_tokens)
 // two pointer tokenizer, find | "" ''
 void	tokenize(char *input, t_list **out_tokens)
 {
-	char	*wd[2];
+	char	*start;
+	char	*end;
 
-	wd[0] = input;
-	while (*wd[0])
+	start = input;
+	while (*start)
 	{
-		while (ft_isspace(*wd[0]))
-			wd[0]++;
-		wd[1] = wd[0];
-		while (*wd[1] != '\0' && !ft_strchr(" ><|&", *wd[0]))
+		while (ft_isspace(*start))
+			start++;
+		end = start;
+		while (*end != '\0' && !ft_strchr(" ><|&", *start))
 		{
-			if (ft_strchr("\'\"", *wd[1]) && *(wd[1] + 1) != '\0'
-				&& isanotherquote(wd[1]))
-				wd[1] = ft_strchr(wd[1] + 1, *wd[1]);
-			if (istoken(*(wd[1] + 1)))
+			if (ft_strchr("\'\"", *end) && *(end + 1) != '\0'
+				&& isanotherquote(end))
+				end = ft_strchr(end + 1, *end);
+			if (istoken(*(end + 1)))
 				break ;
-			wd[1]++;
+			end++;
 		}
-		if (*wd[0] && *wd[0] == *(wd[0] + 1) && ft_strchr("><|", *wd[0]))
-			++wd[1];
-		if (*wd[0] != '\0')
-			wd[0] = make_token(input, wd[0], wd[1], out_tokens);
+		if (*start && *start == *(start + 1) && ft_strchr("><|", *start))
+			++end;
+		if (*start != '\0')
+			start = make_token(input, start, end, out_tokens);
 	}
 }
