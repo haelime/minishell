@@ -6,7 +6,7 @@
 /*   By: haeem <haeem@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/21 16:22:06 by hyunjunk          #+#    #+#             */
-/*   Updated: 2023/09/25 17:41:19 by haeem            ###   ########seoul.kr  */
+/*   Updated: 2023/09/25 19:19:12 by haeem            ###   ########seoul.kr  */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,20 +62,28 @@ static int	check_redirection_invalid(t_list *tokens)
 	return (0);
 }
 
-// assume str[0] is ' or "
+
 static	int	check_quote_closed(t_list *tokens)
 {
 	t_list	*p;
-	char	*str;
+	char	*start;
+	char	*end;
 
 	p = tokens;
 	while (p != NULL)
 	{
-		str = ((t_token *)(p->content))->str;
-		printf("str : %s\n", str);
-		if ((str[0] == '\'' || str[0] == '\"') && !isanotherquote(str))
+		start = ((t_token *)(p->content))->str;
+		end = start;
+		while (*end)
 		{
-			return (1);
+			if (ft_strchr("\'\"", *end))
+			{
+				if (*(end + 1) == '\0' || !isanotherquote(end))
+					return (1);
+				else
+					end = ft_strchr(end + 1, *end);
+			}
+			end++;
 		}
 		p = p->next;
 	}

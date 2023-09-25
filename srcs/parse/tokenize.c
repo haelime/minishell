@@ -6,7 +6,7 @@
 /*   By: haeem <haeem@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/26 21:07:07 by haeem             #+#    #+#             */
-/*   Updated: 2023/09/25 17:37:15 by haeem            ###   ########seoul.kr  */
+/*   Updated: 2023/09/25 19:10:55 by haeem            ###   ########seoul.kr  */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,10 +68,7 @@ void	tokenize(char *input, t_list **out_tokens)
 		{
 			if (ft_strchr("\'\"", *wd[1]) && *(wd[1] + 1) != '\0'
 				&& isanotherquote(wd[1]))
-			{
 				wd[1] = ft_strchr(wd[1] + 1, *wd[1]);
-				break ;
-			}
 			if (istoken(*(wd[1] + 1)))
 				break ;
 			wd[1]++;
