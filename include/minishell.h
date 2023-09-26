@@ -6,7 +6,7 @@
 /*   By: hyunjunk <hyunjunk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/28 16:58:38 by haeem             #+#    #+#             */
-/*   Updated: 2023/09/24 16:10:18 by hyunjunk         ###   ########.fr       */
+/*   Updated: 2023/09/26 15:47:41 by hyunjunk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -150,12 +150,20 @@ typedef struct s_token
 	t_func		exec;
 }	t_token;
 
+//	arg is uses shallow copy.
+//  heredoc_file is uses malloc.
+typedef struct s_redirect
+{
+	t_type	type;
+	char	*str;
+}	t_redirect;
+
 /* 	Format : <cmd> <options> <redicrect...>
 	It uses shallow copy.
 	Don't remove original strings until this becomes not used
 	Only options and completed_cmd use malloc.
-	(The internal strings of options is not malloc)
-
+	(The internal strings of options is not malloc) 
+	
 	@Exceptional case :		
 	If input redirection is heredoc, 
 	then heredoc_file will use malloc)	*/
@@ -165,11 +173,9 @@ typedef struct s_cmd_block
 	t_token				*cmd;
 	int					num_options;
 	char				**options;
-	char				*redirect_in;
-	char				*redirect_out;
-	int					redirect_is_heredoc;
+	t_list				*redirects_in;
+	t_list				*redirects_out;
 	char				*heredoc_file;
-	int					redirect_is_append;
 	char				*completed_cmd;
 	int					idx;
 }	t_cmd_block;

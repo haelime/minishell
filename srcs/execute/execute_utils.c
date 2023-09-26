@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execute_utils.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: haeem <haeem@student.42seoul.kr>           +#+  +:+       +#+        */
+/*   By: hyunjunk <hyunjunk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/10 19:03:36 by haeem             #+#    #+#             */
-/*   Updated: 2023/09/17 17:54:46 by haeem            ###   ########seoul.kr  */
+/*   Updated: 2023/09/26 16:45:29 by hyunjunk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,8 @@ bool	is_builtin(t_cmd_block *cmd_block)
 	char	*str;
 
 	token = cmd_block->cmd;
+	if (token == NULL)
+		return (0);
 	str = token->str;
 	return ((ft_strcmp(str, "cd") == 0
 			|| ft_strcmp(str, "echo") == 0

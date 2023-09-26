@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execute.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: haeem <haeem@student.42seoul.kr>           +#+  +:+       +#+        */
+/*   By: hyunjunk <hyunjunk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/10 19:02:33 by haeem             #+#    #+#             */
-/*   Updated: 2023/09/24 18:00:04 by haeem            ###   ########seoul.kr  */
+/*   Updated: 2023/09/26 17:11:47 by hyunjunk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,15 +47,14 @@ static int	*malloc_open_pipe(int num_cmd)
 }
 
 //	Close fd_heredoc by itself
-static void	read_heredoc(
-	t_cmd_block *cmd_block, int fd_heredoc, t_hashmap *envmap)
+static void	read_heredoc(char *delim, int fd_heredoc, t_hashmap *envmap)
 {
 	char	*line;	
 
 	while (1)
 	{
 		line = readline("heredoc> ");
-		if (line == NULL || ft_strcmp(line, cmd_block->redirect_in) == 0)
+		if (line == NULL || ft_strcmp(line, delim) == 0)
 			break ;
 		line = replace_dollar(line, envmap, 1);
 		if (write(fd_heredoc, line, ft_strlen(line)) < 0)
@@ -65,58 +64,91 @@ static void	read_heredoc(
 		free(line);
 	}
 	free(line);
+	close(fd_heredoc);
 }
 
-static void	get_heredoc(t_cmd_block	*cmd_block, t_hashmap *envmap)
+static int	get_input_heredoc(
+	t_cmd_block	*cmd_block, t_redirect *redirect, t_hashmap *envmap)
 {
 	int			fd;
 	char		*idx_str;
 	char		*tmp_file_name;
 
-	if (cmd_block->redirect_is_heredoc)
+	idx_str = ft_itoa(cmd_block->idx);
+	tmp_file_name = ft_strjoin(".tmp_heredoc_", idx_str);
+	fd = open(tmp_file_name, O_WRONLY | O_CREAT | O_TRUNC,
+			S_IRUSR | S_IWUSR | S_IRGRP | S_IROTH);
+	if (fd < 0)
+		msg_exit("get_heredoc() create file failed.\n", 1);
+	free(idx_str);
+	cmd_block->heredoc_file = tmp_file_name;
+	read_heredoc(redirect->str, fd, envmap);
+	return (fd);
+}
+
+static void	connect_stdin(t_cmd_block *cmd_block, int *pipes)
+{
+	int			fd;
+	t_list		*p;
+	t_redirect	*p_redirect;
+
+	if (cmd_block->redirects_in == NULL && cmd_block->idx != 0)
+		dup2(pipes[cmd_block->idx * 2 - 2], STDIN_FILENO);
+	p = cmd_block->redirects_in;
+	while (p != NULL)
 	{
-		idx_str = ft_itoa(cmd_block->idx);
-		tmp_file_name = ft_strjoin(".tmp_heredoc_", idx_str);
-		fd = open(tmp_file_name, O_WRONLY | O_CREAT | O_TRUNC,
-				S_IRUSR | S_IWUSR | S_IRGRP | S_IROTH);
-		if (fd < 0)
-			msg_exit("get_heredoc() create file failed.\n", 1);
-		free(idx_str);
-		cmd_block->heredoc_file = tmp_file_name;
-		read_heredoc(cmd_block, fd, envmap);
+		p_redirect = (t_redirect *)p->content;
+		if (p_redirect->type == REDIRECT_HEREDOC)
+			fd = open(cmd_block->heredoc_file, O_RDONLY);
+		else
+			fd = open(p_redirect->str, O_RDONLY);
+		if (fd == -1)
+			str_msg_exit("%s open() failed.\n", p_redirect->str, 1);
+		if (p->next == NULL)
+			dup2(fd, STDIN_FILENO);
+		else
+			close(fd);
+		p = p->next;
+	}
+}
+
+static void	connect_stdout(
+	t_cmd_block *cmd_block, int num_cmd, int *pipes)
+{
+	int			fd;
+	t_list		*p;
+	t_redirect	*p_redirect;
+
+	if (cmd_block->redirects_out == NULL && cmd_block->idx != num_cmd - 1)
+		dup2(pipes[cmd_block->idx * 2 + 1], STDOUT_FILENO);
+	p = cmd_block->redirects_out;
+	while (p != NULL)
+	{
+		p_redirect = (t_redirect *)p->content;
+		if (p_redirect->type == REDIRECT_APPEND)
+			fd = open(p_redirect->str, O_WRONLY | O_CREAT | O_APPEND,
+					S_IRUSR | S_IWUSR | S_IRGRP | S_IROTH);
+		else
+			fd = open(p_redirect->str, O_WRONLY | O_CREAT | O_TRUNC,
+					S_IRUSR | S_IWUSR | S_IRGRP | S_IROTH);
+		if (fd == -1)
+			str_msg_exit("%s open() failed.\n", p_redirect->str, 1);
+		if (p->next == NULL)
+			dup2(fd, STDOUT_FILENO);
+		else
+			close(fd);
+		p = p->next;
 	}
 }
 
 /* @descript	am = append_mask
 					IF (is_append) 	THEN 0xFFFFFFFF
 					ELSE 			THEN 0x00000000	*/
-static void	connect_stdio(t_cmd_block *cmd_block, int num_cmd, int *pipes)
+static void	connect_stdio(
+	t_cmd_block *cmd_block, int num_cmd, int *pipes)
 {
-	int			fd;
-	const int	am = ~(cmd_block->redirect_is_append - 1);
-
-	if (cmd_block->redirect_in != NULL)
-	{
-		if (cmd_block->redirect_is_heredoc)
-			fd = open(cmd_block->heredoc_file, O_RDONLY);
-		else
-			fd = open(cmd_block->redirect_in, O_RDONLY);
-		if (fd == -1)
-			str_msg_exit("%s open() failed.\n", cmd_block->redirect_in, 1);
-		dup2(fd, STDIN_FILENO);
-	}
-	else if (cmd_block->idx != 0)
-		dup2(pipes[cmd_block->idx * 2 - 2], STDIN_FILENO);
-	if (cmd_block->redirect_out != NULL)
-	{
-		fd = open(cmd_block->redirect_out, O_WRONLY | O_CREAT | (O_TRUNC & ~am)
-				| (O_APPEND & am), S_IRUSR | S_IWUSR | S_IRGRP | S_IROTH);
-		if (fd == -1)
-			str_msg_exit("%s open() failed.\n", cmd_block->redirect_out, 1);
-		dup2(fd, STDOUT_FILENO);
-	}
-	else if (cmd_block->idx != num_cmd - 1)
-		dup2(pipes[cmd_block->idx * 2 + 1], STDOUT_FILENO);
+	connect_stdin(cmd_block, pipes);
+	connect_stdout(cmd_block, num_cmd, pipes);
 }
 
 static int	execute_builtin(t_cmd_block *cmd_block, t_hashmap *envmap)
@@ -140,18 +172,18 @@ static int	execute_builtin(t_cmd_block *cmd_block, t_hashmap *envmap)
 		exit = builtin_exit(cmd_block->options);
 	else
 		printf("DEBUG : unspecified builtin\n"); //< DEBUG
-	return exit;
+	return (exit);
 }
 
 static void	execute_cmd_block(
 	t_cmd_block *cmd_block, int num_cmd, int *pipes, t_hashmap *envmap)
 {
-	if (cmd_block->redirect_is_heredoc)
-		get_heredoc(cmd_block, envmap);
 	connect_stdio(cmd_block, num_cmd, pipes);
 	close_pipes(pipes, num_cmd);
 	cmd_block->options[0] = cmd_block->completed_cmd;
-	if (is_builtin(cmd_block))
+	if (cmd_block->cmd == NULL)
+		exit(0);
+	else if (is_builtin(cmd_block))
 		exit(execute_builtin(cmd_block, envmap));
 	else if (cmd_block->completed_cmd == NULL)
 		msg_exit("DEBUG:NULL execution\n", 1); //< DEBUG. such as "<< a | cat"
@@ -225,6 +257,34 @@ void	insert_exit_status(t_hashmap *envmap, int exitstatus)
 	free(str);
 }
 
+int		get_input_heredocs(t_list *cmd_blocks, t_hashmap *envmap)
+{
+	t_list		*p;
+	t_cmd_block	*cmd_block;
+	t_list		*p_redirect_in;
+	t_redirect	*redirect;
+
+	p = cmd_blocks;
+	while (p != NULL)
+	{
+		cmd_block = (t_cmd_block *)p->content;
+		p_redirect_in = (t_list *)cmd_block->redirects_in;
+		while (p_redirect_in != NULL)
+		{
+			redirect = ((t_redirect *)p_redirect_in->content);
+			if (redirect->type == REDIRECT_HEREDOC)
+			{
+				get_input_heredoc(cmd_block, redirect, envmap);
+				if (p_redirect_in->next && unlink(cmd_block->heredoc_file) < 0)
+					return (-1);
+			}
+			p_redirect_in = p_redirect_in->next;
+		}
+		p = p->next;
+	}
+	return (0);
+}
+
 void	execute(t_list *cmd_blocks, t_hashmap *envmap)
 {
 	int		*pipes;
@@ -238,10 +298,23 @@ void	execute(t_list *cmd_blocks, t_hashmap *envmap)
 	if (is_builtin((t_cmd_block *)cmd_blocks->content)
 		&& ft_lstsize(cmd_blocks) == 1)
 	{
+		int stdin_origin = dup(STDIN_FILENO);
+		int stdout_origin = dup(STDOUT_FILENO);
+		printf("stdin_origin = %d\n", stdin_origin);
+		connect_stdio((t_cmd_block *)cmd_blocks->content, 1, NULL);
 		exitcode = execute_builtin((t_cmd_block *)cmd_blocks->content, envmap);
 		exit_str = ft_itoa(exitcode);
 		hashmap_insert(envmap, "?", exit_str);
 		free(exit_str);
+		dup2(stdin_origin, STDIN_FILENO);
+		dup2(stdout_origin, STDOUT_FILENO);
+		close(stdin_origin);
+		close(stdout_origin);
+		return ;
+	}
+	if (get_input_heredocs(cmd_blocks, envmap) < 0)
+	{
+		hashmap_insert(envmap, "?", "1");
 		return ;
 	}
 	num_pipe = ft_lstsize(cmd_blocks) - 1;

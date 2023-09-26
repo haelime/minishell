@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell_parse.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: haeem <haeem@student.42seoul.kr>           +#+  +:+       +#+        */
+/*   By: hyunjunk <hyunjunk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/28 18:48:50 by haeem             #+#    #+#             */
-/*   Updated: 2023/09/25 20:46:09 by haeem            ###   ########seoul.kr  */
+/*   Updated: 2023/09/26 17:14:52 by hyunjunk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -114,6 +114,6 @@ t_list	*parse(char *input, t_hashmap *envmap)
 		return (NULL);
 	}
 	rm_quotes(&tokens);
-	print_chunks(tokens); // DEBUG
+	//print_chunks(tokens); // DEBUG
 	return (tokens);
 }
