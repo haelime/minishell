@@ -6,7 +6,7 @@
 /*   By: hyunjunk <hyunjunk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/10 19:02:33 by haeem             #+#    #+#             */
-/*   Updated: 2023/09/26 17:11:47 by hyunjunk         ###   ########.fr       */
+/*   Updated: 2023/09/26 17:45:37 by hyunjunk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,14 +79,15 @@ static int	get_input_heredoc(
 	fd = open(tmp_file_name, O_WRONLY | O_CREAT | O_TRUNC,
 			S_IRUSR | S_IWUSR | S_IRGRP | S_IROTH);
 	if (fd < 0)
-		msg_exit("get_heredoc() create file failed.\n", 1);
+		return (str_msg_ret("get_heredoc() create file failed. : %s\n",
+				tmp_file_name, -1));
 	free(idx_str);
 	cmd_block->heredoc_file = tmp_file_name;
 	read_heredoc(redirect->str, fd, envmap);
 	return (fd);
 }
 
-static void	connect_stdin(t_cmd_block *cmd_block, int *pipes)
+static int	connect_stdin(t_cmd_block *cmd_block, int *pipes)
 {
 	int			fd;
 	t_list		*p;
@@ -103,16 +104,17 @@ static void	connect_stdin(t_cmd_block *cmd_block, int *pipes)
 		else
 			fd = open(p_redirect->str, O_RDONLY);
 		if (fd == -1)
-			str_msg_exit("%s open() failed.\n", p_redirect->str, 1);
+			return (str_msg_ret("%s open() failed.\n", p_redirect->str, -1));
 		if (p->next == NULL)
 			dup2(fd, STDIN_FILENO);
 		else
 			close(fd);
 		p = p->next;
 	}
+	return (0);
 }
 
-static void	connect_stdout(
+static int	connect_stdout(
 	t_cmd_block *cmd_block, int num_cmd, int *pipes)
 {
 	int			fd;
@@ -132,23 +134,26 @@ static void	connect_stdout(
 			fd = open(p_redirect->str, O_WRONLY | O_CREAT | O_TRUNC,
 					S_IRUSR | S_IWUSR | S_IRGRP | S_IROTH);
 		if (fd == -1)
-			str_msg_exit("%s open() failed.\n", p_redirect->str, 1);
+			return (str_msg_ret("%s open() failed.\n", p_redirect->str, -1));
 		if (p->next == NULL)
 			dup2(fd, STDOUT_FILENO);
 		else
 			close(fd);
 		p = p->next;
 	}
+	return (0);
 }
 
-/* @descript	am = append_mask
-					IF (is_append) 	THEN 0xFFFFFFFF
-					ELSE 			THEN 0x00000000	*/
-static void	connect_stdio(
+/* @Return	SUCCESS = 0
+			FAILURE = -1	*/
+static int	connect_stdio(
 	t_cmd_block *cmd_block, int num_cmd, int *pipes)
 {
-	connect_stdin(cmd_block, pipes);
-	connect_stdout(cmd_block, num_cmd, pipes);
+	if (connect_stdin(cmd_block, pipes) < 0)
+		return (-1);
+	if (connect_stdout(cmd_block, num_cmd, pipes) < 0)
+		return (-1);
+	return (0);
 }
 
 static int	execute_builtin(t_cmd_block *cmd_block, t_hashmap *envmap)
@@ -178,7 +183,8 @@ static int	execute_builtin(t_cmd_block *cmd_block, t_hashmap *envmap)
 static void	execute_cmd_block(
 	t_cmd_block *cmd_block, int num_cmd, int *pipes, t_hashmap *envmap)
 {
-	connect_stdio(cmd_block, num_cmd, pipes);
+	if (connect_stdio(cmd_block, num_cmd, pipes) < 0)
+		exit(1);
 	close_pipes(pipes, num_cmd);
 	cmd_block->options[0] = cmd_block->completed_cmd;
 	if (cmd_block->cmd == NULL)
@@ -295,26 +301,30 @@ void	execute(t_list *cmd_blocks, t_hashmap *envmap)
 
 	if (cmd_blocks == NULL)
 		return ;
+	if (get_input_heredocs(cmd_blocks, envmap) < 0)
+	{
+		hashmap_insert(envmap, "?", "1");
+		return ;
+	}
 	if (is_builtin((t_cmd_block *)cmd_blocks->content)
 		&& ft_lstsize(cmd_blocks) == 1)
 	{
+		// backup original stdio
 		int stdin_origin = dup(STDIN_FILENO);
 		int stdout_origin = dup(STDOUT_FILENO);
-		printf("stdin_origin = %d\n", stdin_origin);
-		connect_stdio((t_cmd_block *)cmd_blocks->content, 1, NULL);
-		exitcode = execute_builtin((t_cmd_block *)cmd_blocks->content, envmap);
-		exit_str = ft_itoa(exitcode);
-		hashmap_insert(envmap, "?", exit_str);
-		free(exit_str);
+		if (connect_stdio((t_cmd_block *)cmd_blocks->content, 1, NULL) == 0)
+		{
+			exitcode = execute_builtin((t_cmd_block *)cmd_blocks->content, envmap);
+			exit_str = ft_itoa(exitcode);
+			hashmap_insert(envmap, "?", exit_str);
+			free(exit_str);
+		}
+		// recover original stdio
 		dup2(stdin_origin, STDIN_FILENO);
 		dup2(stdout_origin, STDOUT_FILENO);
 		close(stdin_origin);
 		close(stdout_origin);
-		return ;
-	}
-	if (get_input_heredocs(cmd_blocks, envmap) < 0)
-	{
-		hashmap_insert(envmap, "?", "1");
+		unlink(((t_cmd_block *)cmd_blocks->content)->heredoc_file);
 		return ;
 	}
 	num_pipe = ft_lstsize(cmd_blocks) - 1;

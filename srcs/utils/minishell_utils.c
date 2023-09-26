@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell_utils.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: haeem <haeem@student.42seoul.kr>           +#+  +:+       +#+        */
+/*   By: hyunjunk <hyunjunk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/15 19:24:09 by haeem             #+#    #+#             */
-/*   Updated: 2023/09/24 15:55:20 by haeem            ###   ########seoul.kr  */
+/*   Updated: 2023/09/26 17:36:57 by hyunjunk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,7 +63,8 @@ void	str_msg_exit(const char *str, const char *str_arg, int err_code)
 	exit(err_code);
 }
 
-int	int_to_exitcode(int status)
+int	str_msg_ret(const char *str, const char *str_arg, int err_code)
 {
-	return ((*(int *)&(status)) >> 8 & 0x000000ff);
+	printf(str, str_arg);
+	return (err_code);
 }
