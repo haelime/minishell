@@ -6,7 +6,7 @@
 /*   By: haeem <haeem@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/10 19:02:33 by haeem             #+#    #+#             */
-/*   Updated: 2023/09/27 17:26:12 by haeem            ###   ########seoul.kr  */
+/*   Updated: 2023/09/27 17:36:43 by haeem            ###   ########seoul.kr  */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -222,8 +222,8 @@ static void	fork_childs(
 	t_cmd_block	*cmd_block;
 
 	p_list = cmd_blocks;
-	i = 0;
-	while (i < ft_lstsize(cmd_blocks))
+	i = -1;
+	while (++i < ft_lstsize(cmd_blocks))
 	{
 		pid = fork();
 		if (pid == -1)
@@ -235,11 +235,10 @@ static void	fork_childs(
 					cmd_block->cmd, malloc_get_paths(envmap));
 			if (cmd_block->completed_cmd == NULL && cmd_block->cmd != NULL
 				&& !is_builtin(cmd_block))
-				str_msg_exit("%s not command.\n", cmd_block->cmd->str, 1);
+				str_msg_exit("%s: command not found\n", cmd_block->cmd->str, 1);
 			cmd_block->idx = i;
 			execute_cmd_block(cmd_block, ft_lstsize(cmd_blocks), pipes, envmap);
 		}
-		i++;
 		p_list = p_list->next;
 	}
 }
