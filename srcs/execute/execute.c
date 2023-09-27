@@ -6,7 +6,7 @@
 /*   By: haeem <haeem@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/10 19:02:33 by haeem             #+#    #+#             */
-/*   Updated: 2023/09/27 17:36:43 by haeem            ###   ########seoul.kr  */
+/*   Updated: 2023/09/27 18:32:46 by haeem            ###   ########seoul.kr  */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,7 +56,7 @@ static void	read_heredoc(char *delim, int fd_heredoc, t_hashmap *envmap)
 		line = readline("heredoc> ");
 		if (line == NULL || ft_strcmp(line, delim) == 0)
 			break ;
-		line = replace_dollar(line, envmap, 1);
+		line = replace_dollar(line, envmap);
 		if (write(fd_heredoc, line, ft_strlen(line)) < 0)
 			msg_exit("read_heredoc() write failed.\n", 1);
 		if (write(fd_heredoc, "\n", sizeof(char)) < 0)
@@ -268,7 +268,7 @@ void	insert_exit_status(t_hashmap *envmap, int exitstatus)
 	free(str);
 }
 
-static int	free_bzero_ret(void **ptr, int ret)
+static int	free_bzero_ret(char **ptr, int ret)
 {
 	free(*ptr);
 	*ptr = NULL;

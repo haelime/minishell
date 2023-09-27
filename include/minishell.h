@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hyunjunk <hyunjunk@student.42.fr>          +#+  +:+       +#+        */
+/*   By: haeem <haeem@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/28 16:58:38 by haeem             #+#    #+#             */
-/*   Updated: 2023/09/26 17:38:49 by hyunjunk         ###   ########.fr       */
+/*   Updated: 2023/09/27 18:32:25 by haeem            ###   ########seoul.kr  */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -244,7 +244,7 @@ bool		isanotherquote(char *begin);
 bool		isparenclosed(char *begin);
 char		*tryfutherparen(char *begin);
 void		rec_replace_dollar(t_tree *syntax, t_hashmap *envmap);
-char		*replace_dollar(char *str, t_hashmap *envmap, int is_heredoc_mode);
+char		*replace_dollar(char *str, t_hashmap *envmap);
 void		print_pstree(t_tree *syntax);
 void		make_cmd_blocks_by_tokens(t_list **out_list_cmd_blocks, t_list *list_tokens);
 int			check_parse_invalid(t_list *tokens);
