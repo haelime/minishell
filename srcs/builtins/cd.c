@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cd.c                                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: haeem <haeem@student.42seoul.kr>           +#+  +:+       +#+        */
+/*   By: hyunjunk <hyunjunk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/15 16:45:13 by haeem             #+#    #+#             */
-/*   Updated: 2023/09/24 18:26:19 by haeem            ###   ########seoul.kr  */
+/*   Updated: 2023/09/27 21:16:20 by hyunjunk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ static int	cd_dir_changer(t_hashmap *envmap, char *path)
 {
 	if (chdir(path) == -1)
 	{
-		printf("cd: %s: %s\n", path, strerror(errno));
+		ft_putstr_fd("cd: No such file or directory\n", STDERR_FILENO);
 		return (BUILTIN);
 	}
 	hashmap_insert(envmap, "PWD", path);

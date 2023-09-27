@@ -6,7 +6,7 @@
 /*   By: hyunjunk <hyunjunk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/05 19:33:58 by haeem             #+#    #+#             */
-/*   Updated: 2023/09/18 16:15:28 by hyunjunk         ###   ########.fr       */
+/*   Updated: 2023/09/27 20:24:58 by hyunjunk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,6 +43,7 @@ unsigned int	hash_string(const char *s);
 void			free_bucket(t_bucket *bucket);
 void			free_hashmap(t_hashmap *hashmap);
 void			print_hashmap(t_hashmap *hashmap);
+int				get_count_hashmap(t_hashmap	*hashmap);
 char			**malloc_get_envp(t_hashmap *hashmap);
 
 #endif
