@@ -6,7 +6,7 @@
 /*   By: hyunjunk <hyunjunk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/10 19:02:33 by haeem             #+#    #+#             */
-/*   Updated: 2023/09/27 19:34:13 by hyunjunk         ###   ########.fr       */
+/*   Updated: 2023/09/27 19:46:44 by hyunjunk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -305,6 +305,7 @@ void	execute(t_list *cmd_blocks, t_hashmap *envmap)
 
 	if (cmd_blocks == NULL)
 		return ;
+	// get_heredocs
 	{
 		signal_ignore();
 		if (fork() == 0)
@@ -315,7 +316,10 @@ void	execute(t_list *cmd_blocks, t_hashmap *envmap)
 		waitpid(-1, &exitstatus, 0);
 		insert_exit_status(envmap, exitstatus);
 		if (atoi(hashmap_search(envmap, "?")) != 0)
+		{
+			hashmap_insert(envmap, "?", "1");
 			return ;
+		}
 	}
 	if (is_builtin((t_cmd_block *)cmd_blocks->content)
 		&& ft_lstsize(cmd_blocks) == 1)
