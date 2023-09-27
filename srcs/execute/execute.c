@@ -6,7 +6,7 @@
 /*   By: haeem <haeem@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/10 19:02:33 by haeem             #+#    #+#             */
-/*   Updated: 2023/09/27 16:14:12 by haeem            ###   ########seoul.kr  */
+/*   Updated: 2023/09/27 17:26:12 by haeem            ###   ########seoul.kr  */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -248,6 +248,7 @@ void	insert_exit_status(t_hashmap *envmap, int exitstatus)
 {
 	char	*str;
 	int		exitcode;
+	int		signo;
 
 	exitcode = 0;
 	if (WIFEXITED(exitstatus))
@@ -256,6 +257,11 @@ void	insert_exit_status(t_hashmap *envmap, int exitstatus)
 	}
 	else if (WIFSIGNALED(exitstatus))
 	{
+		signo = WTERMSIG(exitstatus);
+		if (signo == SIGINT)
+			printf("\n");
+		else if (signo == SIGQUIT)
+			printf("Quit: 3\n");
 		exitcode = WTERMSIG(exitstatus) + 128;
 	}
 	str = ft_itoa(exitcode);
@@ -331,7 +337,7 @@ void	execute(t_list *cmd_blocks, t_hashmap *envmap)
 	pipes = malloc_open_pipe(ft_lstsize(cmd_blocks));
 	signal_default();
 	fork_childs(cmd_blocks, pipes, envmap);
-	signal_interactive();
+	signal_ignore();
 	close_pipes(pipes, ft_lstsize(cmd_blocks));
 	for (int i = 0; i < ft_lstsize(cmd_blocks); i++)
 		waitpid(-1, &exitstatus, 0); //< TODO: change to receive error code  
