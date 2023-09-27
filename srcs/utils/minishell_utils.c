@@ -6,7 +6,7 @@
 /*   By: hyunjunk <hyunjunk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/15 19:24:09 by haeem             #+#    #+#             */
-/*   Updated: 2023/09/26 17:36:57 by hyunjunk         ###   ########.fr       */
+/*   Updated: 2023/09/27 21:31:17 by hyunjunk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,6 +52,7 @@ bool	isdoublequoted(char *str, int i)
 __attribute__((noreturn))
 void	msg_exit(const char *str, int err_code)
 {
+	dup2(STDERR_FILENO, STDOUT_FILENO);
 	printf("%s", str);
 	exit(err_code);
 }
@@ -59,12 +60,17 @@ void	msg_exit(const char *str, int err_code)
 __attribute__((noreturn))
 void	str_msg_exit(const char *str, const char *str_arg, int err_code)
 {
+	dup2(STDERR_FILENO, STDOUT_FILENO);
 	printf(str, str_arg);
 	exit(err_code);
 }
 
 int	str_msg_ret(const char *str, const char *str_arg, int err_code)
 {
+	const int	stdout_origin = dup(STDOUT_FILENO);
+
+	dup2(STDERR_FILENO, STDOUT_FILENO);
 	printf(str, str_arg);
+	dup2(stdout_origin, STDOUT_FILENO);
 	return (err_code);
 }

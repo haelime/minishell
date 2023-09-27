@@ -6,7 +6,7 @@
 /*   By: hyunjunk <hyunjunk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/10 19:02:33 by haeem             #+#    #+#             */
-/*   Updated: 2023/09/27 19:46:44 by hyunjunk         ###   ########.fr       */
+/*   Updated: 2023/09/27 21:32:43 by hyunjunk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -156,7 +156,7 @@ static int	execute_builtin(t_cmd_block *cmd_block, t_hashmap *envmap)
 
 	exit = 1;
 	if (ft_strcmp(cmd_block->cmd->str, "env") == 0)
-		exit = builtin_env(envmap);
+		exit = builtin_env(cmd_block->options, envmap);
 	else if (ft_strcmp(cmd_block->cmd->str, "pwd") == 0)
 		exit = builtin_pwd();
 	else if (ft_strcmp(cmd_block->cmd->str, "export") == 0)
@@ -191,7 +191,7 @@ static void	execute_cmd_block(
 			cmd_block->completed_cmd,
 			cmd_block->options,
 			malloc_get_envp(envmap)) == -1)
-		str_msg_exit("%s execve() failed.\n", cmd_block->options[0], 1);
+		str_msg_exit("%s command not found.\n", cmd_block->options[0], 1);
 }
 
 // @return	IF 		(value does not exist) 	THEN (NULL)

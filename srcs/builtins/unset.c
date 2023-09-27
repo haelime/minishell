@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   unset.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: haeem <haeem@student.42seoul.kr>           +#+  +:+       +#+        */
+/*   By: hyunjunk <hyunjunk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/15 16:45:34 by haeem             #+#    #+#             */
-/*   Updated: 2023/09/24 19:05:00 by haeem            ###   ########seoul.kr  */
+/*   Updated: 2023/09/27 21:35:44 by hyunjunk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,19 +19,18 @@ int	builtin_unset(char **argv, t_hashmap *envmap)
 
 	if (*(argv + 1) == NULL)
 		return (SUCCESS);
+	if (ft_strcmp(argv[1], "?") == 0)
+		return (SUCCESS);
 	while (*(++argv))
 	{
 		i = 0;
-		while ((*argv)[i])
+		if (ft_isdigit((*argv)[0]))
 		{
-			if (ft_isdigit((*argv)[i]))
-			{
-				printf ("minishell: unset: `%s': not a valid identifier\n",
-					(*argv));
-				return (FAILURE);
-			}
-			i++;
+			printf ("minishell: unset: `%s': not a valid identifier\n",
+				(*argv));
+			return (FAILURE);
 		}
+		i++;
 		hashmap_remove(envmap, *argv);
 	}
 	return (SUCCESS);
