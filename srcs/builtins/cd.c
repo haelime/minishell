@@ -6,7 +6,7 @@
 /*   By: hyunjunk <hyunjunk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/15 16:45:13 by haeem             #+#    #+#             */
-/*   Updated: 2023/09/27 21:16:20 by hyunjunk         ###   ########.fr       */
+/*   Updated: 2023/09/27 22:58:23 by hyunjunk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,12 +15,14 @@
 // chdir sets errno if fails
 static int	cd_dir_changer(t_hashmap *envmap, char *path)
 {
-	if (chdir(path) == -1)
+	if (path == NULL || chdir(path) == -1)
 	{
 		ft_putstr_fd("cd: No such file or directory\n", STDERR_FILENO);
 		return (BUILTIN);
 	}
+	path = getcwd(NULL, 0);
 	hashmap_insert(envmap, "PWD", path);
+	free(path);
 	return (SUCCESS);
 }
 
@@ -32,6 +34,8 @@ static int	cd_try_relative_path(t_hashmap *envmap, char **argv)
 	int		ret;
 
 	cwd = getcwd(NULL, 0);
+	if (cwd == NULL)
+		cwd = ft_strdup_null(hashmap_search(envmap, "PWD"));
 	if (ft_strcmp(cwd, "/") == 0)
 		path = ft_strdup(argv[1]);
 	else
@@ -43,6 +47,7 @@ static int	cd_try_relative_path(t_hashmap *envmap, char **argv)
 	free(cwd);
 	terminated_path = NULL;
 	cwd = NULL;
+	printf("path = %s\n", path);
 	ret = cd_dir_changer(envmap, path);
 	free(path);
 	return (ret);
