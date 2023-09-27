@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: haeem <haeem@student.42seoul.kr>           +#+  +:+       +#+        */
+/*   By: hyunjunk <hyunjunk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/28 16:58:38 by haeem             #+#    #+#             */
-/*   Updated: 2023/09/27 18:32:25 by haeem            ###   ########seoul.kr  */
+/*   Updated: 2023/09/27 19:53:39 by hyunjunk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -195,7 +195,7 @@ void		set_path(t_hashmap *envmap);
 
 // get input & parse
 /* -------------------------------------------------------------------------- */
-void		get_input(char **input, t_hashmap *envmap);
+void		get_input(char **input);
 /* -------------------------------------------------------------------------- */
 
 // execute

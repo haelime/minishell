@@ -6,7 +6,7 @@
 /*   By: hyunjunk <hyunjunk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/16 16:32:12 by haeem             #+#    #+#             */
-/*   Updated: 2023/09/21 18:08:29 by hyunjunk         ###   ########.fr       */
+/*   Updated: 2023/09/27 19:53:19 by hyunjunk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,10 +14,10 @@
 #include "../../include/hashlib.h"
 #include "../../libft/include/libft.h"
 
-void	get_input(char **p_input, t_hashmap *envmap)
+void	get_input(char **p_input)
 {
 	*p_input = NULL;
-	*p_input = readline(hashmap_search(envmap, "PS1"));
+	*p_input = readline("minishell$ ");
 	if (*p_input == NULL)
 	{
 		printf ("exiting minishell\n");

@@ -6,7 +6,7 @@
 /*   By: hyunjunk <hyunjunk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/28 16:57:45 by haeem             #+#    #+#             */
-/*   Updated: 2023/09/27 19:10:37 by hyunjunk         ###   ########.fr       */
+/*   Updated: 2023/09/27 19:53:25 by hyunjunk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ int	main(int argc, char **argv, char **envp)
 	while (1)
 	{
 		signal_interactive();
-		get_input(&input, envmap);
+		get_input(&input);
 		if (input == NULL || ft_strlen(input) == 0)
 			continue ;
 		tokens = parse(input, envmap);
