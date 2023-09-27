@@ -6,7 +6,7 @@
 /*   By: haeem <haeem@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/30 17:50:18 by haeem             #+#    #+#             */
-/*   Updated: 2023/09/27 18:34:15 by haeem            ###   ########seoul.kr  */
+/*   Updated: 2023/09/27 18:37:53 by haeem            ###   ########seoul.kr  */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,7 +52,7 @@ char	*replace_dollar(char *str, t_hashmap *envmap)
 			flag ^= DOUBLEQUOTE;
 		if (tmp[i] == '\"' && !(flag & DOUBLEQUOTE))
 			flag ^= QUOTE;
-		if (tmp[i] == '$' && tmp[i + 1] != '\0' && flag & DOUBLEQUOTE)
+		if (tmp[i] == '$' && tmp[i + 1] != '\0' && (flag & DOUBLEQUOTE || flag == 0))
 		{
 			key = make_key(tmp, i);
 			tmp2 = ft_strreplace(tmp, key, hashmap_search(envmap, key + 1));
