@@ -6,13 +6,13 @@
 #    By: hyunjunk <hyunjunk@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/04/11 14:22:09 by haeem             #+#    #+#              #
-#    Updated: 2023/09/24 15:40:02 by hyunjunk         ###   ########.fr        #
+#    Updated: 2023/09/27 20:53:40 by hyunjunk         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 
 CC = cc
-CFLAGS = -Wall -Wextra -Werror -g3 
+CFLAGS = -Wall -Wextra -Werror -g3
 # -fsanitize=address
 SRCDIR = $(CURDIR)
 
@@ -50,6 +50,7 @@ SOURCES = $(addprefix $(SRCDIR)/srcs/,\
 	./signal/signal.c\
 \
 	./utils/minishell_utils.c\
+	./utils/string_utils.c\
 \
 	./builtins/env.c\
 	./builtins/pwd.c\

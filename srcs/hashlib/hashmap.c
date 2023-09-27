@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   hashmap.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: haeem <haeem@student.42seoul.kr>           +#+  +:+       +#+        */
+/*   By: hyunjunk <hyunjunk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/05 20:05:16 by haeem             #+#    #+#             */
-/*   Updated: 2023/09/24 17:47:03 by haeem            ###   ########seoul.kr  */
+/*   Updated: 2023/09/27 20:54:12 by hyunjunk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,7 +66,7 @@ void	hashmap_insert(t_hashmap *hashmap, char *key, char *value)
 			if (ft_strcmp((*current)->key, key) == 0)
 			{
 				free((*current)->value);
-				(*current)->value = ft_strdup(value);
+				(*current)->value = ft_strdup_null(value);
 				return ;
 			}
 			current = &(*current)->next;
@@ -75,7 +75,7 @@ void	hashmap_insert(t_hashmap *hashmap, char *key, char *value)
 	}
 	*ptr_new_place = (t_bucket *)malloc(sizeof(t_bucket));
 	(*ptr_new_place)->key = ft_strdup(key);
-	(*ptr_new_place)->value = ft_strdup(value);
+	(*ptr_new_place)->value = ft_strdup_null(value);
 	(*ptr_new_place)->next = NULL;
 }
 

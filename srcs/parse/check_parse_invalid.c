@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   check_parse_invalid.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: haeem <haeem@student.42seoul.kr>           +#+  +:+       +#+        */
+/*   By: hyunjunk <hyunjunk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/21 16:22:06 by hyunjunk          #+#    #+#             */
-/*   Updated: 2023/09/25 19:19:12 by haeem            ###   ########seoul.kr  */
+/*   Updated: 2023/09/27 21:46:54 by hyunjunk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,9 +94,6 @@ static	int	check_quote_closed(t_list *tokens)
 			ELSE 	(is invalid)	THEN (1)	*/
 int	check_parse_invalid(t_list *tokens)
 {
-	// DEBUG
-	if (tokens == NULL)
-		printf("DEBUG : error check_parse_invalud() tokens=NULL \n");
 	if (check_quote_closed(tokens))
 		return (1);
 	if (check_pipe_invalid(tokens))
