@@ -6,7 +6,7 @@
 /*   By: hyunjunk <hyunjunk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/23 15:42:34 by haeem             #+#    #+#             */
-/*   Updated: 2023/09/27 19:32:59 by hyunjunk         ###   ########.fr       */
+/*   Updated: 2023/09/27 21:54:16 by hyunjunk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -135,11 +135,11 @@ void	make_cmd_blocks_by_tokens(
 		next_cmd = fill_cmd_cmd_block(new_block, start);
 		fill_options_cmd_block(new_block, next_cmd);
 		start = fill_redirect_cmd_block(new_block, start);
-		ft_lstadd_back(out_list_cmd_blocks, ft_lstnew(new_block));
 		new_block->idx = idx;
 		tmp = ft_itoa(idx);
 		new_block->heredoc_file = ft_strjoin(".tmp_heredoc_", tmp);
 		free(tmp);
 		idx += 1;
+		ft_lstadd_back(out_list_cmd_blocks, ft_lstnew(new_block));
 	}
 }

@@ -6,7 +6,7 @@
 /*   By: hyunjunk <hyunjunk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/10 19:02:33 by haeem             #+#    #+#             */
-/*   Updated: 2023/09/27 21:32:43 by hyunjunk         ###   ########.fr       */
+/*   Updated: 2023/09/27 22:10:46 by hyunjunk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -262,13 +262,6 @@ void	insert_exit_status(t_hashmap *envmap, int exitstatus)
 	free(str);
 }
 
-static int	free_bzero_ret(char **ptr, int ret)
-{
-	free(*ptr);
-	*ptr = NULL;
-	return (ret);
-}
-
 int		get_input_heredocs(t_list *cmd_blocks, t_hashmap *envmap)
 {
 	t_cmd_block	*cmd_block;
@@ -283,11 +276,8 @@ int		get_input_heredocs(t_list *cmd_blocks, t_hashmap *envmap)
 		{
 			redirect = ((t_redirect *)p_redirect_in->content);
 			if (redirect->type == REDIRECT_HEREDOC
-				&& (get_input_heredoc(cmd_block, redirect, envmap) < 0
-					|| (p_redirect_in->next
-						&& (unlink(cmd_block->heredoc_file) < 0
-							|| free_bzero_ret(&cmd_block->heredoc_file, 0)))))
-				return (free_bzero_ret(&cmd_block->heredoc_file, 1));
+				&& (get_input_heredoc(cmd_block, redirect, envmap) < 0))
+				return (1);
 			p_redirect_in = p_redirect_in->next;
 		}
 		cmd_blocks = cmd_blocks->next;
