@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execute.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: haeem <haeem@student.42seoul.kr>           +#+  +:+       +#+        */
+/*   By: hyunjunk <hyunjunk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/10 19:02:33 by haeem             #+#    #+#             */
-/*   Updated: 2023/09/27 18:32:46 by haeem            ###   ########seoul.kr  */
+/*   Updated: 2023/09/27 19:34:13 by hyunjunk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,18 +71,12 @@ static int	get_input_heredoc(
 	t_cmd_block	*cmd_block, t_redirect *redirect, t_hashmap *envmap)
 {
 	int			fd;
-	char		*idx_str;
-	char		*tmp_file_name;
 
-	idx_str = ft_itoa(cmd_block->idx);
-	tmp_file_name = ft_strjoin(".tmp_heredoc_", idx_str);
-	free(idx_str);
-	fd = open(tmp_file_name, O_WRONLY | O_CREAT | O_TRUNC,
+	fd = open(cmd_block->heredoc_file, O_WRONLY | O_CREAT | O_TRUNC,
 			S_IRUSR | S_IWUSR | S_IRGRP | S_IROTH);
 	if (fd < 0)
 		return (str_msg_ret("get_heredoc() create file failed. : %s\n",
-				tmp_file_name, -1));
-	cmd_block->heredoc_file = tmp_file_name;
+				cmd_block->heredoc_file, 1));
 	read_heredoc(redirect->str, fd, envmap);
 	return (0);
 }
@@ -290,9 +284,10 @@ int		get_input_heredocs(t_list *cmd_blocks, t_hashmap *envmap)
 			redirect = ((t_redirect *)p_redirect_in->content);
 			if (redirect->type == REDIRECT_HEREDOC
 				&& (get_input_heredoc(cmd_block, redirect, envmap) < 0
-				|| (p_redirect_in->next && (unlink(cmd_block->heredoc_file) < 0
-				|| free_bzero_ret(&cmd_block->heredoc_file, 0)))))
-				return (free_bzero_ret(&cmd_block->heredoc_file, -1));
+					|| (p_redirect_in->next
+						&& (unlink(cmd_block->heredoc_file) < 0
+							|| free_bzero_ret(&cmd_block->heredoc_file, 0)))))
+				return (free_bzero_ret(&cmd_block->heredoc_file, 1));
 			p_redirect_in = p_redirect_in->next;
 		}
 		cmd_blocks = cmd_blocks->next;
@@ -310,10 +305,17 @@ void	execute(t_list *cmd_blocks, t_hashmap *envmap)
 
 	if (cmd_blocks == NULL)
 		return ;
-	if (get_input_heredocs(cmd_blocks, envmap) < 0)
 	{
-		hashmap_insert(envmap, "?", "1");
-		return ;
+		signal_ignore();
+		if (fork() == 0)
+		{
+			signal_default();
+			exit(get_input_heredocs(cmd_blocks, envmap));
+		}
+		waitpid(-1, &exitstatus, 0);
+		insert_exit_status(envmap, exitstatus);
+		if (atoi(hashmap_search(envmap, "?")) != 0)
+			return ;
 	}
 	if (is_builtin((t_cmd_block *)cmd_blocks->content)
 		&& ft_lstsize(cmd_blocks) == 1)
