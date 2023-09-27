@@ -6,7 +6,7 @@
 /*   By: haeem <haeem@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/30 17:50:18 by haeem             #+#    #+#             */
-/*   Updated: 2023/09/27 18:37:53 by haeem            ###   ########seoul.kr  */
+/*   Updated: 2023/09/27 23:17:11 by haeem            ###   ########seoul.kr  */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,74 +14,112 @@
 #include "../../include/hashlib.h"
 
 // make key, from $ to null, $ or ' '
-char	*make_key(char *str, int i)
+char	*make_key(char **o_str, char **o_start, char **o_end)
 {
-	int		j;
 	char	*key;
 
-	j = i + 1;
-	if (str[j] == '$')
+	(*o_end)++;
+	if (**o_end == '$')
 		return (ft_strdup("$$"));
 	// if (str[j] == '?')
 		// return (g_exitnum);
-	while (str[j] && str[j] != ' ' && str[j] != '$' && str[j] != '\"'
-		&& str[j] != '\'' && str[j] != '>' && str[j] != '<' && str[j] != '|'
-		&& str[j] != '/' && str[j] != '\\')
-		j++;
-	key = ft_substr(str, i, j - i);
+	while (**o_start != '$')
+		(*o_start)++;
+	while (**o_end && **o_end != ' ' && **o_end != '$' && **o_end != '\"'
+		&& **o_end != '\'' && **o_end != '>' && **o_end != '<' && **o_end != '|'
+		&& **o_end != '/' && **o_end != '\\')
+		(*o_end)++;
+	key = ft_substr(*o_str, *o_start - *o_str + 1, *o_end - *o_start - 1);
+// TODO : MOVE POINTER TO END OF THE KEY
 	return (key);
 }
+
+void	join_value_before_it(char **o_ret, char **o_str, char **o_start, char **o_end)
+{
+	char	*key_before;
+	// char	*key;
+	// char	*value;
+	// char	*tmp;
+
+	key_before = ft_substr(*o_str, *o_start - *o_str, *o_end - *o_start);
+	*o_ret = ft_strjoinfree(o_ret, &key_before);
+	*o_start = *o_end;
+}
+
+char	*join_remain(char **o_ret, char **o_str, char **o_start, char **o_end)
+{
+	char	*remain;
+	char	*ret;
+
+	remain = ft_substr(*o_str, *o_start - *o_str, *o_end - *o_str);
+	printf("remain: %s\n",remain);
+	if (*remain == '\0')
+	{
+		free(remain);
+		return (*o_ret);
+	}
+	if (*o_ret != NULL)
+	{
+		ret = ft_strjoinfree(o_ret, &remain);
+		return (ret);
+	}
+	else
+		return (remain);
+}
+
+char	*get_value(
+		char **o_str, char **o_start, char **o_end, t_hashmap *envmap)
+{
+	char	*key;
+	char	*value;
+	char	*tmp;
+
+
+	key = make_key(o_str, o_start, o_end);
+	tmp = hashmap_search(envmap, key);
+	if (tmp == NULL)
+	{
+		return (key);
+	}
+	else
+	{
+		value = ft_strdup(tmp);
+		return (value);
+	}
+}
+
+// TODO
 
 // dollar to env if not quoted
 // @Arguments	is_heredoc_mode
 //						IF (0) 	THEN (ignore '$' in ''')
 char	*replace_dollar(char *str, t_hashmap *envmap)
 {
-	int		i;
+	char	*start;
+	char	*end;
 	int		flag;
-	char	*key;
-	char	*tmp;
-	char	*tmp2;
+	char	*ret;
+	char	*value;
 
-	i = -1;
 	flag = 0;
-	tmp = ft_strdup(str);
-	while (tmp[++i])
+	start = str;
+	end = start;
+	ret = ft_strdup("");
+	while (*end)
 	{
-		if (tmp[i] == '\"' && !(flag & QUOTE))
-			flag ^= DOUBLEQUOTE;
-		if (tmp[i] == '\"' && !(flag & DOUBLEQUOTE))
+		if (*end == '\'' && !(flag & DOUBLEQUOTE))
 			flag ^= QUOTE;
-		if (tmp[i] == '$' && tmp[i + 1] != '\0' && (flag & DOUBLEQUOTE || flag == 0))
+		if (*end == '\"' && !(flag & QUOTE))
+			flag ^= DOUBLEQUOTE;
+		if (*end == '$' && (flag == 0 || flag & DOUBLEQUOTE))
 		{
-			key = make_key(tmp, i);
-			tmp2 = ft_strreplace(tmp, key, hashmap_search(envmap, key + 1));
-			free (tmp);
-			tmp = tmp2;
-			free (key);
-			i--;
+			join_value_before_it(&ret, &str, &start, &end);
+			value = get_value(&str, &start, &end, envmap);
+			ret = ft_strjoinfree(&ret, &value);
 		}
+		end++;
 	}
-	free (str);
-	return (tmp);
-}
-
-void	rec_replace_dollar(t_tree *syntax, t_hashmap *envmap)
-{
-	t_type			type;
-	t_token			*token;
-
-	if (syntax == NULL)
-		return ;
-	type = ((t_token *)(syntax->data))->type;
-	token = syntax->data;
-	if (type == WORD)
-	{
-		if (ft_strchr(token->str, '$'))
-			token->str = replace_dollar(token->str, envmap);
-	}
-	if (syntax->left)
-		rec_replace_dollar(syntax->left, envmap);
-	if (syntax->right)
-		rec_replace_dollar(syntax->right, envmap);
+	ret = join_remain(&ret, &str, &start, &end);
+	printf("ret : %s\n", ret);
+	return (ret);
 }
