@@ -76,15 +76,15 @@ static int	get_input_heredoc(
 
 	idx_str = ft_itoa(cmd_block->idx);
 	tmp_file_name = ft_strjoin(".tmp_heredoc_", idx_str);
+	free(idx_str);
 	fd = open(tmp_file_name, O_WRONLY | O_CREAT | O_TRUNC,
 			S_IRUSR | S_IWUSR | S_IRGRP | S_IROTH);
 	if (fd < 0)
 		return (str_msg_ret("get_heredoc() create file failed. : %s\n",
 				tmp_file_name, -1));
-	free(idx_str);
 	cmd_block->heredoc_file = tmp_file_name;
 	read_heredoc(redirect->str, fd, envmap);
-	return (fd);
+	return (0);
 }
 
 static int	connect_stdin(t_cmd_block *cmd_block, int *pipes)
@@ -269,30 +269,34 @@ void	insert_exit_status(t_hashmap *envmap, int exitstatus)
 	free(str);
 }
 
+static int	free_bzero_ret(void **ptr, int ret)
+{
+	free(*ptr);
+	*ptr = NULL;
+	return (ret);
+}
+
 int		get_input_heredocs(t_list *cmd_blocks, t_hashmap *envmap)
 {
-	t_list		*p;
 	t_cmd_block	*cmd_block;
 	t_list		*p_redirect_in;
 	t_redirect	*redirect;
 
-	p = cmd_blocks;
-	while (p != NULL)
+	while (cmd_blocks != NULL)
 	{
-		cmd_block = (t_cmd_block *)p->content;
+		cmd_block = (t_cmd_block *)cmd_blocks->content;
 		p_redirect_in = (t_list *)cmd_block->redirects_in;
 		while (p_redirect_in != NULL)
 		{
 			redirect = ((t_redirect *)p_redirect_in->content);
-			if (redirect->type == REDIRECT_HEREDOC)
-			{
-				get_input_heredoc(cmd_block, redirect, envmap);
-				if (p_redirect_in->next && unlink(cmd_block->heredoc_file) < 0)
-					return (-1);
-			}
+			if (redirect->type == REDIRECT_HEREDOC
+				&& (get_input_heredoc(cmd_block, redirect, envmap) < 0
+				|| (p_redirect_in->next && (unlink(cmd_block->heredoc_file) < 0
+				|| free_bzero_ret(&cmd_block->heredoc_file, 0)))))
+				return (free_bzero_ret(&cmd_block->heredoc_file, -1));
 			p_redirect_in = p_redirect_in->next;
 		}
-		p = p->next;
+		cmd_blocks = cmd_blocks->next;
 	}
 	return (0);
 }
@@ -330,7 +334,6 @@ void	execute(t_list *cmd_blocks, t_hashmap *envmap)
 		dup2(stdout_origin, STDOUT_FILENO);
 		close(stdin_origin);
 		close(stdout_origin);
-		unlink(((t_cmd_block *)cmd_blocks->content)->heredoc_file);
 		return ;
 	}
 	num_pipe = ft_lstsize(cmd_blocks) - 1;

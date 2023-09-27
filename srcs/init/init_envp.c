@@ -20,6 +20,7 @@ t_hashmap	*hash_envp(char **envp)
 	t_hashmap	*newmap;
 	char		**tmp;
 	int			i;
+	char		**p;
 
 	i = 0;
 	newmap = hashmap_create(256);
@@ -30,8 +31,9 @@ t_hashmap	*hash_envp(char **envp)
 			hashmap_insert(newmap, tmp[0], "");
 		else
 			hashmap_insert(newmap, tmp[0], tmp[1]);
-		free(tmp[0]);
-		free(tmp[1]);
+		p = tmp;
+		while (*p != NULL)
+			free(*p++);
 		free(tmp);
 		i++;
 	}

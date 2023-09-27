@@ -79,9 +79,9 @@ void	rm_quotes(t_list **out_tokens)
 	ret = NULL;
 	while (p != NULL)
 	{
+		str = ((t_token *)(p->content))->str;
 		if (ft_strchr(str, '\'') || ft_strchr(str, '\"'))
 		{
-			str = ((t_token *)(p->content))->str;
 			ret = get_removed_quotes(str);
 			free(((t_token *)(p->content))->str);
 			((t_token *)(p->content))->str = ret;
