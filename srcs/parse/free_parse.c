@@ -68,6 +68,10 @@ void	free_cmd_blocks(t_list **out_cmd_blocks)
 		next = p->next;
 		free(cmd_block->options);
 		free(cmd_block->completed_cmd);
+		free_redirects(&cmd_block->redirects_in);
+		free_redirects(&cmd_block->redirects_out);
+		if (cmd_block->heredoc_file)
+			unlink(cmd_block->heredoc_file);
 		free(cmd_block->heredoc_file);
 		free(p->content);
 		free(p);
