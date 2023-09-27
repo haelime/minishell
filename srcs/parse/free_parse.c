@@ -6,7 +6,7 @@
 /*   By: hyunjunk <hyunjunk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/21 17:55:58 by hyunjunk          #+#    #+#             */
-/*   Updated: 2023/09/22 18:43:53 by hyunjunk         ###   ########.fr       */
+/*   Updated: 2023/09/26 17:21:06 by hyunjunk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,26 @@ void	free_tokens(t_list **out_tokens)
 		p = next;
 	}
 	*out_tokens = NULL;
+}
+
+void	free_redirects(t_list **out_redirects)
+{
+	t_list		*p;
+	t_list		*next;
+	t_redirect	*redirect;
+
+	if (*out_redirects == NULL)
+		return ;
+	p = *out_redirects;
+	while (p != NULL)
+	{
+		redirect = (t_redirect *)p->content;
+		next = p->next;
+		free(p->content);
+		free(p);
+		p = next;
+	}
+	*out_redirects = NULL;
 }
 
 void	free_cmd_blocks(t_list **out_cmd_blocks)
