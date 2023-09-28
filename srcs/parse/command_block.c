@@ -6,7 +6,7 @@
 /*   By: hyunjunk <hyunjunk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/23 15:42:34 by haeem             #+#    #+#             */
-/*   Updated: 2023/09/27 21:54:16 by hyunjunk         ###   ########.fr       */
+/*   Updated: 2023/09/28 15:31:51 by hyunjunk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -103,7 +103,10 @@ static t_list	*fill_cmd_cmd_block(t_cmd_block *out_cmd_block, t_list *pos)
 			pos = pos->next;
 		else if (token->type == WORD)
 		{
-			out_cmd_block->cmd = token;
+			if (ft_strcmp(token->str, "") == 0)
+				out_cmd_block->cmd = NULL;
+			else
+				out_cmd_block->cmd = token;
 			return (pos->next);
 		}
 		pos = pos->next;
