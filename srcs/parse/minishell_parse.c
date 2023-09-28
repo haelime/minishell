@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell_parse.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: haeem <haeem@student.42seoul.kr>           +#+  +:+       +#+        */
+/*   By: hyunjunk <hyunjunk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/28 18:48:50 by haeem             #+#    #+#             */
-/*   Updated: 2023/09/28 15:12:51 by haeem            ###   ########seoul.kr  */
+/*   Updated: 2023/09/28 18:14:24 by hyunjunk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,6 +97,7 @@ t_list	*parse(char *input, t_hashmap *envmap)
 	t_token	*token;
 	t_list	*tokens;
 	t_list	*p;
+	char	*tmp;
 
 	tokens = NULL;
 	tokenize(input, &tokens);
@@ -105,7 +106,11 @@ t_list	*parse(char *input, t_hashmap *envmap)
 	{
 		token = (t_token *)(p->content);
 		if (ft_strchr(token->str, '$'))
-			token->str = replace_dollar(token->str, envmap);
+		{
+			tmp = replace_dollar(token->str, envmap);
+			free(token->str);
+			token->str = tmp;
+		}
 		p = p->next;
 	}
 	if (check_parse_invalid(tokens))

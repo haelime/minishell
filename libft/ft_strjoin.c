@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_strjoin.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: haeem <haeem@student.42seoul.kr>           +#+  +:+       +#+        */
+/*   By: hyunjunk <hyunjunk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/06 16:01:43 by haeem             #+#    #+#             */
-/*   Updated: 2023/09/25 20:21:45 by haeem            ###   ########seoul.kr  */
+/*   Updated: 2023/09/28 18:10:24 by hyunjunk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,18 +67,8 @@ char	*ft_strjoinfree(char **out_s1, char **out_s2)
 	const size_t	total_len = s1len + s2len + 1;
 	char			*str;
 
-	if (total_len == 1)
-	{
-		str = (char *)malloc(sizeof(char) * (1));
-		str[0] = 0;
-		return (str);
-	}
 	str = (char *)malloc(sizeof(char) * (total_len));
 	ft_bzero(str, total_len);
-	if (s1len == 0)
-		return (ft_strcat(str, *out_s2));
-	else if (s2len == 0)
-		return (ft_strcat(str, *out_s1));
 	ft_strcat(str, *out_s1);
 	ft_strcat(str, *out_s2);
 	free(*out_s1);
