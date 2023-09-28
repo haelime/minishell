@@ -6,7 +6,7 @@
 /*   By: haeem <haeem@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/30 17:50:18 by haeem             #+#    #+#             */
-/*   Updated: 2023/09/27 23:17:11 by haeem            ###   ########seoul.kr  */
+/*   Updated: 2023/09/28 15:11:25 by haeem            ###   ########seoul.kr  */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,16 +30,13 @@ char	*make_key(char **o_str, char **o_start, char **o_end)
 		&& **o_end != '/' && **o_end != '\\')
 		(*o_end)++;
 	key = ft_substr(*o_str, *o_start - *o_str + 1, *o_end - *o_start - 1);
-// TODO : MOVE POINTER TO END OF THE KEY
+	*o_start = *o_end;
 	return (key);
 }
 
 void	join_value_before_it(char **o_ret, char **o_str, char **o_start, char **o_end)
 {
 	char	*key_before;
-	// char	*key;
-	// char	*value;
-	// char	*tmp;
 
 	key_before = ft_substr(*o_str, *o_start - *o_str, *o_end - *o_start);
 	*o_ret = ft_strjoinfree(o_ret, &key_before);
@@ -52,7 +49,6 @@ char	*join_remain(char **o_ret, char **o_str, char **o_start, char **o_end)
 	char	*ret;
 
 	remain = ft_substr(*o_str, *o_start - *o_str, *o_end - *o_str);
-	printf("remain: %s\n",remain);
 	if (*remain == '\0')
 	{
 		free(remain);
@@ -120,6 +116,5 @@ char	*replace_dollar(char *str, t_hashmap *envmap)
 		end++;
 	}
 	ret = join_remain(&ret, &str, &start, &end);
-	printf("ret : %s\n", ret);
 	return (ret);
 }
