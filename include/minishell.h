@@ -6,19 +6,16 @@
 /*   By: haeem <haeem@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/28 16:58:38 by haeem             #+#    #+#             */
-/*   Updated: 2023/09/28 15:13:30 by haeem            ###   ########seoul.kr  */
+/*   Updated: 2023/09/28 16:45:41 by haeem            ###   ########seoul.kr  */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef MINISHELL_H
 # define MINISHELL_H
 
-// printf on <stdio.h>
+// printf
 # include <stdio.h>
-// malloc on <stdlib.h>
-// free on <stdlib.h>
-// getenv on <stdlib.h>
-// exit on <stdlib.h>
+// malloc, free, getenv, exit,
 # include <stdlib.h>
 
 // void* __debug_tmp;
@@ -30,71 +27,41 @@
 //     printf("free(NULL), [%s:%d]\n", __FILE__, __LINE__); \
 // free(x)
 
-// close on <unistd.h>
-// read on <unistd.h>
-// write on <unistd.h>
-// unlink on <unistd.h>
-// fork on <unistd.h>
-// dup on <unistd.h>
-// dup2 on <unistd.h>
-// pipe on <unistd.h>
-// execve on <unistd.h>
-// getcwd on <unistd.h>
-// chdir on <unistd.h>
-// isatty on <unistd.h>
-// ttyname on <unistd.h>
-// ttyslot on <unistd.h>
+// close, read, write, unlink, fork, dup, dup2, pipe,
+// execve, getcwd, chdir, isatty, ttyname, ttyslot
 # include <unistd.h>
-// open on <fcntl.h>
+// open
 # include <fcntl.h>
 # include <stdbool.h>
-// strerror on <string.h>
+// strerror
 # include <string.h>
 
-// opendir on <dirent.h>
-// closedir on <dirent.h>
-// readdir on <dirent.h>
+// opendir, closedir, readdir
 # include <dirent.h>
 
-// readline on <readline/readline.h>
-// rl_on_new_line on <readline/readline.h>
-// rl_replace_line on <readline/readline.h>
-// rl_redisplay on <readline/readline.h>
+// readline, rl_on_new_line, rl_replace_line, rl_redisplay
 # include <readline/readline.h>
-// add_history on <readlien/history.h>
+// add_history
 # include <readline/history.h>
 
-// tcgetattr on <term.h>
-// tcsetattr on <term.h>
-// tgetent on <term.h>
-// tgetflag on <term.h>
-// tgetnum on <term.h>
-// tgetstr on <term.h>
-// tgoto on <term.h>
-// tputs on <term.h>
+// tcgetattr, tcsetattr, tgetent, tgetflag, tgetnum, tgetstr, tgoto, tputs
 # include <term.h>
 # include <termcap.h>
 # include <termios.h>
 
 # include <sys/types.h>
-// stat on <sys/stat.h>
-// lstat on <sys/stat.h>
-// fstat on <sys/stat.h>
+// stat, lstat, fstat
 # include <sys/stat.h>
 
-// kill on <signal.h>
-// signal on <signal.h>
+// kill, signal
 # include <signal.h>
-// wait3 on <sys/wait.h>
-// wait4 on <sys/wait.h>
-// wait on <sys/wait.h>
-// waitpid on <sys/wait.h>
+// wait3, wait4, wait, waitpid
 # include <sys/wait.h>
 
-// ioctl on <sys/ioctl.h>
+// ioctl
 # include <sys/ioctl.h>
 
-// errno on <errno.h>
+// errno
 # include <errno.h>
 
 #ifndef HASHLIB_H

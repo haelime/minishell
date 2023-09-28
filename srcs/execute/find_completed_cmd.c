@@ -3,16 +3,15 @@
 /*                                                        :::      ::::::::   */
 /*   find_completed_cmd.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hyunjunk <hyunjunk@student.42.fr>          +#+  +:+       +#+        */
+/*   By: haeem <haeem@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/18 18:17:09 by hyunjunk          #+#    #+#             */
-/*   Updated: 2023/09/28 16:10:20 by hyunjunk         ###   ########.fr       */
+/*   Updated: 2023/09/28 17:43:27 by haeem            ###   ########seoul.kr  */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/minishell.h"
 #include "../../include/hashlib.h"
-
 
 static char	*find_cwd(char *cmd)
 {

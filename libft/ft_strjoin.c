@@ -73,5 +73,7 @@ char	*ft_strjoinfree(char **out_s1, char **out_s2)
 	ft_strcat(str, *out_s2);
 	free(*out_s1);
 	free(*out_s2);
+	*out_s1 = NULL;
+	*out_s2 = NULL;
 	return (str);
 }
