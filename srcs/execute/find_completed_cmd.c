@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   find_completed_cmd.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: haeem <haeem@student.42seoul.kr>           +#+  +:+       +#+        */
+/*   By: hyunjunk <hyunjunk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/18 18:17:09 by hyunjunk          #+#    #+#             */
-/*   Updated: 2023/09/24 18:42:49 by haeem            ###   ########seoul.kr  */
+/*   Updated: 2023/09/28 16:10:20 by hyunjunk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,14 +64,26 @@ static char	*find_path(char *cmd, char **paths)
 	return (NULL);
 }
 
+/* The paths are released internally. */
 char	*malloc_find_completed_cmd(t_token *cmd, char **paths)
 {
+	char	*ret;
+	char	**p;
+
 	if (cmd == NULL)
-		return (NULL);
-	if (ft_strchr(cmd->str, '/') != NULL)
-		return (find_relative(cmd->str));
+		ret = (NULL);
+	else if (ft_strchr(cmd->str, '/') != NULL)
+		ret = (find_relative(cmd->str));
 	else if (paths != NULL)
-		return (find_path(cmd->str, paths));
+		ret = (find_path(cmd->str, paths));
 	else
-		return (find_cwd(cmd->str));
+		ret = (find_cwd(cmd->str));
+	p = paths;
+	while (*p != NULL)
+	{
+		free(*p);
+		p++;
+	}	
+	free(paths);
+	return (ret);
 }
