@@ -6,7 +6,7 @@
 /*   By: haeem <haeem@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/30 17:50:18 by haeem             #+#    #+#             */
-/*   Updated: 2023/09/28 15:11:25 by haeem            ###   ########seoul.kr  */
+/*   Updated: 2023/09/28 15:24:42 by haeem            ###   ########seoul.kr  */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,10 +72,14 @@ char	*get_value(
 
 
 	key = make_key(o_str, o_start, o_end);
+	if (*key == '\0')
+		return (ft_strdup("$"));
 	tmp = hashmap_search(envmap, key);
 	if (tmp == NULL)
 	{
-		return (key);
+		free(key);
+		tmp = ft_strdup("");
+		return (tmp);
 	}
 	else
 	{
