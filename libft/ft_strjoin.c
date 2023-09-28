@@ -6,7 +6,7 @@
 /*   By: haeem <haeem@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/06 16:01:43 by haeem             #+#    #+#             */
-/*   Updated: 2023/09/25 20:21:45 by haeem            ###   ########seoul.kr  */
+/*   Updated: 2023/09/28 16:53:22 by haeem            ###   ########seoul.kr  */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,5 +83,7 @@ char	*ft_strjoinfree(char **out_s1, char **out_s2)
 	ft_strcat(str, *out_s2);
 	free(*out_s1);
 	free(*out_s2);
+	*out_s1 = NULL;
+	*out_s2 = NULL;
 	return (str);
 }
