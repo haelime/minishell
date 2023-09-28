@@ -6,7 +6,7 @@
 /*   By: hyunjunk <hyunjunk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/10 19:02:33 by haeem             #+#    #+#             */
-/*   Updated: 2023/09/27 22:10:46 by hyunjunk         ###   ########.fr       */
+/*   Updated: 2023/09/28 15:08:20 by hyunjunk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -158,7 +158,7 @@ static int	execute_builtin(t_cmd_block *cmd_block, t_hashmap *envmap)
 	if (ft_strcmp(cmd_block->cmd->str, "env") == 0)
 		exit = builtin_env(cmd_block->options, envmap);
 	else if (ft_strcmp(cmd_block->cmd->str, "pwd") == 0)
-		exit = builtin_pwd();
+		exit = builtin_pwd(envmap);
 	else if (ft_strcmp(cmd_block->cmd->str, "export") == 0)
 		exit = builtin_export(cmd_block->options, envmap);
 	else if (ft_strcmp(cmd_block->cmd->str, "unset") == 0)
@@ -311,6 +311,7 @@ void	execute(t_list *cmd_blocks, t_hashmap *envmap)
 			return ;
 		}
 	}
+	// single builtiin
 	if (is_builtin((t_cmd_block *)cmd_blocks->content)
 		&& ft_lstsize(cmd_blocks) == 1)
 	{

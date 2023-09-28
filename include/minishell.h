@@ -262,7 +262,7 @@ char		*join_remain(char **o_ret, char **o_str, char **o_start, char **o_end);
 // builtins
 /* -------------------------------------------------------------------------- */
 int			builtin_env(char **argv, t_hashmap *envmap);
-int			builtin_pwd(void);
+int			builtin_pwd(t_hashmap *hashmap);
 int			builtin_export(char **argv, t_hashmap *envmap);
 int			builtin_unset(char **argv, t_hashmap *envmap);
 int			builtin_echo(char **argv);
