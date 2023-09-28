@@ -6,7 +6,7 @@
 /*   By: haeem <haeem@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/28 18:48:50 by haeem             #+#    #+#             */
-/*   Updated: 2023/09/27 18:32:32 by haeem            ###   ########seoul.kr  */
+/*   Updated: 2023/09/28 15:12:51 by haeem            ###   ########seoul.kr  */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,6 +65,7 @@ char	*get_removed_quotes(char *str)
 		}
 		end++;
 	}
+	ret = join_remain(&ret, &str, &start, &end);
 	return (ret);
 }
 

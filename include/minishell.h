@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hyunjunk <hyunjunk@student.42.fr>          +#+  +:+       +#+        */
+/*   By: haeem <haeem@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/28 16:58:38 by haeem             #+#    #+#             */
-/*   Updated: 2023/09/27 22:43:36 by hyunjunk         ###   ########.fr       */
+/*   Updated: 2023/09/28 15:13:30 by haeem            ###   ########seoul.kr  */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -256,6 +256,7 @@ void		free_cmd_blocks(t_list **out_cmd_blocks);
 // syntax
 /* -------------------------------------------------------------------------- */
 bool		rec_check_syntax(t_tree *syntax);
+char		*join_remain(char **o_ret, char **o_str, char **o_start, char **o_end);
 /* -------------------------------------------------------------------------- */
 
 // builtins
