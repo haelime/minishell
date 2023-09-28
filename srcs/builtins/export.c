@@ -6,7 +6,7 @@
 /*   By: hyunjunk <hyunjunk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/15 16:45:29 by haeem             #+#    #+#             */
-/*   Updated: 2023/09/27 21:25:07 by hyunjunk         ###   ########.fr       */
+/*   Updated: 2023/09/28 16:04:57 by hyunjunk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,7 @@ static void	norm_builtin_export(t_hashmap *envmap, char *key, char *value,
 	}
 	if ((!ft_isalpha(*key) && *key != '_') || is_invalid_identifier(key))
 	{
-		printf("minishell: export: `%s': not a valid identifier\n", key);
+		printf("minishell: export: `%s=': not a valid identifier\n", key);
 		if (*ret == SUCCESS)
 			*ret = FAILURE;
 		return ;
