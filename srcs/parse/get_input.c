@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   get_input.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hyunjunk <hyunjunk@student.42.fr>          +#+  +:+       +#+        */
+/*   By: haeem <haeem@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/16 16:32:12 by haeem             #+#    #+#             */
-/*   Updated: 2023/09/27 19:53:19 by hyunjunk         ###   ########.fr       */
+/*   Updated: 2023/09/28 19:25:04 by haeem            ###   ########seoul.kr  */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,8 @@
 
 void	get_input(char **p_input)
 {
+	if (*p_input)
+		free(*p_input);
 	*p_input = NULL;
 	*p_input = readline("minishell$ ");
 	if (*p_input == NULL)

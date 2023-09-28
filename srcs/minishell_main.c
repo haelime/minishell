@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell_main.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hyunjunk <hyunjunk@student.42.fr>          +#+  +:+       +#+        */
+/*   By: haeem <haeem@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/28 16:57:45 by haeem             #+#    #+#             */
-/*   Updated: 2023/09/27 19:53:25 by hyunjunk         ###   ########.fr       */
+/*   Updated: 2023/09/28 19:24:46 by haeem            ###   ########seoul.kr  */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,7 @@ int	main(int argc, char **argv, char **envp)
 
 	envmap = hash_envp(envp);
 	init_shell(argc, argv, envp, envmap);
+	input = NULL;
 	while (1)
 	{
 		signal_interactive();
@@ -38,7 +39,6 @@ int	main(int argc, char **argv, char **envp)
 			continue ;
 		make_cmd_blocks_by_tokens(&cmd_blocks, tokens);
 		execute(cmd_blocks, envmap);
-		free(input);
 		free_tokens(&tokens);
 		free_cmd_blocks(&cmd_blocks);
 	}
