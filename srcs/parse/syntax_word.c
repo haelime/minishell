@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   syntax_word.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hyunjunk <hyunjunk@student.42.fr>          +#+  +:+       +#+        */
+/*   By: haeem <haeem@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/30 17:50:18 by haeem             #+#    #+#             */
-/*   Updated: 2023/09/28 18:15:46 by hyunjunk         ###   ########.fr       */
+/*   Updated: 2023/09/28 18:58:16 by haeem            ###   ########seoul.kr  */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -120,6 +120,7 @@ char	*replace_dollar(char *str, t_hashmap *envmap)
 			join_value_before_it(&ret, &str, &start, &end);
 			value = get_value(&str, &start, &end, envmap);
 			ret = ft_strjoinfree(&ret, &value);
+			end--;
 		}
 		end++;
 	}
