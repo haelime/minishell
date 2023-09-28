@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell_parse.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hyunjunk <hyunjunk@student.42.fr>          +#+  +:+       +#+        */
+/*   By: haeem <haeem@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/28 18:48:50 by haeem             #+#    #+#             */
-/*   Updated: 2023/09/28 18:14:24 by hyunjunk         ###   ########.fr       */
+/*   Updated: 2023/09/28 19:14:03 by haeem            ###   ########seoul.kr  */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,10 +58,11 @@ char	*get_removed_quotes(char *str)
 			cut = ft_substr(str, start - str, end - start);
 			ret = ft_strjoinfree(&ret, &cut);
 			start = end;
-			end = ft_strchr(end + 1, *end);
-			cut = ft_substr(str, start - str + 1, end - start - 1);
+			end = ft_strchr(end + 1, *end) + 1;
+			cut = ft_substr(str, start - str + 1, end - start - 2);
 			ret = ft_strjoinfree(&ret, &cut);
-			start = ++end;
+			start = end;
+			end--;
 		}
 		end++;
 	}
