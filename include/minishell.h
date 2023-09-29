@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: haeem <haeem@student.42seoul.kr>           +#+  +:+       +#+        */
+/*   By: hyunjunk <hyunjunk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/28 16:58:38 by haeem             #+#    #+#             */
-/*   Updated: 2023/09/28 16:45:41 by haeem            ###   ########seoul.kr  */
+/*   Updated: 2023/09/29 13:35:19 by hyunjunk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -168,11 +168,21 @@ void		get_input(char **input);
 // execute
 /* -------------------------------------------------------------------------- */
 void		execute(t_list *syntax, t_hashmap *envmap);
-void		exec_redirect(t_tree *syntax, t_hashmap *envmap);
-void		exec_pipe(t_tree *syntax, t_hashmap *envmap);
-void		exec_subsh(t_tree *syntax, t_hashmap *envmap);
-void		exec_word(t_tree *syntax, t_hashmap *envmap);
 char		*malloc_find_completed_cmd(t_token *cmd, char **paths);
+void		read_heredoc(char *delim, int fd_heredoc, t_hashmap *envmap);
+int			get_input_heredoc(
+	t_cmd_block	*cmd_block, t_redirect *redirect, t_hashmap *envmap);
+int			get_input_heredocs(t_list *cmd_blocks, t_hashmap *envmap);
+int			fork_get_all_heredocs(t_list *cmd_blocks, t_hashmap *envmap);
+void		close_pipes(int *pipes, int num_cmd);
+int			*malloc_open_pipe(int num_cmd);
+int			connect_stdin(t_cmd_block *cmd_block, int *pipes);
+int			connect_stdout(
+	t_cmd_block *cmd_block, int num_cmd, int *pipes);
+int			connect_stdio(
+	t_cmd_block *cmd_block, int num_cmd, int *pipes);
+void		insert_exit_status(t_hashmap *envmap, int exitstatus);
+char		**malloc_get_paths(t_hashmap *envmap);
 /* -------------------------------------------------------------------------- */
 
 // utils
@@ -211,7 +221,6 @@ bool		istoken(char ch);
 bool		isanotherquote(char *begin);
 bool		isparenclosed(char *begin);
 char		*tryfutherparen(char *begin);
-void		rec_replace_dollar(t_tree *syntax, t_hashmap *envmap);
 char		*replace_dollar(char *str, t_hashmap *envmap);
 void		print_pstree(t_tree *syntax);
 void		make_cmd_blocks_by_tokens(t_list **out_list_cmd_blocks, t_list *list_tokens);
@@ -235,28 +244,6 @@ int			builtin_unset(char **argv, t_hashmap *envmap);
 int			builtin_echo(char **argv);
 int			builtin_cd(char **argv, t_hashmap *envmap);
 int			builtin_exit(char **argv);
-/* -------------------------------------------------------------------------- */
-
-// debug
-/* -------------------------------------------------------------------------- */
-inline void		*__wrap_malloc(size_t size, const char* FILE, int LINE, const char* FUNCTION)
-{
-	void* ret = malloc(size);
-	printf("malloc() %6lu.bytes %s:%d:%s() ADDR=%p\n",
-		size, FILE, LINE, FUNCTION, ret);
-
-	return ret;
-}
-
-inline void	__wrap_free(void* ptr, const char* FILE, int LINE, const char* FUNCTION)
-{
-	printf("free() %s:%d:%s() ADDR=%p value={%s}\n",
-		FILE, LINE, FUNCTION, ptr, (char*)ptr);
-	free(ptr);
-}
-
-// #define malloc(x) __wrap_malloc(x, __FILE__, __LINE__, __FUNCTION__)
-// #define free(x) __wrap_free(x, __FILE__, __LINE__, __FUNCTION__);
 /* -------------------------------------------------------------------------- */
 
 #endif

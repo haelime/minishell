@@ -6,7 +6,7 @@
 /*   By: hyunjunk <hyunjunk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/21 16:22:06 by hyunjunk          #+#    #+#             */
-/*   Updated: 2023/09/27 21:46:54 by hyunjunk         ###   ########.fr       */
+/*   Updated: 2023/09/29 13:36:35 by hyunjunk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,7 +61,6 @@ static int	check_redirection_invalid(t_list *tokens)
 	}
 	return (0);
 }
-
 
 static	int	check_quote_closed(t_list *tokens)
 {

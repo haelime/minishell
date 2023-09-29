@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell_parse.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: haeem <haeem@student.42seoul.kr>           +#+  +:+       +#+        */
+/*   By: hyunjunk <hyunjunk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/28 18:48:50 by haeem             #+#    #+#             */
-/*   Updated: 2023/09/28 19:14:03 by haeem            ###   ########seoul.kr  */
+/*   Updated: 2023/09/29 13:46:12 by hyunjunk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,7 @@
 #include "../../include/hashlib.h"
 #include "../../libft/include/libft.h"
 
+__attribute__((unused))
 void	print_chunks(t_list *chunks)
 {
 	while (chunks)
@@ -92,7 +93,12 @@ void	rm_quotes(t_list **out_tokens)
 	}
 }
 
-// input -> tokens -> cmd_blocks
+static t_list	*msg_ret(const char *msg, t_list *ret)
+{
+	str_msg_ret(msg, NULL, 0);
+	return (ret);
+}
+
 t_list	*parse(char *input, t_hashmap *envmap)
 {
 	t_token	*token;
@@ -100,7 +106,6 @@ t_list	*parse(char *input, t_hashmap *envmap)
 	t_list	*p;
 	char	*tmp;
 
-	tokens = NULL;
 	tokenize(input, &tokens);
 	p = tokens;
 	while (p != NULL)
@@ -116,11 +121,9 @@ t_list	*parse(char *input, t_hashmap *envmap)
 	}
 	if (check_parse_invalid(tokens))
 	{
-		printf("syntax error\n");
 		free_tokens(&tokens);
-		return (NULL);
+		return (msg_ret("syntax error\n", NULL));
 	}
 	rm_quotes(&tokens);
-	//print_chunks(tokens); // DEBUG
 	return (tokens);
 }

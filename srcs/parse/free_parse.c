@@ -6,7 +6,7 @@
 /*   By: hyunjunk <hyunjunk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/21 17:55:58 by hyunjunk          #+#    #+#             */
-/*   Updated: 2023/09/27 19:32:15 by hyunjunk         ###   ########.fr       */
+/*   Updated: 2023/09/29 13:36:40 by hyunjunk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,7 +70,6 @@ void	free_cmd_blocks(t_list **out_cmd_blocks)
 		free(cmd_block->completed_cmd);
 		free_redirects(&cmd_block->redirects_in);
 		free_redirects(&cmd_block->redirects_out);
-		//printf("heredoc:%s\n", cmd_block->heredoc_file);
 		if (cmd_block->heredoc_file
 			&& access(cmd_block->heredoc_file, W_OK) == 0)
 			unlink(cmd_block->heredoc_file);
