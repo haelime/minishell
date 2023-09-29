@@ -6,7 +6,7 @@
 /*   By: hyunjunk <hyunjunk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/10 19:03:36 by haeem             #+#    #+#             */
-/*   Updated: 2023/09/26 16:45:29 by hyunjunk         ###   ########.fr       */
+/*   Updated: 2023/09/29 13:35:21 by hyunjunk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,4 +36,43 @@ bool	is_builtin(t_cmd_block *cmd_block)
 			|| ft_strcmp(str, "export") == 0
 			|| ft_strcmp(str, "pwd") == 0
 			|| ft_strcmp(str, "unset") == 0));
+}
+
+// bash adds 128 on exit code when exited with signal
+void	insert_exit_status(t_hashmap *envmap, int exitstatus)
+{
+	char	*str;
+	int		exitcode;
+	int		signo;
+
+	exitcode = 0;
+	if (WIFEXITED(exitstatus))
+	{
+		exitcode = WEXITSTATUS(exitstatus);
+	}
+	else if (WIFSIGNALED(exitstatus))
+	{
+		signo = WTERMSIG(exitstatus);
+		if (signo == SIGINT)
+			printf("\n");
+		else if (signo == SIGQUIT)
+			printf("Quit: 3\n");
+		exitcode = WTERMSIG(exitstatus) + 128;
+	}
+	str = ft_itoa(exitcode);
+	hashmap_insert(envmap, "?", str);
+	free(str);
+}
+
+// @return	IF 		(value does not exist) 	THEN (NULL)
+//			ELSE 	(value exists) 			THEN (paths)
+char	**malloc_get_paths(t_hashmap *envmap)
+{
+	char	*value;
+
+	value = NULL;
+	value = hashmap_search(envmap, "PATH");
+	if (value == NULL)
+		return (NULL);
+	return (ft_split(value, ':'));
 }

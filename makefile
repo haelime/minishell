@@ -44,6 +44,8 @@ SOURCES = $(addprefix $(SRCDIR)/srcs/,\
 	./execute/execute.c\
 	./execute/execute_utils.c\
 	./execute/find_completed_cmd.c\
+	./execute/pipe.c\
+	./execute/heredoc.c\
 \
 	./terminal/terminal.c\
 \
