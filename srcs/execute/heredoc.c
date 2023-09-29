@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   heredoc.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hyunjunk <hyunjunk@student.42.fr>          +#+  +:+       +#+        */
+/*   By: haeem <haeem@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/29 13:29:31 by hyunjunk          #+#    #+#             */
-/*   Updated: 2023/09/29 13:36:02 by hyunjunk         ###   ########.fr       */
+/*   Updated: 2023/09/29 15:26:54 by haeem            ###   ########seoul.kr  */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,6 +81,7 @@ int	fork_get_all_heredocs(t_list *cmd_blocks, t_hashmap *envmap)
 	if (fork() == 0)
 	{
 		signal_default();
+		signal(SIGQUIT, SIG_IGN);
 		exit(get_input_heredocs(cmd_blocks, envmap));
 	}
 	waitpid(-1, &exitstatus, 0);
