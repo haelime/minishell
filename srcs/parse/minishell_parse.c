@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell_parse.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hyunjunk <hyunjunk@student.42.fr>          +#+  +:+       +#+        */
+/*   By: haeem <haeem@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/28 18:48:50 by haeem             #+#    #+#             */
-/*   Updated: 2023/09/29 13:45:53 by haeem            ###   ########seoul.kr  */
+/*   Updated: 2023/09/29 13:54:05 by haeem            ###   ########seoul.kr  */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -115,12 +115,12 @@ t_list	*parse(char *input, t_hashmap *envmap)
 		if (ft_strchr(token->str, '$'))
 		{
 			norm_parse(&tmp, &token, envmap);
-		} 
+		}
 		p = p->next;
 	}
 	if (check_parse_invalid(tokens))
 	{
-    str_msg_ret("syntax error\n", NULL, 0);
+		str_msg_ret("syntax error\n", NULL, 0);
 		free_tokens(&tokens);
 		return (NULL);
 	}

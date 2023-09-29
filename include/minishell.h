@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hyunjunk <hyunjunk@student.42.fr>          +#+  +:+       +#+        */
+/*   By: haeem <haeem@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/28 16:58:38 by haeem             #+#    #+#             */
-/*   Updated: 2023/09/29 13:39:55 by haeem            ###   ########seoul.kr  */
+/*   Updated: 2023/09/29 13:53:51 by haeem            ###   ########seoul.kr  */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -161,17 +161,17 @@ void		get_input(char **input);
 void		execute(t_list *syntax, t_hashmap *envmap);
 char		*malloc_find_completed_cmd(t_token *cmd, char **paths);
 void		read_heredoc(char *delim, int fd_heredoc, t_hashmap *envmap);
-int			get_input_heredoc(
-	t_cmd_block	*cmd_block, t_redirect *redirect, t_hashmap *envmap);
+int			get_input_heredoc(t_cmd_block *cmd_block,
+				t_redirect *redirect, t_hashmap *envmap);
 int			get_input_heredocs(t_list *cmd_blocks, t_hashmap *envmap);
 int			fork_get_all_heredocs(t_list *cmd_blocks, t_hashmap *envmap);
 void		close_pipes(int *pipes, int num_cmd);
 int			*malloc_open_pipe(int num_cmd);
 int			connect_stdin(t_cmd_block *cmd_block, int *pipes);
-int			connect_stdout(
-	t_cmd_block *cmd_block, int num_cmd, int *pipes);
-int			connect_stdio(
-	t_cmd_block *cmd_block, int num_cmd, int *pipes);
+int			connect_stdout(t_cmd_block *cmd_block,
+				int num_cmd, int *pipes);
+int			connect_stdio(t_cmd_block *cmd_block,
+				int num_cmd, int *pipes);
 void		insert_exit_status(t_hashmap *envmap, int exitstatus);
 char		**malloc_get_paths(t_hashmap *envmap);
 /* -------------------------------------------------------------------------- */
