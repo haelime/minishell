@@ -6,7 +6,7 @@
 /*   By: haeem <haeem@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/28 16:57:45 by haeem             #+#    #+#             */
-/*   Updated: 2023/09/28 19:24:46 by haeem            ###   ########seoul.kr  */
+/*   Updated: 2023/09/29 13:19:59 by haeem            ###   ########seoul.kr  */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,8 +15,11 @@
 #include "../include/parsetree.h"
 #include "../libft/include/libft.h"
 
-extern void		*__wrap_malloc(size_t size, const char* FILE, int LINE, const char* FUNCTION);
-extern void		__wrap_free(void* ptr, const char* FILE, int LINE, const char* FUNCTION);
+// DEBUG
+extern void		*__wrap_malloc(size_t size,
+					const char *FILE, int LINE, const char *FUNCTION);
+extern void		__wrap_free(void *ptr,
+					const char *FILE, int LINE, const char *FUNCTION);
 
 int	main(int argc, char **argv, char **envp)
 {
