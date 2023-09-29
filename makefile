@@ -6,7 +6,7 @@
 #    By: haeem <haeem@student.42seoul.kr>           +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/04/11 14:22:09 by haeem             #+#    #+#              #
-#    Updated: 2023/09/29 13:29:24 by haeem            ###   ########seoul.kr   #
+#    Updated: 2023/09/29 14:05:37 by haeem            ###   ########seoul.kr   #
 #                                                                              #
 # **************************************************************************** #
 
@@ -92,6 +92,8 @@ endif
 
 ifdef ACTION
 	CFLAGS = ""
+	READLINE_FLAGS = $(ACTION_READLINE)
+	READLINE_INC = $(ACTION_READLINE_INC)
 endif
 
 all: $(NAME)
@@ -103,11 +105,11 @@ action:
 	@make ACTION=1 all
 
 %.o: %.c
-	@$(CC) $(CFLAGS) $(READLINE_INC) $(ACTION_READLINE_INC) -c $< -o $@ -I $(HDR) -I $(LIBFTDIR)
+	@$(CC) $(CFLAGS) $(READLINE_INC) -c $< -o $@ -I $(HDR) -I $(LIBFTDIR)
 
 $(NAME): $(OBJ)
 	@$(MAKE) -C $(LIBFTDIR) all
-	@$(CC) $(CFLAGS) $(READLINE_FLAGS) $(ACTION_READLINE) $^ -o $@ -L$(LIBFTDIR) $(LIBFT)
+	@$(CC) $(CFLAGS) $(READLINE_FLAGS) $^ -o $@ -L$(LIBFTDIR) $(LIBFT)
 
 clean:
 	@rm -f $(ALLOBJECTS)
