@@ -6,7 +6,7 @@
 /*   By: hyunjunk <hyunjunk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/10 19:03:36 by haeem             #+#    #+#             */
-/*   Updated: 2023/09/29 13:35:21 by hyunjunk         ###   ########.fr       */
+/*   Updated: 2023/09/29 14:00:28 by hyunjunk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,9 +54,9 @@ void	insert_exit_status(t_hashmap *envmap, int exitstatus)
 	{
 		signo = WTERMSIG(exitstatus);
 		if (signo == SIGINT)
-			printf("\n");
+			str_msg_ret("\n", NULL, 0);
 		else if (signo == SIGQUIT)
-			printf("Quit: 3\n");
+			str_msg_ret("Quit: 3\n", NULL, 0);
 		exitcode = WTERMSIG(exitstatus) + 128;
 	}
 	str = ft_itoa(exitcode);

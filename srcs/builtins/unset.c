@@ -6,7 +6,7 @@
 /*   By: hyunjunk <hyunjunk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/15 16:45:34 by haeem             #+#    #+#             */
-/*   Updated: 2023/09/27 21:35:44 by hyunjunk         ###   ########.fr       */
+/*   Updated: 2023/09/29 14:03:28 by hyunjunk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,8 +26,8 @@ int	builtin_unset(char **argv, t_hashmap *envmap)
 		i = 0;
 		if (ft_isdigit((*argv)[0]))
 		{
-			printf ("minishell: unset: `%s': not a valid identifier\n",
-				(*argv));
+			str_msg_ret("minishell: unset: `%s': not a valid identifier\n",
+				(*argv), 0);
 			return (FAILURE);
 		}
 		i++;
