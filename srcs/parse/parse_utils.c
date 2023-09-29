@@ -6,7 +6,7 @@
 /*   By: haeem <haeem@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/28 20:25:03 by haeem             #+#    #+#             */
-/*   Updated: 2023/08/28 21:08:29 by haeem            ###   ########seoul.kr  */
+/*   Updated: 2023/09/29 13:39:27 by haeem            ###   ########seoul.kr  */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,4 +60,12 @@ bool	istoken(char ch)
 {
 	return (ch == '<' || ch == '>' || ch == '|'
 		|| ch == ' ');
+}
+
+char	*norm_reset_variables(int *flag, char **str, char **start, char **end)
+{
+	*flag = 0;
+	*start = *str;
+	*end = *start;
+	return (ft_strdup(""));
 }

@@ -6,7 +6,7 @@
 /*   By: hyunjunk <hyunjunk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/28 16:58:38 by haeem             #+#    #+#             */
-/*   Updated: 2023/09/29 13:35:19 by hyunjunk         ###   ########.fr       */
+/*   Updated: 2023/09/29 13:39:55 by haeem            ###   ########seoul.kr  */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,21 +18,14 @@
 // malloc, free, getenv, exit,
 # include <stdlib.h>
 
-// void* __debug_tmp;
-// #define malloc(x) \
-// (__debug_tmp = malloc(x));\
-// printf("malloc(%lu) = %p, [%s:%d]\n", x, __debug_tmp, __FILE__, __LINE__)
-// #define free(x) \
-// if (x == NULL) \
-//     printf("free(NULL), [%s:%d]\n", __FILE__, __LINE__); \
-// free(x)
-
 // close, read, write, unlink, fork, dup, dup2, pipe,
 // execve, getcwd, chdir, isatty, ttyname, ttyslot
 # include <unistd.h>
+
 // open
 # include <fcntl.h>
 # include <stdbool.h>
+
 // strerror
 # include <string.h>
 
@@ -64,26 +57,26 @@
 // errno
 # include <errno.h>
 
-#ifndef HASHLIB_H
-# include "hashlib.h"
-#endif
+# ifndef HASHLIB_H
+#  include "hashlib.h"
+# endif
 
-#ifndef PARSETREE_H
-# include "parsetree.h"
-#endif
+# ifndef PARSETREE_H
+#  include "parsetree.h"
+# endif
 
-#ifndef LIBFT_H
-# include "../libft/include/libft.h"
-#endif
+# ifndef LIBFT_H
+#  include "../libft/include/libft.h"
+# endif
 
-#define DOUBLEQUOTE (1)
-#define QUOTE (2)
-#define SUBSHELL (4)
-#define FAILED (8)
+# define DOUBLEQUOTE (1)
+# define QUOTE (2)
+# define SUBSHELL (4)
+# define FAILED (8)
 
-#define STDIN (0)
-#define STDOUT (1)
-#define STDERR (2)
+# define STDIN (0)
+# define STDOUT (1)
+# define STDERR (2)
 
 typedef enum e_type
 {
@@ -94,7 +87,7 @@ typedef enum e_type
 	REDIRECT_APPEND,
 	REDIRECT_HEREDOC,
 	REDIRECT_HEREDOC_DELIMITER,
-} t_type;
+}	t_type;
 
 typedef enum e_exit
 {
@@ -105,14 +98,14 @@ typedef enum e_exit
 	COMMAND_NOT_FOUND = 127,
 	ARGUMENT_OUT_OF_RANGE = 128,
 	NOTNUMERIC = 255,
-} t_exit;
+}	t_exit;
 
 typedef void	(*t_func)();
 typedef struct s_token
 {
 	t_type		type;
-	int			 flag;
-	char 		*str;
+	int			flag;
+	char		*str;
 	char		*path;
 	t_func		exec;
 }	t_token;
@@ -146,8 +139,6 @@ typedef struct s_cmd_block
 	char				*completed_cmd;
 	int					idx;
 }	t_cmd_block;
-
-typedef struct s_tree	t_tree;
 
 // initiate shell
 /* -------------------------------------------------------------------------- */
@@ -223,16 +214,19 @@ bool		isparenclosed(char *begin);
 char		*tryfutherparen(char *begin);
 char		*replace_dollar(char *str, t_hashmap *envmap);
 void		print_pstree(t_tree *syntax);
-void		make_cmd_blocks_by_tokens(t_list **out_list_cmd_blocks, t_list *list_tokens);
+void		make_cmd_blocks_by_tokens(
+				t_list **out_list_cmd_blocks, t_list *list_tokens);
 int			check_parse_invalid(t_list *tokens);
 void		free_tokens(t_list **out_tokens);
 void		free_cmd_blocks(t_list **out_cmd_blocks);
+char		*norm_reset_variables(
+				int *flag, char **str, char **start, char **end);
 /* -------------------------------------------------------------------------- */
-
 // syntax
 /* -------------------------------------------------------------------------- */
 bool		rec_check_syntax(t_tree *syntax);
-char		*join_remain(char **o_ret, char **o_str, char **o_start, char **o_end);
+char		*join_remain(
+				char **o_ret, char **o_str, char **o_start, char **o_end);
 /* -------------------------------------------------------------------------- */
 
 // builtins
@@ -244,6 +238,8 @@ int			builtin_unset(char **argv, t_hashmap *envmap);
 int			builtin_echo(char **argv);
 int			builtin_cd(char **argv, t_hashmap *envmap);
 int			builtin_exit(char **argv);
+int			is_invalid_identifier(char *key);
+void		free_key_value(char **key, char **value);
 /* -------------------------------------------------------------------------- */
 
 #endif

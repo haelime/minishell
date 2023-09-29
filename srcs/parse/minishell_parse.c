@@ -6,7 +6,7 @@
 /*   By: hyunjunk <hyunjunk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/28 18:48:50 by haeem             #+#    #+#             */
-/*   Updated: 2023/09/29 13:46:12 by hyunjunk         ###   ########.fr       */
+/*   Updated: 2023/09/29 13:45:53 by haeem            ###   ########seoul.kr  */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,10 +93,11 @@ void	rm_quotes(t_list **out_tokens)
 	}
 }
 
-static t_list	*msg_ret(const char *msg, t_list *ret)
+void	norm_parse(char **p_tmp, t_token **p_token, t_hashmap *envmap)
 {
-	str_msg_ret(msg, NULL, 0);
-	return (ret);
+	*p_tmp = replace_dollar((*p_token)->str, envmap);
+	free((*p_token)->str);
+	(*p_token)->str = *p_tmp;
 }
 
 t_list	*parse(char *input, t_hashmap *envmap)
@@ -113,16 +114,15 @@ t_list	*parse(char *input, t_hashmap *envmap)
 		token = (t_token *)(p->content);
 		if (ft_strchr(token->str, '$'))
 		{
-			tmp = replace_dollar(token->str, envmap);
-			free(token->str);
-			token->str = tmp;
-		}
+			norm_parse(&tmp, &token, envmap);
+		} 
 		p = p->next;
 	}
 	if (check_parse_invalid(tokens))
 	{
+    str_msg_ret("syntax error\n", NULL, 0);
 		free_tokens(&tokens);
-		return (msg_ret("syntax error\n", NULL));
+		return (NULL);
 	}
 	rm_quotes(&tokens);
 	return (tokens);

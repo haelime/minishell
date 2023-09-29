@@ -6,34 +6,22 @@
 /*   By: haeem <haeem@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/15 16:45:29 by haeem             #+#    #+#             */
-/*   Updated: 2023/09/28 20:04:50 by haeem            ###   ########seoul.kr  */
+/*   Updated: 2023/09/29 13:31:56 by haeem            ###   ########seoul.kr  */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/minishell.h"
 
-static int	is_invalid_identifier(char *key)
-{
-	char	*p;
-
-	p = key;
-	while (*p != '\0')
-	{
-		if (!ft_isalpha(*p) && !ft_isdigit(*p) && *p != '_')
-			return (1);
-		p++;
-	}
-	return (0);
-}
-
-static void	norm_builtin_export(t_hashmap *envmap, char *key, char *value,
-	int *ret)
+static void	norm_builtin_export(
+					t_hashmap *envmap, char *key, char *value, int *ret)
 {
 	if (ft_strcmp(key, "_") == 0)
 		return ;
 	if (ft_strcmp(key, "") == 0)
 	{
-		printf("minishell: export: `=%s': not a valid identifier\n", value); //< change to stderer
+		ft_putstr_fd("minishell: export: `=", STDERR);
+		ft_putstr_fd(value, STDERR);
+		ft_putstr_fd("': not a valid identifier\n", STDERR);
 		free(key);
 		if (value)
 			free(value);
@@ -43,14 +31,15 @@ static void	norm_builtin_export(t_hashmap *envmap, char *key, char *value,
 	}
 	if ((!ft_isalpha(*key) && *key != '_') || is_invalid_identifier(key))
 	{
-		printf("minishell: export: `%s=': not a valid identifier\n", key);  //< change to stderer
+		ft_putstr_fd("minishell: export: `", STDERR);
+		ft_putstr_fd(key, STDERR);
+		ft_putstr_fd("=': not a valid identifier\n", STDERR);
 		if (*ret == SUCCESS)
 			*ret = FAILURE;
 		return ;
 	}
 	hashmap_insert(envmap, key, value);
-	free(key);
-	free(value);
+	free_key_value(&key, &value);
 }
 
 static char	*export_strjoin(char *key, char *value)
