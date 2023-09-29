@@ -6,7 +6,7 @@
 /*   By: haeem <haeem@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/15 16:45:29 by haeem             #+#    #+#             */
-/*   Updated: 2023/09/29 13:31:56 by haeem            ###   ########seoul.kr  */
+/*   Updated: 2023/09/29 14:20:11 by haeem            ###   ########seoul.kr  */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,9 +22,7 @@ static void	norm_builtin_export(
 		ft_putstr_fd("minishell: export: `=", STDERR);
 		ft_putstr_fd(value, STDERR);
 		ft_putstr_fd("': not a valid identifier\n", STDERR);
-		free(key);
-		if (value)
-			free(value);
+		free_key_value(&key, &value);
 		if (*ret == SUCCESS)
 			*ret = FAILURE;
 		return ;
@@ -34,6 +32,7 @@ static void	norm_builtin_export(
 		ft_putstr_fd("minishell: export: `", STDERR);
 		ft_putstr_fd(key, STDERR);
 		ft_putstr_fd("=': not a valid identifier\n", STDERR);
+		free_key_value(&key, &value);
 		if (*ret == SUCCESS)
 			*ret = FAILURE;
 		return ;
