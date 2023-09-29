@@ -6,7 +6,7 @@
 /*   By: haeem <haeem@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/30 17:50:18 by haeem             #+#    #+#             */
-/*   Updated: 2023/09/28 18:58:16 by haeem            ###   ########seoul.kr  */
+/*   Updated: 2023/09/29 13:44:51 by haeem            ###   ########seoul.kr  */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,8 +21,6 @@ char	*make_key(char **o_str, char **o_start, char **o_end)
 	(*o_end)++;
 	if (**o_end == '$')
 		return (ft_strdup("$$"));
-	// if (str[j] == '?')
-		// return (g_exitnum);
 	while (**o_start != '$')
 		(*o_start)++;
 	while (**o_end && **o_end != ' ' && **o_end != '$' && **o_end != '\"'
@@ -34,7 +32,8 @@ char	*make_key(char **o_str, char **o_start, char **o_end)
 	return (key);
 }
 
-void	join_value_before_it(char **o_ret, char **o_str, char **o_start, char **o_end)
+void	join_value_before_it(
+		char **o_ret, char **o_str, char **o_start, char **o_end)
 {
 	char	*key_before;
 
@@ -70,7 +69,6 @@ char	*get_value(
 	char	*value;
 	char	*tmp;
 
-
 	key = make_key(o_str, o_start, o_end);
 	if (*key == '\0')
 	{
@@ -92,8 +90,6 @@ char	*get_value(
 	}
 }
 
-// TODO
-
 // dollar to env if not quoted
 // @Arguments	is_heredoc_mode
 //						IF (0) 	THEN (ignore '$' in ''')
@@ -105,10 +101,7 @@ char	*replace_dollar(char *str, t_hashmap *envmap)
 	char	*ret;
 	char	*value;
 
-	flag = 0;
-	start = str;
-	end = start;
-	ret = ft_strdup("");
+	ret = norm_reset_variables(&flag, &str, &start, &end);
 	while (*end)
 	{
 		if (*end == '\'' && !(flag & DOUBLEQUOTE))

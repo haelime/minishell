@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: hyunjunk <hyunjunk@student.42.fr>          +#+  +:+       +#+         #
+#    By: haeem <haeem@student.42seoul.kr>           +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/04/11 14:22:09 by haeem             #+#    #+#              #
-#    Updated: 2023/09/27 20:53:40 by hyunjunk         ###   ########.fr        #
+#    Updated: 2023/09/29 13:29:24 by haeem            ###   ########seoul.kr   #
 #                                                                              #
 # **************************************************************************** #
 
@@ -59,6 +59,7 @@ SOURCES = $(addprefix $(SRCDIR)/srcs/,\
 	./builtins/cd.c\
 	./builtins/exit.c\
 	./builtins/export.c\
+	./builtins/export_utils.c\
 )
 
 # BONUSES = $(addprefix $(CURDIR)/srcs_bonus/,\
