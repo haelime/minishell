@@ -6,7 +6,7 @@
 /*   By: haeem <haeem@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/18 18:17:09 by hyunjunk          #+#    #+#             */
-/*   Updated: 2023/09/28 17:43:27 by haeem            ###   ########seoul.kr  */
+/*   Updated: 2023/09/29 15:16:53 by haeem            ###   ########seoul.kr  */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,7 +78,7 @@ char	*malloc_find_completed_cmd(t_token *cmd, char **paths)
 	else
 		ret = (find_cwd(cmd->str));
 	p = paths;
-	while (*p != NULL)
+	while (paths != NULL && *p != NULL)
 	{
 		free(*p);
 		p++;
