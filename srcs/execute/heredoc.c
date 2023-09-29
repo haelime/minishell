@@ -86,7 +86,7 @@ int	fork_get_all_heredocs(t_list *cmd_blocks, t_hashmap *envmap)
 	}
 	waitpid(-1, &exitstatus, 0);
 	insert_exit_status(envmap, exitstatus);
-	if (atoi(hashmap_search(envmap, "?")) != 0)
+	if (ft_atoi(hashmap_search(envmap, "?")) != 0)
 	{
 		hashmap_insert(envmap, "?", "1");
 		return (-1);
